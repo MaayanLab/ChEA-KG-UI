@@ -71,7 +71,7 @@ const GeneSetForm = ({
         if (!userListId) return false
         let counter = 0
         while (counter < 5) {
-            const request = await fetch(`${process.env.NODE_ENV==="development" ? process.env.NEXT_PUBLIC_HOST_DEV : process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/view?userListId=${userListId}`)
+            const request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/view?userListId=${userListId}`)
             if (! request.ok && counter === 4) {
                 setError({message: "Error resolving previous input. Try again in a while.", type: "fail"})
             }
@@ -160,7 +160,7 @@ const GeneSetForm = ({
         const resolve_genes = async () => {
             let counter = 0
             while (counter < 5) {
-                const request = await fetch(`${process.env.NODE_ENV==="development" ? process.env.NEXT_PUBLIC_HOST_DEV : process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/view?userListId=${userListId}`)
+                const request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/view?userListId=${userListId}`)
                 if (! request.ok && counter === 4) {
                     setError({message: "Error resolving genes. Try again in a while.", type: "fail"})
                 }

@@ -261,9 +261,9 @@
                     "props": {
                         "type": "icon",
                         "key": "center_icon",
-                        "src": "https://minio.dev.maayanlab.cloud/hgrn-chear/tutorial/license1.png",
-                        "alt": "COB",
-                        "href": "https://creativecommons.org/licenses/by-sa/2.0/deed.en",
+                        "src": "https://minio.dev.maayanlab.cloud/hgrn-chear/gpl3.png",
+                        "alt": "gpl3",
+                        "href": "https://www.gnu.org/licenses/gpl-3.0.en.html",
                         "height": 60,
                         "width": 150
                     }
