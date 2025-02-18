@@ -14,6 +14,9 @@ services:
         maayanlab.cloud/ingress: ${NEXT_PUBLIC_HOST}
     ports:
       - 3000:3000
+    arg:
+      - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
+      - NEXT_PUBLIC_HOST=${NEXT_PUBLIC_HOST_PROD}
     environment:
       - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
       - NEXT_PUBLIC_ENRICHR_URL=https://maayanlab.cloud/Enrichr
