@@ -73,14 +73,13 @@ function ThemeRegistry(props:{options:any, children:any, theme: 'cfde_theme' | s
         />
       );
     });
-    console.log(process.env.NEXT_PUBLIC_COOKIE_NAME, "NEXT_PUBLIC_COOKIE_NAME", typeof process.env.NEXT_PUBLIC_COOKIE_NAME)
 
     return (
       <CacheProvider value={cache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {children}
           <ConsentCookie consentCookie={props.consentCookie} setConsentCookie={props.setConsentCookie}/>
+          {children}
         </ThemeProvider>
         {(props.consentCookie === "allow" || process.env.NEXT_PUBLIC_COOKIE_NAME === '') && <GoogleAnalytics trackPageViews />}
       </CacheProvider>
