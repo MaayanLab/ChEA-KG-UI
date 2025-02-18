@@ -222,7 +222,7 @@
                 {
                     "component": "github",
                     "props": {
-                        "code": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/issues",
+                        "code": "https://github.com/MaayanLab/ChEA-KG-UI",
                         "issues": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/issues"
                     }
                 }
