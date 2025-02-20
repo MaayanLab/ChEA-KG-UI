@@ -4,8 +4,11 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.next
+      args:
+        - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
+        - NEXT_PUBLIC_HOST=${NEXT_PUBLIC_HOST_PROD}  
     platform: linux/amd64
-    image: maayanlab/chea4:2.5.2
+    image: maayanlab/chea4:2.5.3
     x-kubernetes:
       strategy:
         type: Recreate
