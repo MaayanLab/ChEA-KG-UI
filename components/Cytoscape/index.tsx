@@ -4,9 +4,7 @@ import { useSWRConfig } from 'swr'
 // import dynamic from 'next/dynamic';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import CytoscapeComponent from 'react-cytoscapejs';
-import { TooltipCard } from '../misc/client_side';
 import { Legend } from '../misc';
-import { UISchema } from '@/app/api/schema/route';
 import { useQueryState, parseAsString, parseAsJson } from 'next-usequerystate';
 import HubIcon from '@mui/icons-material/Hub';
 import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
@@ -17,9 +15,10 @@ export const layouts = {
     "Force-directed": {
       name: 'cose',
       quality: 'proof',
-      randomize: 'false',
+      randomize: false,
       animate: true,
-      idealEdgeLength: edge => 150,
+	//   componentSpacing: 5000,
+    //   idealEdgeLength: edge => 150,
       icon: ()=><HubIcon/>
     },
     "Hierarchical Layout": {

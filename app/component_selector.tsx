@@ -13,6 +13,8 @@ import SimpleTermAndGeneSearch from '@/components/SimpleTermAndGeneSearch'
 import Tutorial from '@/components/Tutorial.mdx'
 import { Suspense } from 'react'
 import { CircularProgress } from '@mui/material'
+import EnrichmentUseCase from '@/components/EnrichmentUseCase'
+
 const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
 	{component: string, endpoint: string, searchParams: {[key:string]: any}, 
 	props: {[key:string]: any}}) => {
@@ -23,6 +25,7 @@ const AsyncComponent = async ({component, searchParams, props, endpoint,}:
 	else if (component === "Markdown") return await Markdown({...props})
 	else if (component === "DistilleryUseCase") return await DistilleryUseCase({searchParams, ...props})
 	else if (component === "Enrichment") return await Enrichment({endpoint, searchParams, ...props})
+	else if (component === "EnrichmentUseCase") return await EnrichmentUseCase({endpoint, searchParams, ...props})
 	else if (component === "Chea3Enrichment") return await Chea3Enrichment({endpoint, searchParams, ...props})
 	else if (component === "Download") return await Download({...props})
 	else if (component === "APIDoc") return await APIDoc({...props})
