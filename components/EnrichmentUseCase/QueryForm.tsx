@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography'
 
 import Grid from '@mui/material/Grid';
 import ErrorIcon from '@mui/icons-material/Error';
-import Link from 'next/link';
 import { 
     Card, 
     CardContent,  
@@ -20,9 +19,7 @@ import {
     TextField,
     Snackbar,
     Alert,
-	Accordion, 
-	AccordionDetails, 
-	AccordionSummary,
+	Link,
 } from '@mui/material';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { useQueryState, parseAsJson } from 'next-usequerystate';
@@ -273,7 +270,7 @@ const QueryForm = ({
                 </Snackbar>
             <Grid container spacing={2}>
 				<Typography variant="body1">
-					View the transcription factor network from cell type specific gene sets from augmented <Link href="http://biocc.hrbmu.edu.cn/CellMarker/">Cell Marker</Link> gene sets.
+					View the transcription factor network of cell type specific gene sets from augmented <Link target="_blank" rel="noopener noreferrer" color="secondary" href="http://xteam.xbio.top/CellMarker/">Cell Marker</Link> gene sets.
 				</Typography>
 				<Grid item xs={12}>
 					<TextField

@@ -105,6 +105,8 @@
         "divider": false,
         "header": "ChEA-KG",
         "title": "ChEA-KG",
+        "counter": true,
+        "counterTop": true,
         "background": {
             "backgroundColor": "#000",
             "contrastText": "#FFF"
