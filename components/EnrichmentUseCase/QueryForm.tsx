@@ -11,28 +11,34 @@ import Typography from '@mui/material/Typography'
 
 import Grid from '@mui/material/Grid';
 import ErrorIcon from '@mui/icons-material/Error';
+import Link from 'next/link';
 import { 
     Card, 
     CardContent,  
     FormGroup, 
     Stack, 
     TextField,
-    Switch,
     Snackbar,
-    Alert
+    Alert,
+	Accordion, 
+	AccordionDetails, 
+	AccordionSummary,
 } from '@mui/material';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { useQueryState, parseAsJson } from 'next-usequerystate';
 import { EnrichmentParams } from '.';
 import { CellTypeForm } from './CellTypeForm';
+import FlexSearch from 'flexsearch';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 const QueryForm = ({
     cell_types,
     parsedParams,
-    elements
+    elements,
 }: {
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
-	cell_types: {[key:string]: {[key: string] : string[]}}
+	cell_types: {[key:string]: {[key: string] : string[]}},
 }) => {
     const router = useRouter()
     const [query, setQuery] = useQueryState('query', parseAsJson<EnrichmentParams>().withDefault({}))
@@ -45,6 +51,11 @@ const QueryForm = ({
     const [loading, setLoading] = useState<boolean>(false)
     const [controller, setController] = useState<AbortController>(null)
     const [error, setError] = useState<{message: string, type: string}>(null)
+	const [index, setIndex] = useState(null)
+	const [showGeneSet, setShowGeneSet] = useState(false)
+	const [fullTextQuery, setFullTextQuery] = useState('')
+	const [cellTypes, setCellTypes] = useState(cell_types)
+	const [limit, setLimit] = useState(10)
     const combined_query = {...parsedParams, ...query}
     const {
         userListId,
@@ -60,7 +71,6 @@ const QueryForm = ({
       }
     
     const prevInput = usePrevious(input) || {genes: [], description: ''}
-
     const same_prev_input = async () => {
         if (!userListId) return false
         let counter = 0
@@ -137,6 +147,17 @@ const QueryForm = ({
         }
     }
 
+	useEffect(()=>{
+        const cell_type_index = new FlexSearch.Index()
+        for (const [k, v] of Object.entries(cell_types)) {
+            for (const key of Object.keys(v)) {
+                const id = `${k},${key}`
+                cell_type_index.add(id, key)
+            }
+        }
+		setIndex(cell_type_index)
+    },[cell_types])
+	
     useEffect(()=>{
         setLoading(false)
     },[verified])
@@ -203,16 +224,20 @@ const QueryForm = ({
 		}
     }, [term])
 
-    // useEffect(()=>{
-    //     if (input.description === "null" || input.description === null) {
-    //         setInput({
-    //             ...input,
-    //             description: ''
-    //         })
-    //     } else {
-    //         setDescription(input.description || '')
-    //     }
-    // }, [input.description])
+    useEffect(()=>{
+		if (index) {
+			if (fullTextQuery === '') setCellTypes(cellTypes)
+			else {
+				const new_vals = {}
+				for (const key of index.search(`*${fullTextQuery}*`)) {
+					const [group_name, label] = key.split(",")
+					if (new_vals[group_name] === undefined) new_vals[group_name] = {}
+					new_vals[group_name][label] = cell_types[group_name][label]
+				}
+				setCellTypes(new_vals)
+			}
+		}
+    }, [fullTextQuery])
     return (
         <FormGroup>
             <Snackbar open={error!==null}
@@ -247,105 +272,158 @@ const QueryForm = ({
                     </Alert>
                 </Snackbar>
             <Grid container spacing={2}>
-                <Grid item xs={12} md={12}>
-                    <Grid container alignItems={"center"} spacing={1}>
-                        <Grid item xs={12}>
-                            <div tabIndex={0}>
-                                {!isFocused ? 
-                                    <Card sx={{height: 235, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
-                                        {input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
-                                        <CardContent>
-                                            {input.genes.map(i=>{
-                                                if (verified.indexOf(i.toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
-                                                else {
-                                                    if (i === '') return null
-                                                    else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
-                                                }
-                                            })}
-                                        </CardContent>
-                                    </Card>:
-                                    <TextField
-                                        onBlur={() => setIsFocused(!isFocused)}
-                                        multiline
-                                        className='EnrichmentForm'
-                                        rows={10}
-                                        placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
-                                        fullWidth
-                                        value={input.genes.join("\n")}
-                                        onChange={(e)=>{
-                                            setInput({
-                                                ...input,
-                                                genes: e.target.value.split(/[\t\r\n;]+/)
-                                            })
-                                        }}
-                                        InputProps={{
-                                            sx: {
-                                                fontSize: 14,
-                                            },
-                                        }}
-                                        inputProps={{
-                                            sx: {
-                                                paddingRight: 0
-                                            }
-                                        }}
-                                    />
-                                }
-                            </div>
-                        </Grid>
-                        <Grid item xs={12} sx={{textAlign: "left"}}>
-                            <Stack direction={"row"} spacing={1} alignItems="center">
-                                <Tooltip title={input.genes.length === 0 ? "Input gene set": loading ? "Loading...": "Submit"}>
-                                    <Button 
-                                        onClick={async ()=>{
-                                            // setSubmitted(true)
-                                            if (!(await same_prev_input())) {
-                                                if (input.genes.length > 0) {
-                                                    addList()
-                                                }
-                                            } else {
-                                                const {search, augment, augment_limit, gene_links, ...rest} = combined_query
-                                                // setSubmitted(false)
-                                                router_push(router, pathname, {
-                                                    q: JSON.stringify({
-                                                        ...rest,
-                                                        search: true
-                                                    })
-                                                })
-                                            }
-                                        }}
-                                        disabled={loading || input.genes.length === 0}
-                                        size="large"
-                                        variant="contained"
-                                        sx={{
-                                            padding: "15px 30px"
-                                        }}
-                                        // disabled={input.genes.length === 0}
-                                    >{loading ? "Searching...": "Submit"}</Button>
-                                </Tooltip>
-                                {(verified.length > 0 && input.genes.length > 0) && <Tooltip title="Matched genes"><Button onClick={()=>setIsFocused(false)}><Typography color={'secondary'} variant='subtitle2'> {`${verified.length} matched genes`}</Typography></Button></Tooltip>}
-                            </Stack>
-                        </Grid>
-                        <Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
-                            <TextField
-                                variant='outlined'
-                                value={input.description}
-                                size="small"
-                                onChange={e=>setInput({...input, description: e.target.value})}
-                                placeholder="Description"
-                                label="Description"
-                                sx={{width: "100%", backgroundColor: "#FFF"}}
-                                InputProps={{
-                                    style: {
-                                      fontSize: 14,
-                                    },
-                                  }}
-                            />
-                        </Grid>
-                    </Grid>
-                </Grid>
+				<Typography variant="body1">
+					View the transcription factor network from cell type specific gene sets from augmented <Link href="http://biocc.hrbmu.edu.cn/CellMarker/">Cell Marker</Link> gene sets.
+				</Typography>
 				<Grid item xs={12}>
-                    <CellTypeForm cell_types={cell_types}/>
+					<TextField
+						variant='outlined'
+						value={fullTextQuery}
+						size="small"
+						onChange={e=>{
+							setFullTextQuery(e.target.value)
+						}}
+						placeholder="Enter Organ, Tissue, or Cell Type"
+						label="Enter Organ, Tissue, or Cell Type"
+						sx={{width: "100%", backgroundColor: "#FFF"}}
+						InputProps={{
+							style: {
+								fontSize: 14,
+							},
+							}}
+					/>
                 </Grid>
+				{ (userListId || term ) && 
+					<Grid item xs={12} className='flex justify-center'>		
+						<Button variant="outlined" color="secondary" onClick={()=>setShowGeneSet(!showGeneSet)}>
+							{showGeneSet ? "Hide": "Show"} Input Gene Set
+						</Button>
+					</Grid>
+				}
+				{showGeneSet &&
+					<Grid item xs={12} md={12}>
+						<Grid container alignItems={"center"} spacing={1}>
+							<Grid item xs={12}>
+								<div tabIndex={0}>
+									{!isFocused ? 
+										<Card sx={{height: 235, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
+											{input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
+											<CardContent>
+												{input.genes.map(i=>{
+													if (verified.indexOf(i.toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
+													else {
+														if (i === '') return null
+														else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
+													}
+												})}
+											</CardContent>
+										</Card>:
+										<TextField
+											onBlur={() => setIsFocused(!isFocused)}
+											multiline
+											className='EnrichmentForm'
+											rows={10}
+											placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
+											fullWidth
+											value={input.genes.join("\n")}
+											onChange={(e)=>{
+												setInput({
+													...input,
+													genes: e.target.value.split(/[\t\r\n;]+/)
+												})
+											}}
+											InputProps={{
+												sx: {
+													fontSize: 14,
+												},
+											}}
+											inputProps={{
+												sx: {
+													paddingRight: 0
+												}
+											}}
+										/>
+									}
+								</div>
+							</Grid>
+							<Grid item xs={12} sx={{textAlign: "left"}}>
+								<Stack direction={"row"} spacing={1} alignItems="center">
+									<Tooltip title={input.genes.length === 0 ? "Input gene set": loading ? "Loading...": "Submit"}>
+										<Button 
+											onClick={async ()=>{
+												// setSubmitted(true)
+												if (!(await same_prev_input())) {
+													if (input.genes.length > 0) {
+														addList()
+													}
+												} else {
+													const {search, augment, augment_limit, gene_links, ...rest} = combined_query
+													// setSubmitted(false)
+													router_push(router, pathname, {
+														q: JSON.stringify({
+															...rest,
+															search: true
+														})
+													})
+												}
+											}}
+											disabled={loading || input.genes.length === 0}
+											size="large"
+											variant="contained"
+											sx={{
+												padding: "15px 30px"
+											}}
+											// disabled={input.genes.length === 0}
+										>{loading ? "Searching...": "Submit"}</Button>
+									</Tooltip>
+									{(verified.length > 0 && input.genes.length > 0) && <Tooltip title="Matched genes"><Button onClick={()=>setIsFocused(false)}><Typography color={'secondary'} variant='subtitle2'> {`${verified.length} matched genes`}</Typography></Button></Tooltip>}
+								</Stack>
+							</Grid>
+							<Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
+								<TextField
+									variant='outlined'
+									value={input.description}
+									size="small"
+									onChange={e=>setInput({...input, description: e.target.value})}
+									placeholder="Description"
+									label="Description"
+									sx={{width: "100%", backgroundColor: "#FFF"}}
+									InputProps={{
+										style: {
+										fontSize: 14,
+										},
+									}}
+								/>
+							</Grid>
+						</Grid>
+					</Grid>
+				}
+				<Grid item xs={12}>
+					<CellTypeForm cell_types={cellTypes} limit={limit}/>
+				</Grid>
+				{ Object.keys(cellTypes).length > 10 && <Grid item xs={12} className='flex justify-center space-x-5'>
+						<Button variant="outlined" color="secondary" onClick={()=>{
+							if (limit === Object.keys(cellTypes).length) {
+								setLimit(10)
+							} else {
+								const new_limit = limit + 10
+								if (new_limit > Object.keys(cellTypes).length) {
+									setLimit(Object.keys(cellTypes).length)
+								} else {
+									setLimit(new_limit)
+								}
+							}
+						}}>
+							Show {limit === Object.keys(cellTypes).length ? "Less": "More"}
+						</Button>
+						{limit !== Object.keys(cellTypes).length && <Button variant="outlined" color="secondary" onClick={()=>{
+							setLimit(Object.keys(cellTypes).length)
+						}}>
+							Show All
+						</Button>
+						}
+				</Grid>
+			}
             </Grid>
         </FormGroup>
     )

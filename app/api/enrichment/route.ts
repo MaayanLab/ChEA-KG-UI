@@ -41,15 +41,14 @@ const enrichment = async ({
     libraries,
     gene_limit,
     term_degree,
-    min_lib,
     gene_degree,
     remove=[],
     expand=[],
-    gene_links,
     expand_limit=10,
     pvalue,
     zscore,
-    add_nodes
+    add_nodes,
+    limit,
 }: {
     userListId: string,
     libraries: Array<{library?: string, term_limit?: number}>,
@@ -63,7 +62,8 @@ const enrichment = async ({
     expand_limit?: number,
     pvalue?: number,
     zscore?: number,
-    add_nodes?: number
+    add_nodes?: number,
+    limit?: number,
 }) => {
     try {
         const nod = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/node_mapping`)
@@ -179,6 +179,7 @@ const enrichment = async ({
             `
             
             query_part = query_part + `RETURN p, nodes(p) as n, relationships(p) as r`
+            if (limit) query_part = query_part + ` ORDER BY rel.z_score DESC LIMIT ${limit}`
             query_list.push(query_part)   
             searched.push(genes)
             returned.push(lib_terms)
@@ -254,21 +255,22 @@ const EnrichmentInput = z.object({
     augment_limit: z.number().optional(),
     pvalue: z.number().optional(),
     zscore: z.number().optional(),
-    add_nodes: z.number().optional()
+    add_nodes: z.number().optional(),
+    limit: z.number().optional(),
 })
 
 
 
 export async function POST(req: NextRequest) {
     try {
-        const {userListId, libraries=[], gene_limit, term_degree, min_lib, gene_degree, remove, expand, gene_links, expand_limit, pvalue, zscore, add_nodes} = EnrichmentInput.parse(await req.json())
+        const {userListId, libraries=[], gene_limit, term_degree, min_lib, gene_degree, remove, expand, gene_links, expand_limit, pvalue, zscore, add_nodes, limit} = EnrichmentInput.parse(await req.json())
         if (userListId === undefined) {
             return NextResponse.json({error: "userListId is undefined"}, {status: 400})
         }
         if (libraries.length === 0) {
             return NextResponse.json({error: "library is empty"}, {status: 400})
         }
-        const results = await enrichment({userListId, libraries, gene_limit, term_degree, min_lib, gene_degree, remove, expand, gene_links, expand_limit, pvalue, zscore, add_nodes})
+        const results = await enrichment({userListId, libraries, gene_limit, term_degree, min_lib, gene_degree, remove, expand, gene_links, expand_limit, pvalue, zscore, add_nodes, limit})
         return NextResponse.json(results, {status: 200})
     } catch (error) {
         console.error(error)

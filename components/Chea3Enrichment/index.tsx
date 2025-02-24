@@ -39,7 +39,9 @@ export interface EnrichmentParams {
     additional_link_tags?: Array<string>,
     pvalue?: number,
     zscore?: number,
-    add_nodes?: number
+    add_nodes?: number,
+    term?: string,
+    group_name?: string,
 }
 
 

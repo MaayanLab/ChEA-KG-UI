@@ -9,12 +9,9 @@ import { Typography, CircularProgress } from "@mui/material";
 import dynamic from "next/dynamic";
 import Cytoscape from "../Cytoscape";
 
-const TermViz = ({elements, schema, tooltip_templates_edges, tooltip_templates_nodes}:
+const TermViz = ({elements}:
 	{
 		elements:NetworkSchema,
-		schema: UISchema,
-		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>}, 
-		tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>}, 
 	}) => {
 	const [view, setView] = useQueryState('view')
 	const entries:{[key:string]: {library: string, value: number, color:string, pval: number, [key: string]: number | string | boolean}} = {}

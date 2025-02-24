@@ -18,7 +18,7 @@ export async function GET(req:NextRequest) {
                 const results = rs.records.flatMap(record => {
                     const set = record.get('set')
                     const desc = record.get('desc')
-                    return JSON.stringify({"set":set, "desc":desc})
+                    return {"set":set, "desc":desc}
                 })[0]
                 return NextResponse.json(results,  {status: 200}) // return success
             } else {

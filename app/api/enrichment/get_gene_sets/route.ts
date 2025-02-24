@@ -1,5 +1,4 @@
 import cache from "memory-cache";
-import { fetch_kg_schema } from "@/utils/initialize"
 import { NextResponse } from "next/server";
 
 export interface UISchema {
@@ -106,20 +105,22 @@ export interface UISchema {
  */
 export async function GET() {
     
-    let cptac = cache.get("cptac")
-    if (!cptac) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX}/cptac_m2t_up_112524.gmt`)
-        if (!res.ok) throw new Error("Couldn't get CPTAC data")
+    let cell_marker = cache.get("cell_marker")
+    if (!cell_marker) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX}/CellMarker_Augmented_2021.gmt`)
+        if (!res.ok) throw new Error("Couldn't get Cell Marker data")
         else {
-            cptac = await res.text()
+            cell_marker = await res.text()
         }
     }
-    const cancer_cell_types = {}
-    for (const i of cptac.split("\n")) {
+    const cell_types = {}
+    for (const i of cell_marker.split("\n")) {
         const [name, _, ...gene_sets] = i.split("\t")
-        const cancer_type = name.split("_")[0]
-        if (cancer_cell_types[cancer_type] === undefined) cancer_cell_types[cancer_type] = {}
-        cancer_cell_types[cancer_type][name] = gene_sets
+        const group = name.split(":")[1]
+        if (group !== "" && group !== 'Undefined') {
+            if (cell_types[group] === undefined) cell_types[group] = {}
+            cell_types[group][name] = gene_sets
+        }
     }
-    return NextResponse.json(cancer_cell_types, {status: 200})
+    return NextResponse.json(cell_types, {status: 200})
 }

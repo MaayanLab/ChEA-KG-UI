@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import {
     Grid,
     Stack,
@@ -13,7 +12,6 @@ import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "@/components/Chea3Enrichment/InteractiveButtons";
 import { fetch_kg_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
-import { CellTypeForm } from "./CellTypeForm";
 import QueryForm from "./QueryForm";
 export interface EnrichmentParams {
     group_name?: string,
@@ -33,7 +31,8 @@ export interface EnrichmentParams {
     additional_link_tags?: Array<string>,
     pvalue?: number,
     zscore?: number,
-    add_nodes?: number
+    add_nodes?: number,
+    limit?: number,
 }
 
 
@@ -94,11 +93,13 @@ const Enrichment = async ({
     
     try {
         const cell_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_gene_sets`)).json()
-        const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
         
+        const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
+        const default_group = Object.keys(cell_types)[0]
+        const default_term = Object.keys(cell_types[default_group])[0]
         const {
-            term,
-            group_name,
+            term=default_term,
+            group_name=default_group,
             gene_limit,
             min_lib,
             gene_degree,
@@ -109,7 +110,8 @@ const Enrichment = async ({
             gene_links,
             pvalue,
             zscore, 
-            add_nodes
+            add_nodes,
+            limit,
         } = parsedParams
         let elements:NetworkSchema = null
         let shortId = ""
@@ -133,11 +135,16 @@ const Enrichment = async ({
                 })
             ).json()
         }
-        // console.log("to remove", typeof parsedParams.remove[0])
+        console.log(userListId)
         if (userListId !==undefined) {
             //const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/share?userListId=${userListId}`)
             //if (request.ok) shortId = (await (request.json())).link_id
             //else console.log(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
+            console.log("Getting description...")
+            const desc_request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
+            console.log((`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`))
+            if (desc_request.ok) input_desc = (await (desc_request.json())).desc
+            console.log(input_desc)
             shortId = userListId
             console.log(`Enrichment ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
             const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`,
@@ -156,7 +163,8 @@ const Enrichment = async ({
                         gene_links,
                         pvalue,
                         zscore,
-                        add_nodes
+                        add_nodes,
+                        limit: parsedParams.term === undefined ? 50: limit
                     }),
                 })
             if (!res.ok) {
@@ -193,8 +201,8 @@ const Enrichment = async ({
         else console.log("failed turl")
         console.log("Got url")
         return (
-            <Grid container spacing={1} alignItems={"flex-start"}>
-                <Grid item xs={12}>
+            <Grid container spacing={2} alignItems={"flex-start"}>
+                <Grid item xs={12} sx={{mb: 1}}>
                     <Typography variant={"h2"}>{props.title || "Enrichment Analysis"}</Typography>
                     {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
                             <Link href={"https://maayanlab.cloud/chea3/"} 
@@ -216,43 +224,55 @@ const Enrichment = async ({
                     } */}
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <QueryForm parsedParams={parsedParams} elements={elements} cell_types={cell_types}/>
+                    <QueryForm 
+                        parsedParams={parsedParams}
+                        elements={elements}
+                        cell_types={cell_types}
+                    />
+                    <TooltipComponentGroup
+                        elements={elements}
+                        tooltip_templates_edges={tooltip_templates_edges}
+                        tooltip_templates_nodes={tooltip_templates_node}
+                        schema={schema}
+                    />
                 </Grid>
                 <Grid item xs={12} md={9}>
-                    {elements === null ?
-                        <Typography>Select a gene set</Typography>:
-                        <Stack direction={"column"} alignItems={"flex-start"} spacing={1}>
-                            <InteractiveButtons 
-                                hiddenLinksRelations={hiddenLinksRelations}
-                                shortId={shortId}
-                                parsedParams={parsedParams}
-                                // searchParams={parsedParams}
-                                fullscreen={searchParams.fullscreen}
-                                elements={elements}
-                                short_url={short_url}
-                                additional_link_relation_tags={props.additional_link_relation_tags}
-                                min_p={min_p}
-                                max_p={max_p}
-                                min_z={min_z}
-                                max_z={max_z}
-                            />
-                            
-                            <Card sx={{borderRadius: "24px", minHeight: 450, width: "100%"}}>
-                                <CardContent>
-                                    {input_desc && 
-                                        <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
-                                    }
-                                    <TermViz
-                                        elements={elements} 
-                                        /*enrichment_results = {enrichment_results}*/
-                                        schema={schema}
-                                        tooltip_templates_edges={tooltip_templates_edges}
-                                        tooltip_templates_nodes={tooltip_templates_node}
-                                    />
-                                </CardContent>
-                            </Card>
-                        </Stack>
-                    }
+                    <Stack direction={"column"} alignItems={"flex-start"} spacing={1}>
+                        <InteractiveButtons 
+                            hiddenLinksRelations={hiddenLinksRelations}
+                            shortId={shortId}
+                            parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
+                            // searchParams={parsedParams}
+                            fullscreen={searchParams.fullscreen}
+                            elements={elements}
+                            short_url={short_url}
+                            additional_link_relation_tags={props.additional_link_relation_tags}
+                            min_p={min_p}
+                            max_p={max_p}
+                            min_z={min_z}
+                            max_z={max_z}
+                        />
+                        
+                        <Card sx={{borderRadius: "24px", minHeight: 450, width: "100%"}}>
+                            <CardContent>
+                                {(userListId === undefined || (term === undefined && group_name === undefined)) ?
+                                    <Typography variant="subtitle1">Please add a gene set</Typography>:
+                                    <> 
+                                        {input_desc && 
+                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
+                                        }
+                                        <TermViz
+                                            elements={elements} 
+                                            /*enrichment_results = {enrichment_results}*/
+                                            schema={schema}
+                                            tooltip_templates_edges={tooltip_templates_edges}
+                                            tooltip_templates_nodes={tooltip_templates_node}
+                                        />
+                                    </>
+                                }
+                            </CardContent>
+                        </Card>
+                    </Stack>
                 </Grid>
             </Grid>
         )
