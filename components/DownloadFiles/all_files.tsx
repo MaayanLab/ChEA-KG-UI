@@ -15,6 +15,12 @@ const AllFiles = ({download}: {download: {
 		url: string,
 		size: string
 		// updated: string
+	}>,
+	gmt: Array<{
+		resource: string,
+		url: string,
+		gene_sets: number,
+		size: string
 	}>
 	notebook: Array<{
 		title: string,
@@ -53,6 +59,15 @@ const AllFiles = ({download}: {download: {
 			</Grid>
 			<Grid item xs={12}>
 				<ClientSide download={(download.rummageo || []).map(i=>({id: i.url, ...i}))} type='rummageo'/>
+			</Grid>
+			<Grid item xs={12}>
+				<Typography variant={"h3"}>Cell Atlas GMT</Typography>
+				<Typography variant={"body1"}>
+					This file contains the cell type gene sets used in the cell atlas page.
+				</Typography>
+			</Grid>
+			<Grid item xs={12}>
+				<ClientSide download={(download.gmt || []).map(i=>({id: i.url, ...i}))} type='gmt'/>
 			</Grid>
 			<Grid item xs={12}>
 				<Typography variant={"h3"}>Network-Building Notebooks</Typography>

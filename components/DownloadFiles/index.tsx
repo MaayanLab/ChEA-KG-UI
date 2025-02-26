@@ -14,6 +14,12 @@ const DownloadFiles = async ({src}: {src?: string}) => {
 			resource: string,
 			url: string,
 			size: string
+		}>,
+		gmt: Array<{
+			resource: string,
+			url: string,
+			gene_sets: number,
+			size: string
 		}>
 		notebook: Array<{
 			title: string,

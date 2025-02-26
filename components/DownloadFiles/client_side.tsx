@@ -120,6 +120,43 @@ const rummageo_header: GridColDef[] = [
     }
 ]
 
+const gmt_header: GridColDef[] = [
+    {
+        field: 'resource',
+        headerName: "Resource",
+        flex: 1,
+        // style: {flexDirection: "row"},
+        align: "left"
+    },
+    {
+        field: 'gene_sets',
+        headerName: "Gene Sets",
+        flex: 1,
+        // style: {flexDirection: "row"},
+        align: "left"
+    },
+    {
+        field: 'size',
+        headerName: "File size",
+        align: "left"
+    },
+    {
+        field: 'url',
+        headerName: "Download",
+        align: "left",
+		renderCell: (params: GridRenderCellParams<any, String>) => (
+			<Link href={params.value}>
+			<Button
+				size="small"
+				color="secondary"
+			>
+				<DownloadIcon/>
+			</Button>
+			</Link>
+		),
+    }
+]
+
 const notebook_header: GridColDef[] = [
     {
         field: 'title',
@@ -176,6 +213,7 @@ export function CustomToolbar() {
 	benchmark: benchmark_header,
 	rummageo: rummageo_header,
 	notebook: notebook_header,
+    gmt: gmt_header,
   }
   const ClientSide = ({download, type}: {download: Array<{
     name: string,
@@ -194,7 +232,7 @@ export function CustomToolbar() {
     updated: string,
     url: string
 }>
-type: 'network' | 'rummageo' | 'notebook'
+type: 'network' | 'rummageo' | 'notebook' | 'gmt'
 }) => {
 	
 	return (
