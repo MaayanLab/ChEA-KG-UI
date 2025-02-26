@@ -237,9 +237,6 @@ const Enrichment = async ({
                                     }
                                     <TermViz
                                         elements={elements} 
-                                        schema={schema}
-                                        tooltip_templates_edges={tooltip_templates_edges}
-                                        tooltip_templates_nodes={tooltip_templates_node}
                                     />
                                 </CardContent>
                             </Card>
