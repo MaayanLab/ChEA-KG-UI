@@ -40,7 +40,7 @@
         {
             "resource":"Cell Atlas GMT File From Enrichr",
             "url":"https://minio.dev.maayanlab.cloud/hgrn-chear/cell_atlas_from_enrichr.gmt",
-            "gene sets": 131,
+            "gene_sets": 131,
             "size":"78 KiB"
         }
     ],
