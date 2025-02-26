@@ -10,6 +10,7 @@ import DownloadFiles from '@/components/DownloadFiles'
 import APIDoc from '@/components/APIDoc'
 import WholeNetwork from '@/components/WholeNetwork'
 import SimpleTermAndGeneSearch from '@/components/SimpleTermAndGeneSearch'
+import Credits from '@/components/Credits'
 import Tutorial from '@/components/Tutorial.mdx'
 import { Suspense } from 'react'
 import { CircularProgress } from '@mui/material'
@@ -32,6 +33,7 @@ const AsyncComponent = async ({component, searchParams, props, endpoint,}:
 	else if (component === "Tutorial") return <Tutorial/>
 	else if (component === "WholeNetwork") return await WholeNetwork({props})
 	else if (component === "DownloadFiles") return await DownloadFiles({...props})
+	else if (component === "Credits") return await Credits()
 	else return null
 }
 

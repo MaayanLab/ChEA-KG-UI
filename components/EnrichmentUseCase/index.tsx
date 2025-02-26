@@ -127,7 +127,7 @@ const Enrichment = async ({
             const genes = cell_types[group_name][term]
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
-            formData.append('description', term)
+            formData.append('description', `${group_name}: ${term}`)
             userListId = await (
                 await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/addList`, {
                     method: 'POST',
@@ -214,7 +214,7 @@ const Enrichment = async ({
                             </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {add_nodes} mean-ranked transcription factors enriched for the query set.</Typography>:
                         <Typography variant="subtitle1" sx={{marginBottom: 3}}>Submit your gene set for enrichment analysis with &nbsp;
                             <Link href={shortId ? `https://maayanlab.cloud/Enrichr/enrich?dataset=${shortId}` : "https://maayanlab.cloud/Enrichr/"} 
-                                target="_blank"
+                                target="_blan"
                                 rel="noopener noreferrer"
                                 style={{color: "black", textDecoration: "none"}}
                             >

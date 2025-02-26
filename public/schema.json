@@ -191,7 +191,7 @@
                 "component":"EnrichmentUseCase",
                 "props": {
                     "init_function": "initialize_enrichment",
-                    "title": "Cell Type Transcription Factor Enrichment Analysis with ChEA3",
+                    "title": "Cell Atlas Transcription Factor Enrichment Analysis with ChEA3",
                     "description": "",
                     "placeholder": "Enter newline separated gene sets",
                     "disableHeader": true,
@@ -245,6 +245,13 @@
                 "props": {
                     "src":"https://raw.githubusercontent.com/MaayanLab/Gene-Knowledge-Graph/refs/heads/tf/public/downloads.json"
                 }
+            },
+            {
+                "endpoint": "/credits",
+                "label": "Credits",
+                "type":"page",
+                "component":"Credits",
+                "hidden": true
             }
         ]
     },

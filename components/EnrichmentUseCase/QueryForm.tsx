@@ -52,7 +52,7 @@ const QueryForm = ({
 	const [showGeneSet, setShowGeneSet] = useState(false)
 	const [fullTextQuery, setFullTextQuery] = useState('')
 	const [cellTypes, setCellTypes] = useState(cell_types)
-	const [limit, setLimit] = useState(10)
+	const [limit, setLimit] = useState(15)
     const combined_query = {...parsedParams, ...query}
     const {
         userListId,
@@ -149,7 +149,7 @@ const QueryForm = ({
         for (const [k, v] of Object.entries(cell_types)) {
             for (const key of Object.keys(v)) {
                 const id = `${k},${key}`
-                cell_type_index.add(id, key)
+                cell_type_index.add(id, `${k}:${key}`)
             }
         }
 		setIndex(cell_type_index)
@@ -269,8 +269,8 @@ const QueryForm = ({
                     </Alert>
                 </Snackbar>
             <Grid container spacing={2}>
-				<Typography variant="body1">
-					View the transcription factor network of cell type specific gene sets from augmented <Link target="_blank" rel="noopener noreferrer" color="secondary" href="http://xteam.xbio.top/CellMarker/">Cell Marker</Link> gene sets.
+				<Typography variant="body1" sx={{marginLeft: 2}}>
+					View the transcription factor network of cell type specific gene sets from <Link target="_blank" rel="noopener noreferrer" color="secondary" href="https://maayanlab.cloud/Enrichr">Enrichr</Link> cell type gene sets.
 				</Typography>
 				<Grid item xs={12}>
 					<TextField
@@ -398,10 +398,10 @@ const QueryForm = ({
 				<Grid item xs={12}>
 					<CellTypeForm cell_types={cellTypes} limit={limit}/>
 				</Grid>
-				{ Object.keys(cellTypes).length > 10 && <Grid item xs={12} className='flex justify-center space-x-5'>
+				{ Object.keys(cellTypes).length > 15 && <Grid item xs={12} className='flex justify-center space-x-5'>
 						<Button variant="outlined" color="secondary" onClick={()=>{
 							if (limit === Object.keys(cellTypes).length) {
-								setLimit(10)
+								setLimit(15)
 							} else {
 								const new_limit = limit + 10
 								if (new_limit > Object.keys(cellTypes).length) {

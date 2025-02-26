@@ -59,6 +59,7 @@ export interface UISchema {
             type: string,
             component: string,
             position?: string,
+            hide?: boolean,
             props?: {
                 subheader?: {
                     url_field: string,

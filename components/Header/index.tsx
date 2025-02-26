@@ -30,6 +30,7 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 			type: string,
 			component: string,
 			position?:  string,
+			hidden?: boolean,
 			props?: {
 				[key: string]: any
 			}
@@ -37,13 +38,15 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 	
 	const tab_component = {top: [], bottom:[]}
 	for (const tab of tabs) {
-		const position = tab.position || 'top'
-		tab_component[position].push(
-			<div key={tab.label}>
-				<TextNav path={tab.endpoint} title={tab.label}/>
-			</div>
-		)
-		if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "block", borderColor: "#fff"}}} orientation='vertical' flexItem/>)
+		if (!tab.hidden) {
+			const position = tab.position || 'top'
+			tab_component[position].push(
+				<div key={tab.label}>
+					<TextNav path={tab.endpoint} title={tab.label}/>
+				</div>
+			)
+			if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "block", borderColor: "#fff"}}} orientation='vertical' flexItem/>)
+		}
 	}
 	if (divider) {
 		for (const position of Object.keys(tab_component)) {

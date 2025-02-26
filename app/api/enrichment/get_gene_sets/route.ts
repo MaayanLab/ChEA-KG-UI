@@ -105,21 +105,21 @@ export interface UISchema {
  */
 export async function GET() {
     
-    let cell_marker = cache.get("cell_marker")
-    if (!cell_marker) {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX}/CellMarker_Augmented_2021.gmt`)
+    let cell_atlas_enrichr = cache.get("cell_atlas_enrichr")
+    if (!cell_atlas_enrichr) {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX}/cell_atlas_enrichr.gmt`)
         if (!res.ok) throw new Error("Couldn't get Cell Marker data")
         else {
-            cell_marker = await res.text()
+            cell_atlas_enrichr = await res.text()
         }
     }
     const cell_types = {}
-    for (const i of cell_marker.split("\n")) {
+    for (const i of cell_atlas_enrichr.split("\n").sort()) {
         const [name, _, ...gene_sets] = i.split("\t")
-        const group = name.split(":")[1]
-        if (group !== "" && group !== 'Undefined') {
-            if (cell_types[group] === undefined) cell_types[group] = {}
-            cell_types[group][name] = gene_sets
+        const [tissue, cell_type] = name.split(":")
+        if (tissue !== "" && tissue !== 'Undefined') {
+            if (cell_types[tissue] === undefined) cell_types[tissue] = {}
+            cell_types[tissue][cell_type] = gene_sets
         }
     }
     return NextResponse.json(cell_types, {status: 200})

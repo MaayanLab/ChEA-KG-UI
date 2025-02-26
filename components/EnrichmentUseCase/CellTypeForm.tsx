@@ -5,11 +5,13 @@ import {
 	Typography,
 	List,
 	ListItem,
-	IconButton
+	IconButton,
+	Stack
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from "next/link";
+import Image from "next/image";
 
 export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]: {[key: string] : string[]}}, limit?: number}) => {
 	return (
@@ -21,7 +23,16 @@ export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]:
 					aria-controls={`${group}-content`}
 					id={`${group}-id`}
 				>
-					<Typography variant="body1">{group}</Typography>
+					<Stack direction={"row"} spacing={2}>
+						<div style={{ position: 'relative', width: '25px', height: '20px' }}>
+						<Image src={`/organs/${group.toLowerCase()}.png`} 
+							alt={group} fill
+							style={{
+								objectFit: 'contain',
+							}}/>
+						</div>
+						<Typography variant="body1">{group}</Typography>
+					</Stack>
 				</AccordionSummary>
 				<AccordionDetails>
 					<List>

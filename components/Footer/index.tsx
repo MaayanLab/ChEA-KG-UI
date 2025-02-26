@@ -1,6 +1,7 @@
-import { Container, Paper, Grid, Stack, Divider, Typography } from '@mui/material'
+import { Container, Paper, Grid, Stack, Divider, Typography, Button } from '@mui/material'
 import parse from 'html-react-parser';
 import MiscComponent from '../misc';
+import Link from 'next/link';
 
 
 export default function Footer({style, layout, footer_text}: {
@@ -52,6 +53,9 @@ export default function Footer({style, layout, footer_text}: {
                             <Typography variant="caption">{parse(footer_text)}</Typography>
                         </Grid>
                     }
+                    <Grid item xs={2}  style={{marginTop: 30}}>
+                        <Typography variant="caption">Icons by <Link href="/credits"><Button sx={{color: "#81A1C1", padding: 0}}>Flaticon</Button></Link></Typography>
+                    </Grid>
                 </Grid>
             </Container>
         </Paper>
