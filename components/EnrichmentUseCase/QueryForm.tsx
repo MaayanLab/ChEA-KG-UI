@@ -32,7 +32,9 @@ const QueryForm = ({
     cell_types,
     parsedParams,
     elements,
+    description
 }: {
+    description?: string,
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
 	cell_types: {[key:string]: {[key: string] : string[]}},
@@ -270,7 +272,7 @@ const QueryForm = ({
                 </Snackbar>
             <Grid container spacing={2}>
 				<Typography variant="body1" sx={{marginLeft: 2}}>
-					View the transcription factor network of cell type specific gene sets from <Link target="_blank" rel="noopener noreferrer" color="secondary" href="https://maayanlab.cloud/Enrichr">Enrichr</Link> cell type gene sets.
+					{description}
 				</Typography>
 				<Grid item xs={12}>
 					<TextField

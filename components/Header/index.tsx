@@ -45,7 +45,7 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 					<TextNav path={tab.endpoint} title={tab.label}/>
 				</div>
 			)
-			if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "block", borderColor: "#fff"}}} orientation='vertical' flexItem/>)
+			if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "block", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>)
 		}
 	}
 	if (divider) {
@@ -61,7 +61,7 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 			<Grid item sx={{display: {xs: "none", sm: "none", md: "block"}}}>
 					<Stack direction={"row"} alignItems={"center"} spacing={2}>
 						{tab_component.top}
-						{divider && <Divider sx={{display: {xs: "none", sm: "none", md: "block", borderColor: "#fff"}}} orientation='vertical' flexItem/>}
+						{divider && <Divider sx={{display: {xs: "none", sm: "none", md: "block", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>}
 						{(counter && tab_component.bottom.length === 0 && counterTop) && 
 							<Counter ui_theme={ui_theme}/>
 						}

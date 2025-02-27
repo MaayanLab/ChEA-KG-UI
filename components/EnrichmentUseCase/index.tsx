@@ -228,6 +228,7 @@ const Enrichment = async ({
                         parsedParams={parsedParams}
                         elements={elements}
                         cell_types={cell_types}
+                        description={props.description}
                     />
                     <TooltipComponentGroup
                         elements={elements}
