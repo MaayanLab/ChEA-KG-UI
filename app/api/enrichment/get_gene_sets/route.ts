@@ -105,10 +105,11 @@ export interface UISchema {
  */
 export async function GET() {
     
-    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX}/cell_atlas_enrichr.gmt`)
+    const res = await fetch("https://minio.dev.maayanlab.cloud/hgrn-chear/cell_atlas_from_enrichr.gmt")
     if (!res.ok) throw new Error("Couldn't get Cell Marker data")
     else {
         const cell_atlas_enrichr = await res.text()
+        console.log(cell_atlas_enrichr)
         const cell_types = {}
         for (const i of cell_atlas_enrichr.split("\n").sort()) {
             const [name, _, ...gene_sets] = i.split("\t")
