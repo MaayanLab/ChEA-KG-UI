@@ -85,7 +85,6 @@ const enrichment = async ({
                 term_limit = add_nodes
 
             }
-            
             // term limit is doubled in chea_query -- returns twice as many results
             return await chea_query({userListId, term_limit, library, term_degree})
         }  
