@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
                 const rs = await write_session.run(query)
                 console.log(`id: ${JSON.stringify(userListId)}`)
             }
-            return NextResponse.json(userListId,  {status: 200}) // return success
+            return NextResponse.json({userListId},  {status: 200}) // return success
             
         } catch (e) {
             console.log(e.message)

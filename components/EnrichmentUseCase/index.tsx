@@ -128,12 +128,12 @@ const Enrichment = async ({
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
             formData.append('description', `${group_name}: ${term}`)
-            userListId = await (
+            userListId = (await (
                 await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/addList`, {
                     method: 'POST',
                     body: formData,
                 })
-            ).json()
+            ).json()).userListId
         }
         console.log(userListId)
         if (userListId !==undefined) {
