@@ -59,11 +59,15 @@ const Enrichment = async ({
         collapse?: "true"
     },
     endpoint: string,
-    additional_link_relation_tags?: Array<string>
+    additional_link_relation_tags?: Array<string>,
+    default_options?: {
+        group_name?: string,
+        term?: string,
+    }
 
 }) => {
     
-    const query_parser = parseAsJson<EnrichmentParams>()
+    const query_parser = parseAsJson<EnrichmentParams>().withDefault(props.default_options)
     console.log("Getting schema...")
     const schema = await fetch_kg_schema()
     console.log("Schema fetched")
@@ -88,7 +92,7 @@ const Enrichment = async ({
         else return acc
     }, [])
     
-    const parsedParams: EnrichmentParams = query_parser.parseServerSide(searchParams.q) || {}
+    const parsedParams: EnrichmentParams = query_parser.parseServerSide(searchParams.q)
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
