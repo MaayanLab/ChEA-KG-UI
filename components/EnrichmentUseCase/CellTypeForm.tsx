@@ -40,7 +40,7 @@ export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]:
 							<ListItem 
 								key={label}
 								secondaryAction={
-									<Link href={`/cell_types?q={"min_lib":3, "group_name": "${group}", "term": "${label}", "zscore": 5, "search":true, "limit": 50}`}>
+									<Link href={`/cell_atlas?q={"min_lib":3, "group_name": "${group}", "term": "${label}", "zscore": 5, "search":true, "limit": 50}`}>
 										<IconButton edge="end" aria-label="enrich">
 										<ArrowForwardIcon />
 										</IconButton>
