@@ -101,7 +101,7 @@ const GeneSetForm = ({
             const formData = new FormData();
             // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
             const {genes = [], description=''} = input
-            const gene_list = genes.join('\n')
+            const gene_list = genes.join('\n').toUpperCase()
             formData.append('list', gene_list)
             formData.append('description', description)
             const controller = get_controller()

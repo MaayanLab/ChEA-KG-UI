@@ -2,11 +2,13 @@ import { get_regex } from "./get_regex/helper"
 export const chea_query = async ({
     userListId,
     library,
+    min_lib,
     term_limit,
     term_degree
 }: {
     userListId: string,
     library: string,
+    min_lib: number,
     term_limit?: number,
     term_degree?: number
 }) => {
@@ -59,7 +61,7 @@ export const chea_query = async ({
         const overlapping_genes = i.Overlapping_Genes.split(',')
 
         // label is the term name from enrichr. collect the label and store it in terms along with the library it was found in
-        if (libs.length >= 3 && term_degree===undefined || overlapping_genes.length >= term_degree) {
+        if (libs.length >= min_lib && term_degree===undefined || overlapping_genes.length >= term_degree) {
             if (terms[label] === undefined) terms[label] = {library, label}
             
             // keep track of max score 

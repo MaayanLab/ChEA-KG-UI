@@ -40,8 +40,8 @@ const renderCustomizedLabel = (props) => {
 			<Card sx={{opacity:"0.8", textAlign: "left"}}>
 				<CardContent>
 					<Typography variant="subtitle2"><b>{enrichr_label}</b></Typography>
-					{ score && <Typography variant="subtitle2"><b>score:</b> {precise(score)}</Typography>}
-					{ overlap && <Typography variant="subtitle2"><b>overlap:</b> {precise(overlap)}</Typography>}
+					{ score && <Typography variant="subtitle2"><b>Mean Rank:</b> {precise(score)}</Typography>}
+					{ overlap && <Typography variant="subtitle2"><b>Overlapping Genes:</b> {precise(overlap)}</Typography>}
 					{ combined_score && <Typography variant="subtitle2"><b>combined score:</b> {precise(combined_score)}</Typography>}
 				</CardContent>
 			</Card>

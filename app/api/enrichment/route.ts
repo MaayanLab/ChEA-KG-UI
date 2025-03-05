@@ -48,6 +48,7 @@ const enrichment = async ({
     pvalue,
     zscore,
     add_nodes,
+    min_lib,
     limit,
 }: {
     userListId: string,
@@ -86,7 +87,7 @@ const enrichment = async ({
 
             }
             // term limit is doubled in chea_query -- returns twice as many results
-            return await chea_query({userListId, term_limit, library, term_degree})
+            return await chea_query({userListId, term_limit, library, min_lib: 3, term_degree})
         }  
         ))
 
@@ -162,7 +163,11 @@ const enrichment = async ({
         
         for (const [node, lib_terms] of Object.entries(library_terms)) {
             let query_part = `
-                MATCH p = (a:\`Transcription Factor\`)-[rel]-(b:\`Transcription Factor\`) 
+                MATCH p =(a:\`Transcription Factor\`)
+                WHERE a.label IN ${JSON.stringify(lib_terms)} 
+                RETURN  p, nodes(p) as n, relationships(p) as r
+                UNION
+                MATCH p = (a:\`Transcription Factor\`)-[rel]-(b:\`Transcription Factor\`)
                 WHERE a.label IN ${JSON.stringify(lib_terms)} 
                 AND b.label IN ${JSON.stringify(lib_terms)}
                 ${(typeof pvalue === 'number') ? "AND rel.p_value <= " + pvalue : ""}
@@ -177,7 +182,7 @@ const enrichment = async ({
                 AND NOT b.id in ${JSON.stringify(remove).replace(/\"/g,"")}
             `
             
-            query_part = query_part + `RETURN p, nodes(p) as n, relationships(p) as r`
+            query_part = query_part + `RETURN  p, nodes(p) as n, relationships(p) as r`
             if (limit) query_part = query_part + ` ORDER BY rel.z_score DESC LIMIT ${limit}`
             query_list.push(query_part)   
             searched.push(genes)
