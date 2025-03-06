@@ -20,8 +20,8 @@ export const chea_query = async ({
     const info = await data.json()
     console.log(`sending to ChEA3`)
     let d = info
-    const s = d.set
-    const gs = s.split('\r\n')
+    const gs = d.set
+    // const gs = s.split('\r\n')
     const res = await fetch(`${process.env.NEXT_PUBLIC_CHEA3_URL}/api/enrich/`, {
         method: 'POST',
         headers: {

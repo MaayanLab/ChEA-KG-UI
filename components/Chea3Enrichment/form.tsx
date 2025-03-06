@@ -80,10 +80,10 @@ const GeneSetForm = ({
                 await delay((counter + 5)*1000)
             } 
             else {    
-                const res = await request.json()
-                const results = JSON.parse(res)
+                const results = await request.json()
+                // const results = JSON.parse(res)
                 setError(null)
-                const genes = results.set.split('\n')
+                const genes = results.set
                 const description = results.desc
                 
                 if (genes.join('\n') !== input.genes.join('\n')) return false
@@ -169,11 +169,11 @@ const GeneSetForm = ({
                     await delay((counter + 5)*1000)
                 } 
                 else {
-                    const res = await request.json()
-                    const results = JSON.parse(res)
+                    const results = await request.json()
+                    // const results = JSON.parse(res)
                     setError(null)
                     setInput({
-                        genes: results.set.split('\n').map(item => item.trim()),
+                        genes: results.set.map(item => item.trim()),
                         description: results.desc
                     })
     
