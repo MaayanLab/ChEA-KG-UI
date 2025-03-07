@@ -6,7 +6,7 @@ import { Grid, Button, Tabs, Tab, Card, CardContent } from "@mui/material";
 import { DataGrid, GridToolbar, GridColDef } from "@mui/x-data-grid";
 import { UISchema } from "@/app/api/schema/route";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
-import { CustomToolbar } from "../Enrichment/NetworkTable";
+import { CustomToolbar } from "../Chea3Enrichment/NetworkTable";
 const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) => {
 	const [processedData, setProcessedData] = useState<{
 		[key:string]: {
@@ -36,7 +36,7 @@ const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) =
 			const node_tabs = []
 			const edge_tabs = []
 			for (const d of [...data.nodes, ...data.edges]) {
-				const properties = d.data
+				const properties = d.data as { [key: string]: string | number | boolean; }
 				const {kind, relation, source, target, label, "Unnamed: 0": _, ...rest} = d.data
 				if (properties.id === undefined) properties.id = `${source}_${target}`
 				const key = relation || kind
