@@ -52,7 +52,7 @@ const renderCustomizedLabel = (props) => {
 					{ overlap && <Typography variant="subtitle2"><b>Overlapping Genes:</b> {precise(overlap)}</Typography>}
 					{ combined_score && <Typography variant="subtitle2"><b>combined score:</b> {precise(combined_score)}</Typography>}
 					{libs.map(({library, score})=>(
-						<Typography variant="subtitle2"><b>{library}</b> {score}</Typography>
+						<Typography key={library} variant="subtitle2"><b>{library}</b> {score}</Typography>
 					))}
 				</CardContent>
 			</Card>
