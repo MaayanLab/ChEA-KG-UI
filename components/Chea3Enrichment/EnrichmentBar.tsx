@@ -14,7 +14,14 @@ import { useQueryState } from 'next-usequerystate';
 import download from 'downloadjs'
 import domtoimage from 'dom-to-image';
 
-
+const libs_sorted = ['ARCHS4 Coexpression','ENCODE ChIP-seq','Enrichr Queries',
+	'GTEx Coexpression','Literature ChIP-seq','ReMap ChIP-seq']
+const palette =  {'ARCHS4 Coexpression':'rgb(196, 8, 8)',
+	'ENCODE ChIP-seq':'rgb(244, 109, 67)',
+	'Enrichr Queries':'rgb(242, 172, 68)', 
+	'GTEx Coexpression':'rgb(236, 252, 68)',
+	'Literature ChIP-seq':'rgb(165, 242, 162)',
+	'ReMap ChIP-seq':'rgb(92, 217, 78)'}
 const renderCustomizedLabel = (props) => {
 	const {
 	  x, y, width, height, value, color
@@ -33,9 +40,10 @@ const renderCustomizedLabel = (props) => {
 	);
   };
 
-  const BarTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+  const BarTooltip = ({ active, payload }: TooltipProps<ValueType, NameType>) => {
 	if (active) {
-		const {enrichr_label, score, overlap, combined_score} = payload[0].payload
+		const {enrichr_label, score, overlap, combined_score, libs} = payload[0].payload
+		console.log(libs)
 		return(
 			<Card sx={{opacity:"0.8", textAlign: "left"}}>
 				<CardContent>
@@ -43,6 +51,9 @@ const renderCustomizedLabel = (props) => {
 					{ score && <Typography variant="subtitle2"><b>Mean Rank:</b> {precise(score)}</Typography>}
 					{ overlap && <Typography variant="subtitle2"><b>Overlapping Genes:</b> {precise(overlap)}</Typography>}
 					{ combined_score && <Typography variant="subtitle2"><b>combined score:</b> {precise(combined_score)}</Typography>}
+					{libs.map(({library, score})=>(
+						<Typography variant="subtitle2"><b>{library}</b> {score}</Typography>
+					))}
 				</CardContent>
 			</Card>
 		)
@@ -51,7 +62,7 @@ const renderCustomizedLabel = (props) => {
 
 export const EnrichmentBar = (props: {
 	field?: string,
-	data: Array<{library: string, score: number, value?: number, [key: string]: number | string | boolean}>,
+	data: Array<{library: string, score: number, value?: number, [key: string]: number | string | boolean | Array<{library: string, score: number}>}>,
 	color?: string,
 	fontColor?: string,
 	maxHeight?: number,
@@ -59,6 +70,7 @@ export const EnrichmentBar = (props: {
 	width?: number
 	min: number,
 	max: number,
+	stacks: Array<string>
 }) => {
 	const {
 		   field="",
@@ -69,7 +81,8 @@ export const EnrichmentBar = (props: {
 		   barSize=35,
 		   width=500,
 		   min,
-		   max
+		   max,
+		   stacks
 		} = props
 	const height = data.length === 10 ? maxHeight: maxHeight/10 * data.length
 	let yWidth = 0
@@ -94,7 +107,6 @@ export const EnrichmentBar = (props: {
 	// 	let svgBlob = new Blob([svgURL], {type: "image/svg;"});
 	// 	download(svgBlob, "bar_chart.svg");
 	// }
-
 	useEffect(()=>{
 		const download_fnc = async () => {
 			// exportChart(download_image)
@@ -140,11 +152,19 @@ export const EnrichmentBar = (props: {
 						ref={barRef}
 					>
 						<Tooltip content={<BarTooltip/>} />
-						<Bar dataKey="value" fill={"#C3E1E6"} barSize={barSize}>
+
+						{/* <Bar dataKey="value" fill={"#C3E1E6"} barSize={barSize}>
 							<LabelList dataKey="enrichr_label" position="left" content={renderCustomizedLabel} fill={fontColor}/>
 							{data_cells}
-						</Bar>
-						<XAxis type="number" domain={[
+						</Bar> */}
+						{libs_sorted.filter(i=>stacks.indexOf(i)>-1).map((lib,i)=>{
+							return(<Bar dataKey={lib} stackId={'a'} fill={palette[lib]} barSize={barSize}>
+								{/* {i === 0 && <LabelList dataKey="enrichr_label" position="left" content={renderCustomizedLabel} fill={fontColor}/>} */}
+								{data_cells}
+							</Bar>)
+						})}
+						<XAxis type="number" hide/>
+						{/* <XAxis type="number" domain={[
 							() => {
 								if (min < 0) {
 									return min
@@ -160,8 +180,8 @@ export const EnrichmentBar = (props: {
 									return 0
 								}
 							},
-						]}  hide/>
-						<YAxis type="category" dataKey={"library"} width={yWidth*7} axisLine={false} fontSize={12} hide={true}/>
+						]}  hide/> */}
+						<YAxis type="category" dataKey={"label"} width={yWidth*3} axisLine={false} fontSize={12}/>
 					</BarChart>
 				</ResponsiveContainer>
 			</Grid>

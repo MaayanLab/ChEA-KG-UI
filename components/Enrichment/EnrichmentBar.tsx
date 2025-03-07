@@ -52,7 +52,7 @@ const renderCustomizedLabel = (props) => {
 
 export const EnrichmentBar = (props: {
 	field?: string,
-	data: Array<{library: string, color: string, pval: number, [key: string]: number | string | boolean}>,
+	data: Array<{library: string, color: string, pval: number, [key: string]: number | string | boolean | { library: string; score: number}[]}>,
 	color?: string,
 	fontColor?: string,
 	maxHeight?: number,

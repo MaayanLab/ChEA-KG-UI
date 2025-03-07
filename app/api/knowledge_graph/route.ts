@@ -16,7 +16,8 @@ export interface NetworkSchema {
             label: string,
 			pval?: number,
 			legend?: string,
-            [key: string]: string | number | boolean,
+			libs?:Array<{library: string, score: number}>,
+            [key: string]: string | number | boolean | Array<{library: string, score: number}>,
         }
     }>,
     edges: Array<{

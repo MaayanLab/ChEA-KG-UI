@@ -57,7 +57,12 @@ export const chea_query = async ({
         const chea3label = i.TF
         const label = regex[library] !== undefined ? regex[library].exec(chea3label).groups.label:chea3label
         const score = parseFloat(i.Score)
-        const libs = i.Library.split(';').map(i => i.split(',')[0])
+        let rank_sum = 0
+        const libs = i.Library.split(';').map(i => {
+            const [library, score] = i.split(',')
+            rank_sum = rank_sum + parseInt(score)
+            return {library, score: parseInt(score)}
+        })
         const overlapping_genes = i.Overlapping_Genes.split(',')
 
         // label is the term name from enrichr. collect the label and store it in terms along with the library it was found in
@@ -75,6 +80,7 @@ export const chea_query = async ({
                 terms[label].rank = rank
                 terms[label].overlap = overlapping_genes.length
                 terms[label].libs = libs
+                terms[label].rank_sum = rank_sum
             } else {
                 // if it appeared before (e.g. drug up, drug down) then use the one with lower pvalue 
                 // as default and push alternative enrichment to enrichment
@@ -87,7 +93,8 @@ export const chea_query = async ({
                     score,
                     rank,
                     overlap: overlapping_genes.length,
-                    libs
+                    libs,
+                    rank_sum
                 })
                 if (terms[label].score > score) {
                     terms[label].enrichr_label = chea3label
