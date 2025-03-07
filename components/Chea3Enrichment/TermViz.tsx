@@ -47,8 +47,9 @@ const TermViz = ({elements, schema, tooltip_templates_edges, tooltip_templates_n
 				}
 				// const libs = properties['libs'] || []
 				if (Array.isArray(libs) && entries[id].rank_sum !== undefined && typeof(entries[id].rank_sum) == 'number') {
+					const rank_sum = entries[id].rank_sum as number
 					for (const {library, score} of libs) {
-						entries[id][library] = (parseInt(`${score}`)*entries[id].score)/entries[id].rank_sum
+						entries[id][library] = (parseInt(`${score}`)*entries[id].score)/rank_sum
 						if (libraries.indexOf(library) === -1) libraries.push(library)
 					}	
 				}
