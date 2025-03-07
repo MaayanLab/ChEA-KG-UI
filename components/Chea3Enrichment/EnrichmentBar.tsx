@@ -158,7 +158,7 @@ export const EnrichmentBar = (props: {
 							{data_cells}
 						</Bar> */}
 						{libs_sorted.filter(i=>stacks.indexOf(i)>-1).map((lib,i)=>{
-							return(<Bar dataKey={lib} stackId={'a'} fill={palette[lib]} barSize={barSize}>
+							return(<Bar key={`${lib}-${i}`} dataKey={lib} stackId={'a'} fill={palette[lib]} barSize={barSize}>
 								{/* {i === 0 && <LabelList dataKey="enrichr_label" position="left" content={renderCustomizedLabel} fill={fontColor}/>} */}
 								{data_cells}
 							</Bar>)
