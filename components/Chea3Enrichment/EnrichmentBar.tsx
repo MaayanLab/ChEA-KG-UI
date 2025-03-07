@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
 import {
-	BarChart, Bar, Cell, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, TooltipProps
+	BarChart, Bar, Cell, XAxis, YAxis, Legend, Tooltip, ResponsiveContainer, TooltipProps
 } from 'recharts';
 import {
     ValueType,
@@ -182,6 +182,7 @@ export const EnrichmentBar = (props: {
 							},
 						]}  hide/> */}
 						<YAxis type="category" dataKey={"label"} width={yWidth*3} axisLine={false} fontSize={12}/>
+						<Legend formatter={(value, entry, index)=><Typography sx={{color: '#666'}} variant='caption'>{value}</Typography>}/>
 					</BarChart>
 				</ResponsiveContainer>
 			</Grid>
