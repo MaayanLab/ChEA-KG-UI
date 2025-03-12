@@ -43,7 +43,7 @@ tutorial/
 data-*
 dumps
 .env.deploy
-venv
+.venv
 
 legacy/
 
