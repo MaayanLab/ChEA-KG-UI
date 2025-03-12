@@ -8,20 +8,15 @@
             ],
             "display": [
                 {
-                    "label": "Gene ID",
+                    "label": "TF ID",
+                    "href": "${uri}",
                     "text": "${id}",
                     "type": "text"
                 },
                 {
-                    "label": "Gene symbol",
+                    "label": "TF symbol",
                     "text": "${label}",
                     "type": "text"
-                },
-                {
-                    "label": "URI",
-                    "text": "${uri}",
-                    "href": "${uri}",
-                    "type": "link"
                 }
             ],
             "relation": [],
