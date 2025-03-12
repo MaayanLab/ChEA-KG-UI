@@ -8,15 +8,33 @@
             ],
             "display": [
                 {
-                    "label": "TF ID",
-                    "href": "${uri}",
-                    "text": "${id}",
+                    "label": "TF",
+                    "text": "${label}",
                     "type": "text"
                 },
                 {
-                    "label": "TF symbol",
+                    "label": "Harmonizome",
+                    "href": "https://maayanlab.cloud/Harmonizome/gene/${label}",
                     "text": "${label}",
-                    "type": "text"
+                    "type": "link"
+                },
+                {
+                    "label": "ARCHS4",
+                    "href": "https://maayanlab.cloud/archs4/gene/${label}",
+                    "text": "${label}",
+                    "type": "link"
+                },
+                {
+                    "label": "GDLPA",
+                    "href": "https://cfde-gene-pages.cloud/gene/${label}?CF=false&PS=true",
+                    "text": "${label}",
+                    "type": "link"
+                },
+                {
+                    "label": "NCBI Gene",
+                    "href": "${uri}",
+                    "text": "${id}",
+                    "type": "link"
                 }
             ],
             "relation": [],
