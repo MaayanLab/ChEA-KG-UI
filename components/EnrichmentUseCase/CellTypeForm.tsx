@@ -6,7 +6,8 @@ import {
 	List,
 	ListItem,
 	IconButton,
-	Stack
+	Stack,
+	Card
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -16,8 +17,9 @@ import Image from "next/image";
 export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]: {[key: string] : string[]}}, limit?: number}) => {
 	return (
 		<>
+		<Card sx={{height: 675, overflowY: "scroll", boxShadow: "none"}}>
 		{Object.entries(cell_types).slice(0, limit).map(([group, items])=>(
-			<Accordion key={group} elevation={0}>
+			<Accordion key={group} elevation={0}  >
 				<AccordionSummary
 					expandIcon={<ExpandMoreIcon />}
 					aria-controls={`${group}-content`}
@@ -34,7 +36,7 @@ export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]:
 						<Typography variant="body1">{group}</Typography>
 					</Stack>
 				</AccordionSummary>
-				<AccordionDetails>
+				<AccordionDetails >
 					<List>
 						{Object.keys(items).map(label=>(
 							<ListItem 
@@ -54,6 +56,8 @@ export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]:
 				</AccordionDetails>
 			</Accordion>
 		))}
+		</Card>
+		
 		</>
 	)
 }

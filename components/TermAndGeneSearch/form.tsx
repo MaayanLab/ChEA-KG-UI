@@ -363,11 +363,11 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                     {(!view) &&
                         <React.Fragment>
                             <Grid item>
-                                <Tooltip title={tooltip ? "Hide tooltip": "Show tooltip"}>
+                                <Tooltip title={!tooltip ? "Hide tooltip": "Show tooltip"}>
                                     <IconButton color="secondary"
                                         onClick={()=>{
-                                            if (tooltip) setTooltip(null)
-                                            else setTooltip('true')
+                                            if (!tooltip) setTooltip('true')
+                                            else setTooltip(null)
                                             
                                         }}
                                     >

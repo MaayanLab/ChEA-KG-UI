@@ -10,7 +10,7 @@ import TermViz from "@/components/Chea3Enrichment/TermViz";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "@/components/Chea3Enrichment/InteractiveButtons";
-import { fetch_kg_schema } from "@/utils/initialize";
+import { fetch_kg_schema, fetch_cellatlas_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import QueryForm from "./QueryForm";
 export interface EnrichmentParams {
@@ -71,6 +71,20 @@ const Enrichment = async ({
     console.log("Getting schema...")
     const schema = await fetch_kg_schema()
     console.log("Schema fetched")
+
+    console.log("Getting cell type schema...")
+    const cellschema = await fetch_cellatlas_schema()
+    console.log("Cell type schema fetched")
+
+    const celltype_info = {}
+    for (const i of cellschema.celltype){
+        celltype_info[i.type] = {
+            tissue: i.tissue,
+            term: i.term,
+            library: i.library
+        }
+    }
+
     const libraries_list = sortLibraries ? l.sort(function(a, b) {
         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
      }): l
@@ -101,6 +115,7 @@ const Enrichment = async ({
         const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
         const default_group = Object.keys(cell_types)[0]
         const default_term = Object.keys(cell_types[default_group])[0]
+        
         const {
             term=default_term,
             group_name=default_group,
@@ -139,7 +154,6 @@ const Enrichment = async ({
                 })
             ).json()).userListId
         }
-        console.log(userListId)
         if (userListId !==undefined) {
             //const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/share?userListId=${userListId}`)
             //if (request.ok) shortId = (await (request.json())).link_id
@@ -205,9 +219,13 @@ const Enrichment = async ({
         else console.log("failed turl")
         console.log("Got url")
         return (
-            <Grid container spacing={2} alignItems={"flex-start"}>
-                <Grid item xs={12} sx={{mb: 1}}>
+            <Grid container spacing={2} >
+                <Grid item xs={12}>
                     <Typography variant={"h2"}>{props.title || "Enrichment Analysis"}</Typography>
+                    </Grid>
+                {props.description && <Grid item xs={12}>
+                    <Typography variant={"subtitle1"}>{props.description}</Typography>
+                </Grid>}
                     {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
                             <Link href={"https://maayanlab.cloud/chea3/"} 
                                 target="_blank"
@@ -226,13 +244,13 @@ const Enrichment = async ({
                             </Link>
                         </Typography>
                     } */}
-                </Grid>
+
                 <Grid item xs={12} md={3}>
                     <QueryForm 
                         parsedParams={parsedParams}
                         elements={elements}
                         cell_types={cell_types}
-                        description={props.description}
+                        cell_info = {celltype_info}
                     />
                     <TooltipComponentGroup
                         elements={elements}
