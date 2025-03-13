@@ -143,7 +143,7 @@ const Enrichment = async ({
         if (userListId !==undefined && libraries.length > 0) {
             console.log("Getting description...")
             const desc_request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
-            if (desc_request.ok) input_desc = (await (desc_request.json())).description
+            if (desc_request.ok) input_desc = (await (desc_request.json())).desc
             console.log("Getting shortID...")
             console.log(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
             //const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/share?userListId=${userListId}`)
@@ -268,8 +268,9 @@ const Enrichment = async ({
                             
                             <Card sx={{borderRadius: "24px", minHeight: 450, width: "100%"}}>
                                 <CardContent>
-                                    {input_desc && 
-                                        <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
+                                    {input_desc ? 
+                                        <Typography variant="h5" sx={{textAlign: "center"}}><b>Enriched TF Subnetwork for {input_desc}</b></Typography>:
+                                        <Typography variant="h5" sx={{textAlign: "center"}}><b>Enriched TF Subnetwork for Input Gene Set</b></Typography>
                                     }
                                     <TermViz
                                         elements={elements} 

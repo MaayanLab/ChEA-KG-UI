@@ -143,7 +143,7 @@
                 "props": {
                     "init_function": "initialize_kg",
                     "title": "Transcription Factor Regulatory Subnetworks",
-                    "description": "Search for subnetworks within the ChEA-KG GRN by inputting one or two terms of interest. The GRN contains 131,181 signed and directed transcription factor-transcription factor regulatory relationships between 1559 source and 700 target human transcription factors.",
+                    "description": "Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1559 source and 700 target human transcription factors.",
                     "initial_query": {
                         "start": "Transcription Factor",
                         "start_term": "LYL1",
@@ -207,7 +207,7 @@
                 "props": {
                     "init_function": "initialize_enrichment",
                     "title": "Transcription Factor Master Regulatory Subnetworks for Major Human Cell Types",
-                    "description": "Explore transcription factor subnetworks that are enriched for regulating marker genes for a collection of 131 human cell types. Each subnetwork visualizes ChEA3 enrichment analysis results for that cell's marker genes. Cell type markers are identified using gene sets from Enrichr. To view the cell type markers for a cell type, along with the term and library of origin, click on the \"view marker genes\" tab.",
+                    "description": "Explore TF subnetworks that are enriched for regulating marker gene sets from a collection of 131 major human cell types from 14 major human tissues. The marker genes  for each cell type were sources from CellMarker, ASCT+B, PanglaoDB, Tabula Sapiens, Descartes, Azimuth, and TISSUES. You can view these marker genes by clicking on the “view marker genes” tab.",
                     "placeholder": "Enter newline separated gene sets",
                     "disableHeader": true,
                     "disableLibraryLimit": true,

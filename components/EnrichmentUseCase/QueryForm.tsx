@@ -328,77 +328,81 @@ const QueryForm = ({
                             />
                         </Tabs>
                     </Box>
-                    {(v === "2") && <Grid item xs={12} md={12} gap={4}>
-                    <Stack spacing= {1} >
-						<Grid container alignItems={"center"} spacing={1} >
-                                {cell_info && <Grid>
-                                    <Typography variant={"subtitle1"}>The marker genes for <b>{term}</b> are from the <b>{cell_info[term].term}</b> gene set in the <b>{cell_info[term].library} </b> 
-                                    <a target="_blank" rel="noopener noreferrer" href="https://maayanlab.cloud/Enrichr/#libraries" style={{color:"primary", textDecoration: "underline"}}> Enrichr </a> library: </Typography>
+                    {(v === "2") && <Grid item xs={12} md={12}>
+						<Grid>
+                        <Stack direction= "column" alignItems="center" justifyContent={'space-around'} spacing={2}>
+
+                            {cell_info && <Grid>
+                                <Typography variant={"subtitle1"}>The marker genes for <b>{term}</b> are from the <b>{cell_info[term].term}</b> gene set in the <b>{cell_info[term].library} </b> 
+                                <a target="_blank" rel="noopener noreferrer" href="https://maayanlab.cloud/Enrichr/#libraries" style={{color:"primary", textDecoration: "underline"}}> Enrichr library: </a> </Typography>
 
                             </Grid> 
                             }
                             
-							<Grid item xs={12}>
-								<div tabIndex={0}>
-                                
-									{!isFocused ? 
-										<Card sx={{height: 500, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
-											{input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
-											<CardContent>
-												{input.genes.map(i=>{
-													if (verified.indexOf(i.toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
-													else {
-														if (i === '') return null
-														else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
-													}
-												})}
-											</CardContent>
-										</Card>:
-										<TextField
-											onBlur={() => setIsFocused(!isFocused)}
-											multiline
-											className='EnrichmentForm'
-											rows={10}
-											placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
-											fullWidth
-											value={input.genes.join("\n")}
-											onChange={(e)=>{
-												setInput({
-													...input,
-													genes: e.target.value.split(/[\t\r\n;]+/)
-												})
-											}}
-											InputProps={{
-												sx: {
-													fontSize: 14,
-												},
-											}}
-											inputProps={{
-												sx: {
-													paddingRight: 0
-												}
-											}}
-										/>
-									}
-								</div>
-                                
-							</Grid>
-                            <Grid justifyContent='center'>
-                                <Link target="_blank" rel="noopener noreferrer" href={cell_info[term].url}> 
-                                    <Button
-                                    size="small"
-                                    variant="contained"
-                                    justifyContent='center'
-                                    sx={{
-                                        padding: "3.5px 10px",
-                                        marginTop: "20px"
-                                    }}
-                                    ><Typography> View cell markers in <span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>En</span><span style={{color: "red", fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>rich</span><span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>r</span></Typography>
-                                    </Button>
-                                
-                                </Link>
 
-                            </Grid>
+                                <Grid sx={{width: "100%"}}>
+                                    <div tabIndex={0}>
+                                    
+                                        {!isFocused ? 
+                                            <Card sx={{height: 320, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
+                                                {input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
+                                                <CardContent>
+                                                    {input.genes.map(i=>{
+                                                        if (verified.indexOf(i.toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
+                                                        else {
+                                                            if (i === '') return null
+                                                            else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
+                                                        }
+                                                    })}
+                                                </CardContent>
+                                            </Card>:
+                                            <TextField
+                                                onBlur={() => setIsFocused(!isFocused)}
+                                                multiline
+                                                className='EnrichmentForm'
+                                                rows={10}
+                                                placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
+                                                fullWidth
+                                                value={input.genes.join("\n")}
+                                                onChange={(e)=>{
+                                                    setInput({
+                                                        ...input,
+                                                        genes: e.target.value.split(/[\t\r\n;]+/)
+                                                    })
+                                                }}
+                                                InputProps={{
+                                                    sx: {
+                                                        fontSize: 14,
+                                                    },
+                                                }}
+                                                inputProps={{
+                                                    sx: {
+                                                        paddingRight: 0
+                                                    }
+                                                }}
+                                            />
+                                        }
+                                    </div>
+                                    
+                                </Grid>
+                                <Grid alignContent={'center'}>
+                                    <Link target="_blank" rel="noopener noreferrer" href={cell_info[term].url}> 
+                                        <Button
+                                        size="small"
+                                        variant="contained"
+                                        color='primary'
+                                        sx={{
+                                            alignContent: 'center',
+                                            padding: "3.5px 10px",
+                                            // marginTop: "20px"
+                                        }}
+                                        ><Typography> View cell markers in <span style={{color: "black",fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>En</span><span style={{color: "red", fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>rich</span><span style={{color: "black",fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>r</span></Typography>
+                                        </Button>
+                                    
+                                    </Link>
+
+                                </Grid>
+                            </Stack>
                             {/*cell_info &&  <Grid>
                                 <Stack spacing={1}>
                                 <Typography variant={"subtitle1"}><b>Enrichr Term:</b><br />{cell_info[term].term}</Typography>
@@ -451,7 +455,7 @@ const QueryForm = ({
 						</Button>
 					</Grid>
 				} */}
-				{showGeneSet &&
+				            {showGeneSet &&
 					
 							<Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
 								<TextField
@@ -469,9 +473,8 @@ const QueryForm = ({
 									}}
 								/>
 							</Grid>
-}
+                            }
 						</Grid>
-                        </Stack>
 					</Grid>
 				}
 

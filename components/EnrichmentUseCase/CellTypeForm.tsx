@@ -17,9 +17,9 @@ import Image from "next/image";
 export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]: {[key: string] : string[]}}, limit?: number}) => {
 	return (
 		<>
-		<Card sx={{height: 675, overflowY: "scroll", boxShadow: "none"}}>
+		<Card sx={{height: 525, overflow: "scroll", borderWidth:1, borderColor:'black', boxShadow: "none"}}>
 		{Object.entries(cell_types).slice(0, limit).map(([group, items])=>(
-			<Accordion key={group} elevation={0}  >
+			<Accordion key={group} elevation={0}>
 				<AccordionSummary
 					expandIcon={<ExpandMoreIcon />}
 					aria-controls={`${group}-content`}
