@@ -40,7 +40,7 @@ const QueryForm = ({
     description?: string,
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
-    cell_info: {[key:string]: {[key: string] : string[]}},
+    cell_info: {[key:string]: {[key: string] : string}},
 	cell_types: {[key:string]: {[key: string] : string[]}}
 }) => {
     const router = useRouter()
@@ -301,34 +301,39 @@ const QueryForm = ({
 							}}
 					/>
                 </Grid>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider'}}>
+                    <Box>
                         <Tabs
-                            value ={"1"? v===null : v}
+                            value ={v===null? "1" : v}
                             onChange={(e, newValue)=>{
                                 setValue(newValue)
                             }} 
                             aria-label="label"
+                            sx={{textColor: 'black'}}
+                            textColor='secondary'
+                            indicatorColor='secondary'
                         >
                             <Tab 
                             value = "1"
                             label="Choose cell type"
-                            color="black"
                             title="Choose a cell type"
+                            // sx={{color: 'black', variant:'normal', fontSize:14}}
                             wrapped
                             />
                             <Tab 
                             value='2'
                             label="View marker genes" 
                             title="View marker genes associated with the cell type"
+                            // sx={{color: 'black', variant:'normal', fontSize:14}}
                             wrapped
                             />
                         </Tabs>
                     </Box>
-                    {(v === "2") && <Grid item xs={12} md={12}>
-                    <Stack spacing= {1}>
-						<Grid container alignItems={"center"} spacing={1}>
-                            {cell_info && <Grid>
-                                <Typography variant={"subtitle1"}>The marker genes for <b>{term}</b> are from the <b>{cell_info[term].term}</b> gene set in the <b>{cell_info[term].library} </b> Enrichr library: </Typography>
+                    {(v === "2") && <Grid item xs={12} md={12} gap={4}>
+                    <Stack spacing= {1} >
+						<Grid container alignItems={"center"} spacing={1} >
+                                {cell_info && <Grid>
+                                    <Typography variant={"subtitle1"}>The marker genes for <b>{term}</b> are from the <b>{cell_info[term].term}</b> gene set in the <b>{cell_info[term].library} </b> 
+                                    <a target="_blank" rel="noopener noreferrer" href="https://maayanlab.cloud/Enrichr/#libraries" style={{color:"primary", textDecoration: "underline"}}> Enrichr </a> library: </Typography>
 
                             </Grid> 
                             }
@@ -378,6 +383,22 @@ const QueryForm = ({
 								</div>
                                 
 							</Grid>
+                            <Grid justifyContent='center'>
+                                <Link target="_blank" rel="noopener noreferrer" href={cell_info[term].url}> 
+                                    <Button
+                                    size="small"
+                                    variant="contained"
+                                    justifyContent='center'
+                                    sx={{
+                                        padding: "3.5px 10px",
+                                        marginTop: "20px"
+                                    }}
+                                    ><Typography> View cell markers in <span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>En</span><span style={{color: "red", fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>rich</span><span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>r</span></Typography>
+                                    </Button>
+                                
+                                </Link>
+
+                            </Grid>
                             {/*cell_info &&  <Grid>
                                 <Stack spacing={1}>
                                 <Typography variant={"subtitle1"}><b>Enrichr Term:</b><br />{cell_info[term].term}</Typography>

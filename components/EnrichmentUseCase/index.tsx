@@ -81,7 +81,8 @@ const Enrichment = async ({
         celltype_info[i.type] = {
             tissue: i.tissue,
             term: i.term,
-            library: i.library
+            library: i.library,
+            url: i.url
         }
     }
 

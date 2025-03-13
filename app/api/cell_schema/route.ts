@@ -7,7 +7,8 @@ export interface AtlasSchema{
             type:string,
             tissue: string,
             term: string,
-            library: string
+            library: string,
+            url: string
         
     }>
 }
