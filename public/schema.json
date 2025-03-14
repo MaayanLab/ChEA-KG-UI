@@ -322,7 +322,7 @@
             ],
             [
                 {
-                    "component": "icon",
+                    "component": "license",
                     "props": {
                         "type": "icon",
                         "key": "center_icon",
@@ -335,7 +335,7 @@
                 }
             ]
         ],
-        "footer_text": "<span style='color:white'>This website was prepared using KG UI. KG UI is being developed by the Ma'ayan Lab at Icahn School of Medicine and is available <a style='color: #81A1C1' href='https://github.com/MaayanLab/KnowledgeGraphUIDemo'>here.</a></span>"
+        "footer_text": "<span style='color:white'>This website was prepared using KG UI. KG UI is being developed by the Ma'ayan Lab at Icahn School of Medicine and is available <a style='color: #81A1C1' href='https://github.com/MaayanLab/KnowledgeGraphUIDemo'>here</a>.</span>"
     },
     "ui_theme": "cfde_theme"
 }
