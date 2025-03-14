@@ -78,7 +78,7 @@ function ThemeRegistry(props:{options:any, children:any, theme: 'cfde_theme' | s
       <CacheProvider value={cache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ConsentCookie consentCookie={props.consentCookie} setConsentCookie={props.setConsentCookie}/>
+          <ConsentCookie consentCookie={props.consentCookie} resetCookie={props.resetCookie} setConsentCookie={props.setConsentCookie}/>
           {children}
         </ThemeProvider>
         {(props.consentCookie === "allow" || process.env.NEXT_PUBLIC_COOKIE_NAME === '') && <GoogleAnalytics trackPageViews />}
