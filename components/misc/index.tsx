@@ -11,7 +11,8 @@ import { Typography,
     Grid,
     Box,
     Avatar,
-    Button
+    Button,
+    Stack
  } from "@mui/material"
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 export const Selector = ({entries, 
@@ -183,13 +184,36 @@ export const Icon = ({src, alt, href, height, width}: {src: string, alt: string,
   }
 }
 
+export const License = ({src, alt, href, height, width}: {src: string, alt: string, href?: string, height: number, width: number}) => {
+  if (href === undefined) {
+    return <Image src={src} alt={alt} height={height} width={width}/>
+  } else {
+    return( 
+      <Stack justifyContent={"center"}>
+        <Link href={href} target="_blank" rel="noopener noreferrer">
+            <Button>
+              <Image src={src} alt={alt} height={height} width={width}/>
+            </Button>
+          </Link>
+          <Link href={"https://raw.githubusercontent.com/MaayanLab/ChEA-KG-UI/refs/heads/chea-kg/LICENSE"} target="_blank" rel="noopener noreferrer">
+            <Typography sx={{textAlign: "center"}} variant="caption">Licensed under GPL 3.0</Typography>
+          </Link>
+      </Stack>
+    )
+  }
+}
+
 const MiscComponent = ({component, props}) => {
+  console.log(component)
     if (component === 'logo') return <Logo {...props}/>
     else if (component === 'github') return <Github {...props}/>
     // else if (component === 'social') return <Socials {...props}/>
     else if (component === 'text') return <Text {...props}/>
     else if (component === 'link') return <TextLink {...props}/>
     else if (component === 'icon') return <Icon {...props}/>
+    else if (component === 'license') {
+      return <License {...props}/>
+    }
     else return null
 }
 

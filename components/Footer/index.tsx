@@ -2,6 +2,7 @@ import { Container, Paper, Grid, Stack, Divider, Typography, Button } from '@mui
 import parse from 'html-react-parser';
 import MiscComponent from '../misc';
 import Link from 'next/link';
+import { CookieFooterWrapped } from '../ConsentCookie';
 
 
 export default function Footer({style, layout, footer_text}: {
@@ -49,8 +50,11 @@ export default function Footer({style, layout, footer_text}: {
                         {/* </Stack>
                     </Grid> */}
                     {footer_text &&
-                        <Grid item xs={10} style={{marginTop: 30}}>
-                            <Typography variant="caption">{parse(footer_text)}</Typography>
+                        <Grid item xs={10} style={{marginTop: 30, marginBottom: 2}}>
+                            <Stack>
+                                <Typography variant="caption">{parse(footer_text)}</Typography>
+                                <CookieFooterWrapped/>
+                            </Stack>
                         </Grid>
                     }
                     <Grid item xs={2}  style={{marginTop: 30}}>
