@@ -1,5 +1,4 @@
 import { 
-	Accordion, 
 	AccordionDetails, 
 	AccordionSummary,
 	Typography,
@@ -7,19 +6,19 @@ import {
 	ListItem,
 	IconButton,
 	Stack,
-	Card
+	Card,
+	Accordion
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from "next/link";
 import Image from "next/image";
-
 export const CellTypeForm = ({cell_types, limit=10}: {cell_types: {[key:string]: {[key: string] : string[]}}, limit?: number}) => {
 	return (
 		<>
-		<Card sx={{height: 525, overflow: "scroll", borderWidth:1, borderColor:'black', boxShadow: "none"}}>
-		{Object.entries(cell_types).slice(0, limit).map(([group, items])=>(
-			<Accordion key={group} elevation={0}>
+		<Card sx={{height: 550, overflow: "auto", borderWidth:1, borderColor:'black', boxShadow: "none"}}>
+		{Object.entries(cell_types).slice(0, limit).map(([group, items], i)=>(
+			<Accordion elevation={0} key={group}>
 				<AccordionSummary
 					expandIcon={<ExpandMoreIcon />}
 					aria-controls={`${group}-content`}
