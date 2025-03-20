@@ -7,25 +7,27 @@ import { useQueryState } from 'next-usequerystate';
 
 const CookieFooter = ({consentCookie, setConsentCookie, resetCookie}) => {
     const [showAlert, setShowAlert] = useQueryState('show_permission')
-    if (consentCookie === 'allow') {
-        return <Stack direction={"row"} alignItems={"center"}>
-            <Typography variant='caption'>You enabled Google Analytics in this website.</Typography>
-            <Button sx={{padding: 0, color: "#81A1C1"}} onClick={(e)=>{
-                // setConsentCookie('deny')
-                window.scrollTo(0,0)
-                setShowAlert('true')
-            }}>Disable?</Button>
-        </Stack>
-    } else {
-        return <Stack direction={"row"} alignItems={"center"}>
-            <Typography variant='caption'>You disabled Google Analytics in this website.</Typography>
-            <Button sx={{padding: 0, color: "#81A1C1"}} onClick={(e)=>{
-                // setConsentCookie('allow')
-                setShowAlert('true')
-                window.scrollTo(0,0)
-            }}>Enable?</Button>
-        </Stack>
-    }
+    return <Typography variant='caption'>This website uses session cookies.</Typography>
+    // console.log(consentCookie)
+    // if (consentCookie === 'allow') {
+    //     return <Stack direction={"row"} alignItems={"center"}>
+    //         <Typography variant='caption'>This website uses session cookies. You enabled Google Analytics in this website.</Typography>
+    //         <Button sx={{padding: 0, color: "#81A1C1"}} onClick={(e)=>{
+    //             // setConsentCookie('deny')
+    //             window.scrollTo(0,0)
+    //             setShowAlert('true')
+    //         }}>Disable?</Button>
+    //     </Stack>
+    // } else {
+    //     return <Stack direction={"row"} alignItems={"center"}>
+    //         <Typography variant='caption'>This website uses session cookies. You disabled Google Analytics in this website.</Typography>
+    //         <Button sx={{padding: 0, color: "#81A1C1"}} onClick={(e)=>{
+    //             // setConsentCookie('allow')
+    //             setShowAlert('true')
+    //             window.scrollTo(0,0)
+    //         }}>Enable?</Button>
+    //     </Stack>
+    // }
 }
 
 export const CookieFooterWrapped = withCookie(CookieFooter)
