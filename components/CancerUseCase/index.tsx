@@ -66,29 +66,23 @@ const Enrichment = async ({
     }
 
 }) => {
-    
+    console.log("parsing")
     const query_parser = parseAsJson<EnrichmentParams>().withDefault(props.default_options)
     console.log("Getting schema...")
     const schema = await fetch_kg_schema()
     console.log("Schema fetched")
-
     console.log("Getting atlas schema...")
-    const cellschema = await fetch_atlas_schema()
-    console.log("Cell type schema fetched")
-
-    const celltype_info = {}
-    for (const i of cellschema.celltype){
-        celltype_info[i.type] = {
+    const atlasschema = await fetch_atlas_schema()
+    console.log("Atlas schema fetched")
+        const celltype_info = {}
+        for (const i of atlasschema.cancertype){
+        celltype_info[i.term] = {
+            type: i.type,
             tissue: i.tissue,
-            term: i.term,
-            library: i.library,
-            url: i.url
+            enrichr_url: i.enrichr_url,
+            m2t_url: i.m2t_url
         }
-    }
-
-    const libraries_list = sortLibraries ? l.sort(function(a, b) {
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-     }): l
+    } 
 
 
     const tooltip_templates_node = {}
@@ -111,11 +105,11 @@ const Enrichment = async ({
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
-        const cell_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_gene_sets`)).json()
+        const cancer_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_cancer_gene_sets`)).json()
         
         const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
-        const default_group = Object.keys(cell_types)[0]
-        const default_term = Object.keys(cell_types[default_group])[0]
+        const default_group = Object.keys(cancer_types)[0]
+        const default_term = Object.keys(cancer_types[default_group])[0]
         
         const {
             term=default_term,
@@ -143,8 +137,10 @@ const Enrichment = async ({
         let userListId = parsedParams.userListId
         if (term !==undefined && group_name !== undefined) {
             const formData = new FormData();
+            console.log("test", group_name, term)
+
             // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
-            const genes = cell_types[group_name][term]
+            const genes = cancer_types[group_name][term]
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
             formData.append('description', `${group_name}: ${term}`)
@@ -250,7 +246,7 @@ const Enrichment = async ({
                     <QueryForm 
                         parsedParams={parsedParams}
                         elements={elements}
-                        cell_types={cell_types}
+                        cancer_types={cancer_types}
                         cell_info = {celltype_info}
                     />
                     <TooltipComponentGroup

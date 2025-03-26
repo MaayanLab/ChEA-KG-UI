@@ -2,9 +2,9 @@ import neo4j from "neo4j-driver"
 import { neo4jDriver } from "./neo4j"
 import { toNumber } from "./math"
 import { UISchema } from "@/app/api/schema/route"
-import { AtlasSchema} from "@/app/api/cell_schema/route"
+import { AtlasSchema} from "@/app/api/atlas_schema/route"
 import default_schema from "@/public/schema.json"
-import cell_schema from "@/public/celltypes.json"
+import atlas_schema from "@/public/atlas.json"
 export async function get_terms(node, search) {
   try {
     const session = neo4jDriver.session({
@@ -157,15 +157,15 @@ export const init_function = {
 	initialize_enrichment
 }
 
-export const fetch_cellatlas_schema = async () => {
-	let cellschema:AtlasSchema = cell_schema
-	if (process.env.NEXT_PUBLIC_CELL_SCHEMA) {
-		const r = await fetch(`${process.env.NEXT_PUBLIC_CELL_SCHEMA}`, { next: { revalidate: process.env.NODE_ENV === 'development'? 0: 3600 } })
+export const fetch_atlas_schema = async () => {
+	let atlasschema:AtlasSchema = atlas_schema
+	if (process.env.NEXT_PUBLIC_ATLAS_SCHEMA) {
+		const r = await fetch(`${process.env.NEXT_PUBLIC_ATLAS_SCHEMA}`, { next: { revalidate: process.env.NODE_ENV === 'development'? 0: 3600 } })
 		if (!r.ok) {
-			throw new Error(`Error communicating with ${process.env.NEXT_PUBLIC_CELL_SCHEMA}`)
+			throw new Error(`Error communicating with ${process.env.NEXT_PUBLIC_ATLAS_SCHEMA}`)
 		}
-		cellschema = await r.json()
+		atlasschema = await r.json()
 	}
 	
-	return cellschema
+	return atlasschema
   }
