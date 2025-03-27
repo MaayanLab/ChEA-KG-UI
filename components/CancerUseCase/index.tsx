@@ -13,6 +13,7 @@ import InteractiveButtons from "@/components/Chea3Enrichment/InteractiveButtons"
 import { fetch_kg_schema, fetch_atlas_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import QueryForm from "./QueryForm";
+import Link from "next/link";
 export interface EnrichmentParams {
     group_name?: string,
     userListId?: string,
@@ -221,7 +222,13 @@ const Enrichment = async ({
                     <Typography variant={"h2"}>{props.title || "Enrichment Analysis"}</Typography>
                     </Grid>
                 {props.description && <Grid item xs={12}>
-                    <Typography variant={"subtitle1"}>{props.description}</Typography>
+                    <Typography variant={"subtitle1"}> 
+                    Explore TF subnetworks that are enriched for regulating marker gene sets idendified via transcriptomic analysis of 10 tumor types from the the Clinical Protemoics Tumor Atlas Consortium (CPTAC). Each tumor type is divided into subtypes based on clustering of patients 
+                    in each cohort, for a total of 69 subtypes. Marker genes for each subtype are identified via differential gene expression analysis. Subtype identification and differential gene expression analysis for each tumor type was originally performed in  
+                    <Link href='https://multiomics2targets.maayanlab.cloud/' 
+                    target="_blank" 
+                    rel="noopener noreferrer"><b> Multiomics2Targets</b></Link>.
+                    </Typography>
                 </Grid>}
                     {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
                             <Link href={"https://maayanlab.cloud/chea3/"} 
