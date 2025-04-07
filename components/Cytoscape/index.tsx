@@ -104,6 +104,18 @@ export default function Cytoscape ({
 	useEffect(()=>{
 		setId(id+1)
 	},[layout, elements])
+
+	useEffect(()=>{
+		const timer = setTimeout(()=>{
+
+			setHovered(null)
+		}, 5000)
+		
+		return () => {
+			clearTimeout(timer);
+		};
+	}, [hovered])
+
 	// if (!ready) return <CircularProgress/>
 	return (
 		<div id="kg-network" style={{minHeight: 500, position: "relative"}} ref={networkRef}>
@@ -261,6 +273,7 @@ export default function Cytoscape ({
 								sel.incomers().removeClass('semitransp')
 								sel.outgoers().removeClass('semitransp')
 								setHovered({id: n.id, type: "nodes"})
+									
 							}
 						});
 
@@ -269,7 +282,10 @@ export default function Cytoscape ({
 							cy.elements().removeClass('semitransp');
 							sel.removeClass('highlight').outgoers().removeClass('colored')
 							sel.incomers().removeClass('colored')
-							setHovered(null)
+							// setTimeout(()=>{
+							// 	console.log(hovered.id, sel.id)
+							// 	if (hovered.id === sel.id) setHovered(null)
+							// }, 5000)
 							
 						});
 						// cy.edges().on('mouseover', (evt) => {
