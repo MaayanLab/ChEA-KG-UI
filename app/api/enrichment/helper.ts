@@ -1,4 +1,5 @@
 import { get_regex } from "./get_regex/helper"
+import { verify_input } from "./terms_and_genes/route"
 export const chea_query = async ({
     userListId,
     library,
@@ -20,7 +21,8 @@ export const chea_query = async ({
     const info = await data.json()
     console.log(`sending to ChEA3`)
     let d = info
-    const gs = d.set
+    const gs = await verify_input(d.set, true)
+    console.log(gs.join("\n"))
     // const gs = s.split('\r\n')
     const res = await fetch(`${process.env.NEXT_PUBLIC_CHEA3_URL}/api/enrich/`, {
         method: 'POST',

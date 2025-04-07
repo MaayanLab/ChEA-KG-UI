@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from 'next/server' 
 import { z } from 'zod'
 
-const verify_input = async (input:Array<string>) => {
+export const verify_input = async (input:Array<string>, convert:Boolean) => {
     try{
         const session = neo4jDriver.session({
             defaultAccessMode: neo4j.session.READ
@@ -12,6 +12,8 @@ const verify_input = async (input:Array<string>) => {
         try {
             const query = `MATCH (n)
                 WHERE n.label IN ${JSON.stringify(input)}
+                OR n.HGNC IN ${JSON.stringify(input)}
+                OR n.Ensembl IN ${JSON.stringify(input)}
                 RETURN n
             `
             
@@ -19,7 +21,11 @@ const verify_input = async (input:Array<string>) => {
             const valid = []
             rs.records.flatMap(record => {
                 const node = record.get('n')
-                if (valid.indexOf(node.properties.label) === -1) valid.push(node.properties.label)
+                const {label, HGNC, Ensembl} = node.properties
+                let l:string 
+                if (convert) l = label
+                else l = input.indexOf(label) > -1 ? label: input.indexOf(HGNC) > -1 ? HGNC : input.indexOf(Ensembl) > -1 ? Ensembl: null
+                if (l && valid.indexOf(l) === -1) valid.push(l)
             })
 
             return valid
@@ -41,7 +47,7 @@ const input_schema = z.object({
 export async function POST(req: NextRequest) {
     try {
         const {input} = input_schema.parse(await req.json())
-        const results = await verify_input(input)
+        const results = await verify_input(input, false)
         return NextResponse.json(results, {status: 200})
     } catch (error) {
         console.log("error", error)
