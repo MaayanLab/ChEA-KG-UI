@@ -379,7 +379,7 @@
                     "props": {
                         "type": "icon",
                         "key": "center_icon",
-                        "src": "https://minio.dev.maayanlab.cloud/hgrn-chear/gpl3.png",
+                        "src": "https://s3.amazonaws.com/maayan-kg/chea-kg/gpl3.png",
                         "alt": "gpl3",
                         "href": "https://www.gnu.org/licenses/gpl-3.0.en.html",
                         "height": 60,

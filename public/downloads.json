@@ -4,42 +4,42 @@
             "name":"Edge weighted",
             "nodes": 1546,
             "edges": 53003,
-            "zip": "https://minio.dev.maayanlab.cloud/hgrn-chear/edge_weighted_assertions.zip",
+            "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/edge_weighted_assertions.zip",
             "size":"854.6 KiB"
         },
         {
             "name":"Node weighted",
             "nodes": 1554,
             "edges": 130793,
-            "zip": "https://minio.dev.maayanlab.cloud/hgrn-chear/node_weighted_assertions.zip",
+            "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/node_weighted_assertions.zip",
             "size": "2.3 MiB"
         },
         {
             "name":"Signature shuffling",
             "nodes": 1555,
             "edges": 108715,
-            "zip": "https://minio.dev.maayanlab.cloud/hgrn-chear/signature_shuffling_assertions.zip",
+            "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/signature_shuffling_assertions.zip",
             "size": "2.3 MiB"
         },
         {
             "name":"Unfiltered network",
             "nodes": 1556,
             "edges": 372382,
-            "zip": "https://minio.dev.maayanlab.cloud/hgrn-chear/unfiltered_assertions.zip",
+            "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_assertions.zip",
             "size": "2.3 MiB"
         }
     ],
     "rummageo":[
         {
             "resource":"Control vs. perturbation gene sets",
-            "url":"https://minio.dev.maayanlab.cloud/hgrn-chear/single_perturbation_gses.txt",
+            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/single_perturbation_gses.txt",
             "size":"126.9 KiB"
         }
     ],
     "gmt":[
         {
             "resource":"Cell Atlas GMT File From Enrichr",
-            "url":"https://minio.dev.maayanlab.cloud/hgrn-chear/cell_atlas_from_enrichr.gmt",
+            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt",
             "gene_sets": 131,
             "size":"78 KiB"
         }

@@ -105,7 +105,7 @@ export interface UISchema {
  */
 export async function GET() {
     
-    const res = await fetch("https://minio.dev.maayanlab.cloud/hgrn-chear/cell_atlas_from_enrichr.gmt")
+    const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt")
     if (!res.ok) throw new Error("Couldn't get Cell Marker data")
     else {
         const cell_atlas_enrichr = await res.text()

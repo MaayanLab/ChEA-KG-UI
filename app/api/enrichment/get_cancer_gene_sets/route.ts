@@ -105,7 +105,7 @@ export interface UISchema {
  */
 export async function GET() {
     
-    const res = await fetch("https://minio.dev.maayanlab.cloud/hgrn-chear/cancer_atlas_cptac.gmt")
+    const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt")
     if (!res.ok) throw new Error("Couldn't get cancer atlas data")
     else {
         const cancer_atlas = await res.text()
