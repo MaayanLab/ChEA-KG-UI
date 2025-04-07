@@ -13,6 +13,7 @@ export const verify_input = async (input:Array<string>, convert:Boolean) => {
             const query = `MATCH (n)
                 WHERE n.label IN ${JSON.stringify(input)}
                 OR n.HGNC IN ${JSON.stringify(input)}
+                OR n.id IN ${JSON.stringify(input)}
                 OR n.Ensembl IN ${JSON.stringify(input)}
                 RETURN n
             `
@@ -21,7 +22,7 @@ export const verify_input = async (input:Array<string>, convert:Boolean) => {
             const valid = []
             rs.records.flatMap(record => {
                 const node = record.get('n')
-                const {label, HGNC, Ensembl} = node.properties
+                const {label, HGNC, Ensembl, id} = node.properties
                 let l:string 
                 if (convert) l = label
                 else l = input.indexOf(label) > -1 ? label: input.indexOf(HGNC) > -1 ? HGNC : input.indexOf(Ensembl) > -1 ? Ensembl: null
