@@ -32,8 +32,20 @@
                 },
                 {
                     "label": "NCBI Gene",
-                    "href": "${uri}",
+                    "href": "https://www.ncbi.nlm.nih.gov/gene/${id}",
                     "text": "${id}",
+                    "type": "link"
+                },
+                {
+                    "label": "Ensembl",
+                    "href": "https://www.ensembl.org/homo_sapiens/Gene/Summary?db=core;g=${Ensembl}",
+                    "text": "${Ensembl}",
+                    "type": "link"
+                },
+                {
+                    "label": "HGNC",
+                    "href": "https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/${HGNC}",
+                    "text": "${HGNC}",
                     "type": "link"
                 }
             ],
