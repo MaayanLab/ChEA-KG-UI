@@ -201,7 +201,7 @@ const Enrichment = async ({
             }
         }
         const payload = {
-            "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}${endpoint}?q=${searchParams.q}`,
+            "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
             "apikey": process.env.NEXT_PUBLIC_TURL  
         }
         console.log("Getting short url")
