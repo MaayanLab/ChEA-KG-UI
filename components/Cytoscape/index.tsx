@@ -17,8 +17,8 @@ export const layouts = {
       quality: 'proof',
       randomize: false,
       animate: true,
-	//   componentSpacing: 5000,
-    //   idealEdgeLength: edge => 150,
+	  componentSpacing: 5000,
+      idealEdgeLength: edge => 150,
       icon: ()=><HubIcon/>
     },
     "Hierarchical Layout": {
