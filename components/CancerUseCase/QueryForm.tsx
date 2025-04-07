@@ -347,7 +347,7 @@ const QueryForm = ({
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
                     <Typography align={'center'}> <b>Select a cancer type to view the available subtypes:</b> </Typography>
-					<CancerTypeSelector cancer_types={cellTypes} group_name={group_name} info={cell_info}/>
+					<CancerTypeSelector cancer_types={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
                     
             </Stack>
             </Grid>}

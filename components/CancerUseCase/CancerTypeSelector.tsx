@@ -8,7 +8,6 @@ import {
 	Typography
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import React, { useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,26 +33,24 @@ const styles = {
 
 
 
-export const CancerTypeSelector = ({cancer_types, group_name,  info}: 
+export const CancerTypeSelector = ({cancer_types, group_name,  info, term}: 
 	{cancer_types: {[key:string]: {[key: string] : string[]}}, 
 	group_name:string,
-	info: {[key:string]: {[key: string] : string}}}) => 
+	info: {[key:string]: {[key: string] : string}},
+	term: string
+}) => 
 		{
-	const [currentType, setCurrentType] = useState(group_name)
-
-	const handleType = (event, button) =>{
-		setCurrentType(button)
-
-	}
 
 	let icon_buttons = []
 	let buttonStyle = styles.enabled
 	let activeStyle = styles.active
+	const currentType = group_name
 	for (const i of ((Object.keys(cancer_types)))) {
 		let active = i === currentType ? true : false
 		icon_buttons.push(
 			// <Grid item key={i} sx={{mx:1}} xs={4} sm={3} md={2}>
-				<Button sx={active ? activeStyle : buttonStyle} onClick={(e) => handleType(e, i)}>
+			<Link key={i} href={`/cancer_atlas?q={"min_lib":3, "group_name": "${i}", "term": "${Object.keys(cancer_types[currentType])[0]}", "zscore": 5, "search":true, "limit": 50}`}>
+				<Button sx={active ? activeStyle : buttonStyle}>
 					<Image
 						src = {`/cancers/${i}.png`}
 						//layout="responsive"
@@ -66,7 +63,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info}:
 					/>
 
 				</Button>
-					
+			</Link>
 			// </Grid>
 		)
 
@@ -81,13 +78,13 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info}:
 			<FormControl fullWidth>
 
 				<InputLabel id="labelID">Choose a <b>{currentType}</b> subtype</InputLabel>
-				<Select fullWidth labelId="labelID" id="label" label="Choose a subtype">
+				<Select fullWidth value={term} labelId="labelID" id="label" label="Choose a subtype" renderValue={(value)=><Typography variant="caption">{value}</Typography>}>
 					{Object.keys(cancer_types[currentType]).map((type) => (
-						<Link href=	{`/cancer_atlas?q={"min_lib":3, "group_name": "${currentType}", "term": "${type}", "zscore": 5, "search":true, "limit": 50}`}>
-							<MenuItem sx={{backgroundColor:'transparent'}}>
-									{type}, {cancer_types[currentType][type].length} genes
-							</MenuItem>
-						</Link> 
+						<MenuItem sx={{backgroundColor:'transparent'}}>
+							<Link href={`/cancer_atlas?q={"min_lib":3, "group_name": "${currentType}", "term": "${type}", "zscore": 5, "search":true, "limit": 50}`}>
+								{type}, {cancer_types[currentType][type].length} genes
+							</Link> 
+						</MenuItem>
 					))}
 				</Select>
 				</FormControl>
