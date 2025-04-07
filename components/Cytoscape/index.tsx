@@ -11,14 +11,39 @@ import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
 import Icon from '@mdi/react';
 import fileDownload from 'js-file-download';
 import { useSearchParams } from 'next/navigation';
-export const layouts = {
+export const default_layouts = {
+    "Force-directed": {
+      name: 'cose',
+      quality: 'proof',
+      randomize: false,
+      animate: true,
+	  componentSpacing: 300,
+      idealEdgeLength: edge => 150,
+      icon: ()=><HubIcon/>
+    },
+    "Hierarchical Layout": {
+      name: "breadthfirst",
+      animate: true,
+      spacingFactor: 1,
+      padding: 15,
+      avoidOverlap: true,
+      icon: ()=><Icon path={mdiFamilyTree} size={0.8} />
+    },
+    Geometric: {
+      name: 'circle',
+      nodeSeparation: 150,
+      icon: ()=><Icon path={mdiDotsCircle} size={0.8} />
+    },
+  }
+
+  export const layout_wide = {
     "Force-directed": {
       name: 'cose',
       quality: 'proof',
       randomize: false,
       animate: true,
 	  componentSpacing: 5000,
-      idealEdgeLength: edge => 150,
+      idealEdgeLength: edge => 200,
       icon: ()=><HubIcon/>
     },
     "Hierarchical Layout": {
@@ -54,10 +79,14 @@ export const layouts = {
 export default function Cytoscape ({
 	elements,
 	search,
+	wide
 }: {
 	elements: null | NetworkSchema, 
-	search?:boolean
+	search?:boolean,
+	wide?: boolean
 }) {
+	console.log(wide)
+	const layouts = wide ? layout_wide: default_layouts
 	const cyref = useRef(null);
 	const networkRef = useRef(null);
 	const [id, setId] = useState<number>(0)

@@ -9,6 +9,9 @@ import TooltipComponentGroup from "./tooltip"
 import Form from "./form"
 import NetworkTable from "./network_table"
 import { fetch_kg_schema } from "@/utils/initialize"
+import HubIcon from '@mui/icons-material/Hub';
+import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
+import Icon from '@mdi/react';
 
 const Cytoscape = dynamic(()=>import('../Cytoscape'),
     {
@@ -16,6 +19,7 @@ const Cytoscape = dynamic(()=>import('../Cytoscape'),
         loading: ()=><CircularProgress/>
     }
 )
+
 export const initialize_kg = async () => {
     const schema = await fetch_kg_schema()
     const nodes = {}
@@ -193,7 +197,8 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                                     <Typography variant="h5" sx={{textAlign: "center"}}><b>Subnetwork of TFs Connected to {filter.start_term}</b></Typography>
                                     }
                                     <Cytoscape 
-                                    elements={elements}
+                                        elements={elements}
+                                        wide={true}
                                     />
                                 </>
                             }
