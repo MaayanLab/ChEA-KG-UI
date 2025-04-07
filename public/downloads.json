@@ -10,14 +10,14 @@
         "name":"Target-set-swap filtered GRN",
         "nodes": 1560,
         "edges": 109813,
-        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg//target_set_swap_GRN.zip",
+        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/target_set_swap_GRN.zip",
         "size": "2.3 MiB"
     },
     {
         "name":"Unfiltered GRN",
         "nodes": 1556,
         "edges": 373250,
-        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg//unfiltered_GRN.zip",
+        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_GRN.zip",
         "size": "2.3 MiB"
     }
 ],
@@ -91,6 +91,14 @@
         "size":"126.9 KiB"
     }
 ],
+"gmt":[
+        {
+            "resource":"Cell Atlas GMT File From Enrichr",
+            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt",
+            "gene_sets": 131,
+            "size":"78 KiB"
+        }
+    ],
 "notebooks":[
     {
         "title":"construct_edge_list.ipynb",
