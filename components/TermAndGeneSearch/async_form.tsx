@@ -2,8 +2,7 @@
 import React, { ReactNode, useEffect, useState } from "react"
 import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { Selector } from "../misc"
-import Link from 'next/link'
-import { Typography, TextField, Button, Autocomplete, Grid, Stack, Switch, FormControlLabel } from "@mui/material";
+import { Typography, TextField, Button, Autocomplete, Grid, Stack, Switch, Link } from "@mui/material";
 import { router_push } from "@/utils/client_side"
 import { process_filter } from "@/utils/helper"
 import { FilterSchema } from "@/utils/helper"
@@ -312,16 +311,11 @@ const AsyncFormComponent = ({direction,
                         return (
                             <Link
                                 key={e}
-                                href={{
-                                    pathname,
-                                    query: {
-                                        filter: JSON.stringify(query)
-                                    },
-                                    // relation
-                                }}
-                                // shallow
+                                sx={{textDecoration: "none"}}
+                                color="secondary"
+                                href={pathname + `?filter=${JSON.stringify(query)}`}
                             >
-                            <Button sx={{padding: 0}}><Typography variant="body2" color="secondary">{e}</Typography></Button>
+                            <Typography variant="body2" color="secondary">{e}</Typography>
                         </Link> 
                     )
                     })}
