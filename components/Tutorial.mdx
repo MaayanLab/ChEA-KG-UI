@@ -13,6 +13,7 @@
 	1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 - Performing a query
 	2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 - Filtering the results
 	3. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3 - Viewing results in a table or bar chart
+6. 6 - [User Data](#user-data)	
 
 ## **Abstract** <a name="grn-search"></a>
 Gene expression is controlled by transcription factors that selectively bind to DNA to regulate mRNA expression of all human genes. Transcription factors control the expression of other transcription factors, forming a complex gene regulatory network (GRN) with switches, feedback loops, and other regulatory motifs. Many experimental methods and computational tools have been developed to reconstruct GRNs in-silico. Here we present a different approach to reconstruct the human GRN. By submitting thousands of gene sets from the RummaGEO resource for transcription factor enrichment analysis with ChEA3, we are able to distill signed and directed edges that connect all human transcription factors to construct a high quality human GRN. The GRN has 130,793 signed and directed edges between 703 source and 1,543 target transcription factors. The network is made accessible via an interactive web-based application called ChEA-KG. ChEA-KG enables users to query the GRN by searching for single or pairs of transcription factors, as well as by submitting gene sets to perform transcription factor enrichment analysis with ChEA3 and then place the enriched transcription factors in context of ChEA-KG. To demonstrate the utility of ChEA-KG, we systematically identified transcription factor subnetworks that regulate differentially expressed genes in tumors from ten cancer types, and 69 subtypes, profiled by the Clinical Proteomic Tumor Analysis Consortium (CPTAC).    
@@ -178,3 +179,7 @@ The table view of the enrichment analysis results in ChEA-KG lists the enriched 
 
 <img src="https://s3.amazonaws.com/maayan-kg/chea-kg/tutorial/tutorial_enrichment/bar_view_tooltip1.png" alt="drawing" width="700" style="border: 1px solid grey;" />  
 **Fig. 20.** View the ChEA-KG enrichment analysis results as a bar chart. 
+
+## **User Data** <a name="user-data"></a>
+
+Submitted gene sets are stored in the database for persistent link purposes only. These gene sets are linked to a unique UUID which are kept private unless the users share the persistent link with anyone.

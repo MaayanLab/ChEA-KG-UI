@@ -294,8 +294,8 @@
                 }
             },
             {
-                "endpoint": "/tutorial",
-                "label": "Tutorial",
+                "endpoint": "/help",
+                "label": "Help",
                 "type": "page",
                 "component": "Markdown",
                 "props": {
