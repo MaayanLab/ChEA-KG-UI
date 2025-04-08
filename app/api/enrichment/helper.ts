@@ -1,5 +1,5 @@
 import { get_regex } from "./get_regex/helper"
-import { verify_input } from "./terms_and_genes/route"
+import { verify_input } from "./terms_and_genes/helper"
 export const chea_query = async ({
     userListId,
     library,

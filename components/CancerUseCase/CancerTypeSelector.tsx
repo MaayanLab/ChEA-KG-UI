@@ -80,7 +80,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term}:
 				<InputLabel id="labelID">Choose a <b>{currentType}</b> subtype</InputLabel>
 				<Select fullWidth value={term} labelId="labelID" id="label" label="Choose a subtype" renderValue={(value)=><Typography variant="caption">{value}</Typography>}>
 					{Object.keys(cancer_types[currentType]).map((type) => (
-						<MenuItem sx={{backgroundColor:'transparent'}}>
+						<MenuItem key={type} sx={{backgroundColor:'transparent'}}>
 							<Link href={`/cancer_atlas?q={"min_lib":3, "group_name": "${currentType}", "term": "${type}", "zscore": 5, "search":true, "limit": 50}`}>
 								{type}, {cancer_types[currentType][type].length} genes
 							</Link> 
