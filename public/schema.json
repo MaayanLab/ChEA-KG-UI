@@ -148,7 +148,7 @@
         },
         "tabs": [
             {
-                "endpoint": "/",
+                "endpoint": "/search",
                 "label": "Search",
                 "type": "page",
                 "component": "KnowledgeGraph",
@@ -168,7 +168,7 @@
                 }
             },
             {
-                "endpoint":"/enrichment",
+                "endpoint":"/",
                 "label":"Enrichment",
                 "type":"page",
                 "component":"Chea3Enrichment",
