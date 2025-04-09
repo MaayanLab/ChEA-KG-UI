@@ -86,10 +86,6 @@ const Enrichment = async ({
         }
     }
 
-    const libraries_list = sortLibraries ? l.sort(function(a, b) {
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-     }): l
-
 
     const tooltip_templates_node = {}
     const tooltip_templates_edges = {}
@@ -288,9 +284,6 @@ const Enrichment = async ({
                                         <TermViz
                                             elements={elements} 
                                             /*enrichment_results = {enrichment_results}*/
-                                            schema={schema}
-                                            tooltip_templates_edges={tooltip_templates_edges}
-                                            tooltip_templates_nodes={tooltip_templates_node}
                                         />
                                     </>
                                 }

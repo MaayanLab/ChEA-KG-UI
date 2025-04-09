@@ -10,12 +10,9 @@ import dynamic from "next/dynamic";
 import Cytoscape from "../Cytoscape";
 import { number } from "zod";
 
-const TermViz = ({elements, schema, tooltip_templates_edges, tooltip_templates_nodes}:
+const TermViz = ({elements}:
 	{
 		elements:NetworkSchema,
-		schema: UISchema,
-		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>}, 
-		tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>}, 
 	}) => {
 	const [view, setView] = useQueryState('view')
 	const entries:{[key:string]: {library: string, score: number, [key: string]: number | string | boolean | Array<{library: string, score: number}>}} = {}
