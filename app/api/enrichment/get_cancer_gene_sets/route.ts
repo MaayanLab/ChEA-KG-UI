@@ -104,8 +104,11 @@ export interface UISchema {
  *         description: UI Schema
  */
 export async function GET() {
-    
-    const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt")
+    const cached = cache.get("cancer_atlas_gmt")
+    if (cached) {
+        return NextResponse.json(cached, {status: 200})
+    } else {
+        const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt")
     if (!res.ok) throw new Error("Couldn't get cancer atlas data")
     else {
         const cancer_atlas = await res.text()
@@ -118,6 +121,8 @@ export async function GET() {
                 cell_types[tissue][cell_type] = gene_sets
             }
         }
+        cache.put("cancer_atlas_gmt", cell_types, 10000);
         return NextResponse.json(cell_types, {status: 200})
+        }   
     }
 }

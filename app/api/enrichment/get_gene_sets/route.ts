@@ -104,21 +104,25 @@ export interface UISchema {
  *         description: UI Schema
  */
 export async function GET() {
-    
-    const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt")
-    if (!res.ok) throw new Error("Couldn't get Cell Marker data")
-    else {
-        const cell_atlas_enrichr = await res.text()
-        console.log(cell_atlas_enrichr)
-        const cell_types = {}
-        for (const i of cell_atlas_enrichr.split("\n").sort()) {
-            const [name, _, ...gene_sets] = i.split("\t")
-            const [tissue, cell_type] = name.split(":")
-            if (tissue !== "" && tissue !== 'Undefined') {
-                if (cell_types[tissue] === undefined) cell_types[tissue] = {}
-                cell_types[tissue][cell_type] = gene_sets
+    const cached = cache.get("cell_atlas_gmt")
+    if (cached) {
+        return NextResponse.json(cached, {status: 200})
+    } else {
+        const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt")
+        if (!res.ok) throw new Error("Couldn't get Cell Marker data")
+        else {
+            const cell_atlas_enrichr = await res.text()
+            const cell_types = {}
+            for (const i of cell_atlas_enrichr.split("\n").sort()) {
+                const [name, _, ...gene_sets] = i.split("\t")
+                const [tissue, cell_type] = name.split(":")
+                if (tissue !== "" && tissue !== 'Undefined') {
+                    if (cell_types[tissue] === undefined) cell_types[tissue] = {}
+                    cell_types[tissue][cell_type] = gene_sets
+                }
             }
-        }
-        return NextResponse.json(cell_types, {status: 200})
+            cache.put("cell_atlas_gmt", cell_types, 10000);
+            return NextResponse.json(cell_types, {status: 200})
+        }   
     }
 }
