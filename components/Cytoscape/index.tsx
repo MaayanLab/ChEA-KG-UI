@@ -11,6 +11,7 @@ import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
 import Icon from '@mdi/react';
 import fileDownload from 'js-file-download';
 import { useSearchParams } from 'next/navigation';
+import { CircularProgress } from '@mui/material';
 export const default_layouts = {
     "Force-directed": {
       name: 'cose',
@@ -90,9 +91,7 @@ export default function Cytoscape ({
 	const cyref = useRef(null);
 	const networkRef = useRef(null);
 	const [id, setId] = useState<number>(0)
-	
 	const [edge_labels, setEdgeLabels] = useQueryState('edge_labels')
-	const [tooltip, setTooltip] = useQueryState('tooltip')
 	const [layout, setLayout] = useQueryState('layout', parseAsString.withDefault('Force-directed'))
 	const [legend, setLegend] = useQueryState('legend')
 	const [legend_size, setLegendSize] = useQueryState('legend_size')
