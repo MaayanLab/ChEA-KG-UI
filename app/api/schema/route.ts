@@ -5,7 +5,10 @@ import { NextResponse } from "next/server";
 export interface UISchema {
     nodes: Array<{
         node: string,
-        example?: Array<string>,
+        example?: Array<{
+            gene_set:string,
+            description:string
+        }>,
         relation?: Array<string>,
         display: Array<{
             label: string,
