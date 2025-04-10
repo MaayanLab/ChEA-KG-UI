@@ -5,8 +5,8 @@ import ClientSide from "./client_side";
 const AllFiles = ({download}: {download: {
 	network: Array<{
 		name: string,
-		nodes: number,
-		edges: number,
+		nodes: string,
+		edges: string,
 		zip: string,
 		size: string
 	}>,
@@ -22,12 +22,12 @@ const AllFiles = ({download}: {download: {
 		gene_sets: number,
 		size: string
 	}>
-	notebook: Array<{
+	notebooks: Array<{
 		title: string,
 		description: string,
-		size: string,
-		updated: string,
-		url: string
+		//size?: string,
+		//updated?: string,
+		github_url: string
 	}>
 }}) => {
 	return (
@@ -61,9 +61,9 @@ const AllFiles = ({download}: {download: {
 				<ClientSide download={(download.rummageo || []).map(i=>({id: i.url, ...i}))} type='rummageo'/>
 			</Grid>
 			<Grid item xs={12}>
-				<Typography variant={"h3"}>Cell Atlas GMT</Typography>
+				<Typography variant={"h3"}>Atlas GMTs</Typography>
 				<Typography variant={"body1"}>
-					This file contains the cell type gene sets used in the cell atlas page.
+					This file contains the cell- and cancer-type gene sets used in the cell and cancer atlas pages, respectively.
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
@@ -72,11 +72,11 @@ const AllFiles = ({download}: {download: {
 			<Grid item xs={12}>
 				<Typography variant={"h3"}>Network-Building Notebooks</Typography>
 				<Typography variant={"body1"}>
-				Links to notebooks used to construct, filter, benchmark, and format the GRNs. 
+				Links to notebooks used to construct, filter, benchmark, and format the GRNs. The GitHub link will redirect you to the most recent version of that file in GitHub.
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
-				<ClientSide download={(download.notebook || []).map(i=>({id: i.url, ...i}))} type='notebook'/>
+				<ClientSide download={(download.notebooks || []).map(i=>({id: i.github_url, ...i}))} type='notebooks'/>
 			</Grid>
 			
 		</Grid>

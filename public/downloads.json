@@ -4,21 +4,21 @@
         "nodes": "1,559",
         "edges": "131,181",
         "zip": " http://s3.amazonaws.com/maayan-kg/chea-kg/node_draw_GRN.zip",
-        "size": "2.3 MiB"
+        "size": "9.4 MiB"
     },
     {
         "name":"Target-set-swap filtered GRN",
         "nodes": "1,560",
         "edges": "109,813",
         "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/target_set_swap_GRN.zip",
-        "size": "2.3 MiB"
+        "size": "8.4 MiB"
     },
     {
         "name":"Unfiltered GRN",
-        "nodes": "1,556",
+        "nodes": "1,560",
         "edges": "373,250",
         "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_GRN.zip",
-        "size": "2.3 MiB"
+        "size": "13.7 MiB"
     }
 ],
 "rummageo":[
@@ -41,10 +41,10 @@
             "size":"78 KiB"
         },
         {
-            "resource":"Cancer Atlas GMT File from CPTAC3 tumor subtypes profiled by Multiomics2Targets",
-            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_cptac.gmt",
+            "resource":"Cancer Atlas GMT File from CPTAC3 tumor subtypes",
+            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt",
             "gene_sets":69,
-            "size":"263 KiB"
+            "size":"257 KiB"
         }
     ],
 "notebooks":[
