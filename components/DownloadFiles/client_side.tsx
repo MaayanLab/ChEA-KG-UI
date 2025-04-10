@@ -8,6 +8,7 @@ import {
 	GridToolbarQuickFilter
 } from "@mui/x-data-grid"
 import DownloadIcon from '@mui/icons-material/Download';
+import LinkIcon from '@mui/icons-material/Link'
 import Link from "next/link";
 
 const network_header: GridColDef[] = [
@@ -88,6 +89,7 @@ const benchmark_header: GridColDef[] = [
 			</Link>
 		),
     }
+
 ]
 
 const rummageo_header: GridColDef[] = [
@@ -168,11 +170,11 @@ const notebook_header: GridColDef[] = [
     {
         field: 'description',
         headerName: "Description",
-        flex: 1,
+        flex: 2,
         // style: {flexDirection: "row"},
         align: "left"
     },
-    {
+    /*{
         field: 'size',
         headerName: "File size",
         align: "left"
@@ -182,22 +184,22 @@ const notebook_header: GridColDef[] = [
         headerName: "Last Updated",
         align: "left",
 		minWidth: 120
-    },
-    {
-        field: 'url',
-        headerName: "Download",
-        align: "left",
-		renderCell: (params: GridRenderCellParams<any, String>) => (
-			<Link href={params.value}>
-			<Button
-				size="small"
-				color="secondary"
-			>
-				<DownloadIcon/>
-			</Button>
-			</Link>
-		),
-    }
+    }*/
+        {
+            field: 'github_url',
+            headerName: "GitHub",
+            align: "left",
+            renderCell: (params: GridRenderCellParams<any, String>) => (
+                <Link href={params.value} target="_blank" rel="noopener noreferrer">
+                <Button
+                    size="small"
+                    color="secondary"
+                >
+                    <LinkIcon/>
+                </Button>
+                </Link>
+            ),
+        },
 ]
 
 export function CustomToolbar() {
@@ -212,13 +214,13 @@ export function CustomToolbar() {
 	network: network_header,
 	benchmark: benchmark_header,
 	rummageo: rummageo_header,
-	notebook: notebook_header,
+	notebooks: notebook_header,
     gmt: gmt_header,
   }
   const ClientSide = ({download, type}: {download: Array<{
     name: string,
-	nodes: number,
-	edges: number,
+	nodes: string,
+	edges: string,
 	zip: string,
 	size: string
 }> | Array<{
@@ -228,11 +230,11 @@ export function CustomToolbar() {
 }> | Array<{
     title: string,
     description: string,
-    size: string,
-    updated: string,
-    url: string
+    //size?: string,
+    //updated?: string,
+    github_url:string
 }>
-type: 'network' | 'rummageo' | 'notebook' | 'gmt'
+type: 'network' | 'rummageo' | 'notebooks' | 'gmt'
 }) => {
 	
 	return (

@@ -87,9 +87,14 @@ const InteractiveButtons = ({
 	const [legend_size, setLegendSize] = useQueryState('legend_size')
     const [query, setQuery] = useQueryState('query', parseAsJson<EnrichmentParams>().withDefault({}))
     const [download_image, setDownloadImage] = useQueryState('download_image')
+    const [export_json, setExportJson] = useQueryState('export_json')
+
     const gene_links = query.gene_links || parsedParams.gene_links
     const [anchorEl, setAnchorEl] = useState<HTMLElement>(null)
+    const [anchorElImg, setAnchorElImg] = useState<HTMLElement>(null)
+
     const [anchorElLayout, setAnchorElLayout] = useState<HTMLElement>(null)
+
     const [geneLinksOpen, setGeneLinksOpen] = useState<boolean>(false)
     const [openShare, setOpenShare] = useState<boolean>(false)
     const [geneLinks, setGeneLinks] = useState<Array<string>>([])
@@ -113,7 +118,7 @@ const InteractiveButtons = ({
             <Grid item xs={12}>
                 <Stack direction={"row"} alignItems={"center"}>
                     <Tooltip title={"Network view"}>
-                        <IconButton
+                        <IconButton color="secondary"
                             onClick={()=>{
                                 const query = {
                                     q: JSON.stringify(parsedParams),
@@ -129,7 +134,7 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Table view"}>
-                        <IconButton
+                        <IconButton color="secondary"
                             onClick={()=>{
                                 const query = {
                                     q: JSON.stringify(parsedParams),
@@ -146,7 +151,7 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Bar view"}>
-                        <IconButton
+                        <IconButton color="secondary"
                             onClick={()=>{
                                 // const {view, ...query} = searchParams
                                 // query["view"] = 'bar'
@@ -235,25 +240,52 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
+                    <Tooltip title={"Save subnetwork"}>
+                                <IconButton color="secondary"  onClick={(e)=>handleClickMenu(e, setAnchorEl)}
+                                        aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={anchorEl!==null ? 'true' : undefined}
+                                ><SaveIcon/></IconButton>
+                                </Tooltip>
+                                <Menu id="basic-menu"
+                                    anchorEl={anchorEl}
+                                    open={anchorEl!==null}
+                                    onClose={()=>handleCloseMenu(setAnchorEl)}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
+                                
+                                <MenuItem key={'CSV'} onClick={()=>{process_tables(elements)}}>
+                                CSV</MenuItem>
+
+                                <Tooltip title={"Includes Cytoscape styling"}>
+                                    <MenuItem key={'JSON'} onClick={()=> {
+                                        setExportJson('true')
+                                    }}>JSON</MenuItem>
+                                </Tooltip>
+                                
+                                </Menu>
+
                     <Tooltip title={`Download ${(view === "network" || !view) ? "graph": "bar graph"} as an image file`}>
                         <IconButton onClick={(e)=>handleClickMenu(e, setAnchorEl)}
                             disabled={(view === "table" || elements===null || elements === undefined)}
                             aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                             aria-haspopup="true"
-                            aria-expanded={anchorEl!==null ? 'true' : undefined}
+                            aria-expanded={anchorElImg!==null ? 'true' : undefined}
                         ><CameraAltOutlinedIcon/></IconButton>
                     </Tooltip>
                     <Menu
                         id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={anchorEl!==null}
-                        onClose={()=>handleCloseMenu(setAnchorEl)}
+                        anchorEl={anchorElImg}
+                        open={anchorElImg!==null}
+                        onClose={()=>handleCloseMenu(setAnchorElImg)}
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
                     >
                         <MenuItem key={'png'} onClick={()=> {
-                            handleCloseMenu(setAnchorEl)
+                            handleCloseMenu(setAnchorElImg)
                             // fileDownload(cyref.current.png({output: "blob"}), "network.png")
                             setDownloadImage('png')
                             // toPng(document.getElementById("kg-network"))
@@ -262,7 +294,7 @@ const InteractiveButtons = ({
                             // });
                         }}>PNG</MenuItem>
                         <MenuItem key={'jpg'} onClick={()=> {
-                            handleCloseMenu(setAnchorEl)
+                            handleCloseMenu(setAnchorElImg)
                             // fileDownload(cyref.current.jpg({output: "blob"}), "network.jpg")
                             setDownloadImage('jpg')
                             // toBlob(document.getElementById("kg-network"))
@@ -271,7 +303,7 @@ const InteractiveButtons = ({
                             // });
                         }}>JPG</MenuItem>
                         <MenuItem key={'svg'} onClick={()=> {
-                            handleCloseMenu(setAnchorEl)
+                            handleCloseMenu(setAnchorElImg)
                             // fileDownload(cyref.current.svg({output: "blob"}), "network.svg")
                             setDownloadImage('svg')
                             // toSvg(document.getElementById("kg-network"))
@@ -280,11 +312,11 @@ const InteractiveButtons = ({
                             // });
                         }}>SVG</MenuItem>
                     </Menu>
-                    <Tooltip title={"Share"}>
+                   { /*<Tooltip title={"Share"}>
                         <IconButton onClick={()=>setOpenShare(true)}>
                             <ShareIcon/>
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip>*/}
                     <Modal
                         open={openShare}
                         onClose={()=>{
@@ -320,17 +352,17 @@ const InteractiveButtons = ({
                             <Grid item xs={1}>
                                 <Stack direction={"row"}>
                                     <Tooltip title="Copy Link">
-                                        <IconButton onClick={()=>navigator.clipboard.writeText(short_url ? short_url: window.location.toString())}><ContentCopyIcon/></IconButton>
+                                        <IconButton color="secondary" onClick={()=>navigator.clipboard.writeText(short_url ? short_url: window.location.toString())}><ContentCopyIcon/></IconButton>
                                     </Tooltip>
                                     <Tooltip title="Close">
-                                        <IconButton onClick={()=>setOpenShare(false)}><HighlightOffIcon/></IconButton>
+                                        <IconButton color="secondary" onClick={()=>setOpenShare(false)}><HighlightOffIcon/></IconButton>
                                     </Tooltip>
                                 </Stack>
                             </Grid>
                         </Grid>
                     </Modal>
                     <Tooltip title={fullscreen ? "Exit full screen": "Full screen"}>
-                        <IconButton
+                        <IconButton color="secondary"
                             onClick={()=>{
                                 if (!fullscreen) {
                                     router_push(router, pathname, {
@@ -420,7 +452,7 @@ const InteractiveButtons = ({
                 </Tooltip> 
                 <Tooltip title={`Submit changes`}>
                 <Link href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
-                        <IconButton>
+                    <IconButton color="secondary" >
                             <SendIcon />
                         </IconButton>
                     </Link>
