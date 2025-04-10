@@ -123,11 +123,15 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 	const [legend, setLegend] = useQueryState('legend')
 	const [legend_size, setLegendSize] = useQueryState('legend_size')
     const [download_image, setDownloadImage] = useQueryState('download_image')
+    const [export_json, setExportJson] = useQueryState('export_json')
 
     const relation = process_relation(r || [])
     const [error, setError] = useState<{error: string} | null>(null)
     const [anchorEl, setAnchorEl] = useState<HTMLElement>(null)
+    const [anchorElImg, setAnchorElImg] = useState<HTMLElement>(null)
+
     const [anchorElLayout, setAnchorElLayout] = useState<HTMLElement>(null)
+
     const [augmentOpen, setAugmentOpen] = useState<boolean>(false)
     const [augmentLimit, setAugmentLimit] = useState<number>(10)
     const [geneLinksOpen, setGeneLinksOpen] = useState<boolean>(false)
@@ -140,11 +144,12 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
         else setAdditionalLinkTags([])
     }, [searchParams.filter])
     const handleClickMenu = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>, setter:Function) => {
-		setter(e.currentTarget);
-	  };
+		setter(e.currentTarget)
+	  }
 	const handleCloseMenu = (setter:Function) => {
-		setter(null);
-	};
+		setter(null)
+	}
+
     return(
         <Grid container justifyContent="space-around" spacing={1}>
             <Grid item xs={12}>
@@ -298,26 +303,15 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                 </IconButton>
                             </Tooltip>
                             <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
+                            
                             <Tooltip title={"Save subnetwork"}>
-                                <IconButton color="secondary" 
-                                    onClick={()=>{
-                                        process_tables(elements)
-                                    }}
-                                    sx={{marginLeft: 5, borderRadius: 5}}
-                                >
-                                    <SaveIcon/>
-                                </IconButton>
-                            </Tooltip>
-                            { (!view) && <>
-                                <Tooltip title={"Download graph as an image file"}>
-                                    <IconButton color="secondary"  onClick={(e)=>handleClickMenu(e, setAnchorEl)}
+                                <IconButton color="secondary"  onClick={(e)=>handleClickMenu(e, setAnchorEl)}
                                         aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={anchorEl!==null ? 'true' : undefined}
-                                    ><CameraAltOutlinedIcon/></IconButton>
+                                ><SaveIcon/></IconButton>
                                 </Tooltip>
-                                <Menu
-                                    id="basic-menu"
+                                <Menu id="basic-menu"
                                     anchorEl={anchorEl}
                                     open={anchorEl!==null}
                                     onClose={()=>handleCloseMenu(setAnchorEl)}
@@ -325,8 +319,40 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                         'aria-labelledby': 'basic-button',
                                     }}
                                 >
+                                
+                                <MenuItem key={'CSV'} onClick={()=>{process_tables(elements)}}>
+                                CSV</MenuItem>
+
+                                <Tooltip title={"Includes Cytoscape styling"}>
+                                    <MenuItem key={'JSON'} onClick={()=> {
+                                        setExportJson('true')
+                                    }}>JSON</MenuItem>
+                                    
+                                </Tooltip>
+                                </Menu>
+                                
+                            
+                            
+                            
+                            { (!view) && <>
+                                <Tooltip title={"Download graph as an image file"}>
+                                    <IconButton color="secondary"  onClick={(e)=>handleClickMenu(e, setAnchorElImg)}
+                                        aria-controls={anchorElImg!==null ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={anchorElImg!==null ? 'true' : undefined}
+                                    ><CameraAltOutlinedIcon/></IconButton>
+                                </Tooltip>
+                                <Menu
+                                    id="basic-menu"
+                                    anchorEl={anchorElImg}
+                                    open={anchorElImg!==null}
+                                    onClose={()=>handleCloseMenu(setAnchorElImg)}
+                                    MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                    }}
+                                >
                                     <MenuItem key={'png'} onClick={()=> {
-                                        handleCloseMenu(setAnchorEl)
+                                        handleCloseMenu(setAnchorElImg)
                                         // fileDownload(cyref.current.png({output: "blob"}), "network.png")
                                         // toPng(document.getElementById('kg-network'))
                                         // .then(function (fileUrl) {
@@ -335,7 +361,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                         setDownloadImage('png')
                                     }}>PNG</MenuItem>
                                     <MenuItem key={'jpg'} onClick={()=> {
-                                        handleCloseMenu(setAnchorEl)
+                                        handleCloseMenu(setAnchorElImg)
                                         // fileDownload(cyref.current.jpg({output: "blob"}), "network.jpg")
                                         // toBlob(document.getElementById('kg-network'))
                                         // .then(function (blob) {
@@ -344,7 +370,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                         setDownloadImage('jpg')
                                     }}>JPG</MenuItem>
                                     <MenuItem key={'svg'} onClick={()=> {
-                                        handleCloseMenu(setAnchorEl)
+                                        handleCloseMenu(setAnchorElImg)
                                         // fileDownload(cyref.current.svg({output: "blob"}), "network.svg")
                                         // toSvg(document.getElementById('kg-network'))
                                         // .then(function (dataUrl) {
@@ -353,6 +379,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                         setDownloadImage('svg')
                                     }}>SVG</MenuItem>
                                 </Menu>
+                                
                                 <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
                             </>
                         }

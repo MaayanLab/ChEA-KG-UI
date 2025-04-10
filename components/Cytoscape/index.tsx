@@ -99,6 +99,7 @@ export default function Cytoscape ({
 	const [download_image, setDownloadImage] = useQueryState('download_image')
 	const [selected, setSelected] = useQueryState('selected',  parseAsJson<{id: string, type: 'nodes' | 'edges'}>().withDefault(null))
 	const [hovered, setHovered] = useQueryState('hovered',  parseAsJson<{id: string, type: 'nodes' | 'edges'}>().withDefault(null))
+	const [export_json, setExportJson] = useQueryState('export_json')
 	const edgeStyle = edge_labels ? {label: 'data(label)'} : {}
 	const searchParams = useSearchParams()
 	const filter = searchParams.get('q') || searchParams.get('filter')
@@ -119,6 +120,13 @@ export default function Cytoscape ({
 		}
 		setDownloadImage(null)
 	}, [download_image])
+
+	useEffect(()=>{
+		if (export_json === 'true') {
+			fileDownload(JSON.stringify(cyref.current.json()), "subnetwork.json")
+		}
+		setExportJson(null)
+	}, [export_json])
 
 	useEffect(()=>{
 		const update_counter = async () => {
