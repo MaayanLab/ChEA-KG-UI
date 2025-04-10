@@ -22,7 +22,7 @@ const AllFiles = ({download}: {download: {
 		gene_sets: number,
 		size: string
 	}>
-	notebooks: Array<{
+	notebooks?: Array<{
 		title: string,
 		description: string,
 		//size?: string,

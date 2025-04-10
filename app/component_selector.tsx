@@ -13,7 +13,7 @@ import SimpleTermAndGeneSearch from '@/components/SimpleTermAndGeneSearch'
 import Credits from '@/components/Credits'
 import Tutorial from '@/components/Tutorial.mdx'
 import { Suspense } from 'react'
-import { CircularProgress } from '@mui/material'
+import { LinearProgress } from '@mui/material'
 import EnrichmentUseCase from '@/components/EnrichmentUseCase'
 import CancerUseCase from '@/components/CancerUseCase'
 
@@ -40,8 +40,8 @@ const AsyncComponent = async ({component, searchParams, props, endpoint,}:
 }
 
 export const Component = (props: {component: string, endpoint: string, searchParams: {[key:string]: any}, props: {[key:string]: any}}) => {
-	return <Suspense fallback={<CircularProgress/>}>
+	return <>
 		{/*@ts-expect-error Server Component*/}
 		<AsyncComponent {...props}/>
-	</Suspense>
+	</>
 }

@@ -9,28 +9,25 @@ import { FilterSchema } from "@/utils/helper"
 
 const AsyncFormComponent = ({direction,
     nodes, 
-    searchParams,
-    initial_query
+    initial_query,
+    type,
+    field,
+    term,
+    filter,
+    ...rest
 }: {
 		direction: string,
         initial_query: {[key: string]: string},
 		nodes: {[key:string]: {[key:string]: any}},
-		searchParams: {
-            filter?: string,
-            fullscreen?: 'true',
-            view?:string,
-            tooltip?: 'true',
-            edge_labels?: 'true',
-            legend?: 'true',
-            legend_size?: string,
-            layout?: string,
-        },
+		filter: FilterSchema,
+        type: string,
+        field?: string, 
+        term?: string,
+        fullscreen?: 'true',
+        view?:string,
 	}) => {
 	const router = useRouter()
-	const {filter: f, ...rest} = searchParams
-	const pathname = usePathname()
-    let filter = JSON.parse(f || '{}')
-	if (Object.keys(filter).length === 0) filter = initial_query
+    const pathname = usePathname()
     const {
         start,
         start_field='label',
@@ -38,7 +35,7 @@ const AsyncFormComponent = ({direction,
         end,
         end_field='label',
         end_term,
-    }: {[key:string]: string} = filter
+    } = filter
 
     const start_filter = {
         start,
@@ -51,28 +48,11 @@ const AsyncFormComponent = ({direction,
         end_term
     }
 
-    
-    const field = direction === 'Start' ? start_field: end_field
-    const term = (direction === 'Start' ? start_term: end_term) || ''
-    const [inputTerm, setInputTerm] = useState<string>(term)
-    const [type, setType] = useState<string>('')
+    const [inputTerm, setInputTerm] = useState<string>('')
     const [controller, setController] = useState<{signal: AbortSignal, abort: Function} | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [options, setOptions] = useState<{[key:string]: {[key:string]: string|number}} | null>(null)
     const [selected, setSelected] = React.useState(null)
-
-    useEffect(()=>{
-        if (Object.keys(filter).length===0) {
-            if (direction === 'Start') {
-                router_push(router, pathname, {
-                    filter: JSON.stringify(initial_query)
-                })
-            }
-        } else {
-            const type = direction === 'Start' ? start: end
-            if (type) setType(type)
-        }
-    }, [filter])
     
     const get_controller = () => {
         if (controller) controller.abort()
@@ -90,7 +70,6 @@ const AsyncFormComponent = ({direction,
                     field,
                     term: ""
                 }
-                // if (filter) query.filter=JSON.stringify(filter)
                 if (inputTerm) query.term = inputTerm
                 const query_str = Object.entries(query).map(([k,v])=>(`${k}=${v}`)).join("&")
                 const res = await fetch(`${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/knowledge_graph/node_search${query_str ? "?" + query_str : ""}`, {
@@ -100,15 +79,6 @@ const AsyncFormComponent = ({direction,
                 let options:{[key:string]: {[key:string]: string|number}} = {}
                 if (res.ok) options = await (res).json()
                 if (inputTerm) setSelected(options[inputTerm])
-                // else if (direction === 'Start') {
-                //     router_push(router, pathname, {
-                //         ...rest,
-                //         filter: JSON.stringify({
-                //             ...filter,
-                //             start_term: Object.keys(options)[0],
-                //         })
-                //     })
-                // } 
                 else {
                     setSelected(null)
                 }
@@ -331,8 +301,6 @@ const AsyncFormComponent = ({direction,
                             checked={filter.end !== undefined}
                             onChange={()=>{
                                 if (filter.end) {
-                                    // const {filter, ...rest} = searchParams
-                                    // c
                                     const {relation, end, end_term, end_field, augment, augment_limit, additional_link_tags, ...filt} = filter
                             
                                     const query = process_filter({
@@ -341,7 +309,6 @@ const AsyncFormComponent = ({direction,
                                     })
                                     router_push(router, pathname, query)
                                 } else {
-                                    // const {filter, ...rest} = searchParams
                                     const {relation, augment, augment_limit, additional_link_tags, ...f}: {
                                         start?: string,
                                         start_field?: string,

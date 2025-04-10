@@ -10,7 +10,6 @@ import Button from '@mui/material/Button'
 
 import IconButton from '@mui/material/IconButton'
 
-import LinkIcon from '@mui/icons-material/Link'
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -24,7 +23,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import SaveIcon from '@mui/icons-material/Save';
 import Icon from '@mdi/react';
-import { mdiDna, mdiLinkVariant, mdiLinkVariantOff, mdiGraph, mdiTable, mdiPoll, mdiTooltipRemove, mdiTooltip} from '@mdi/js';
+import { mdiGraph, mdiTable, mdiPoll, mdiTooltipRemove, mdiTooltip} from '@mdi/js';
 import SendIcon from '@mui/icons-material/Send';
 import UndoIcon from '@mui/icons-material/Undo';
 
@@ -49,18 +48,16 @@ import { router_push } from '@/utils/client_side';
 import { process_tables } from '../../utils/helper';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
-import LibraryPicker from './LibraryPicker';
 import { EnrichmentParams } from '.';
 import Link from 'next/link';
 const InteractiveButtons = ({
         hiddenLinksRelations=[], 
-        shortId,
-        // searchParams,
         elements,
         children=null,
         parsedParams,
         short_url,
         fullscreen,
+        view,
         additional_link_relation_tags,
         min_p=0,
         max_p=1,
@@ -70,20 +67,20 @@ const InteractiveButtons = ({
         short_url?: string,
         hiddenLinksRelations?:Array<string>,
         shortId?: string,
-        elements: NetworkSchema,
+        elements?: NetworkSchema,
         children?: ReactElement,
         parsedParams: EnrichmentParams,
         fullscreen?: 'true',
+        view?: string,
         additional_link_relation_tags?: Array<string>,
         min_p?: number,
         max_p?: number,
         min_z?: number,
-        max_z?: number
+        max_z?: number,
     }) => {
     const router = useRouter()
     const pathname = usePathname()
     const [edge_labels, setEdgeLabels] = useQueryState('edge_labels')
-    const [view, setView] = useQueryState('view')
 	const [layout, setLayout] = useQueryState('layout')
 	const [legend, setLegend] = useQueryState('legend')
     const [tooltip, setTooltip] = useQueryState('tooltip')
@@ -123,9 +120,13 @@ const InteractiveButtons = ({
                     <Tooltip title={"Network view"}>
                         <IconButton color="secondary"
                             onClick={()=>{
-                                // const {view, ...query} = searchParams
-                                // router_push(router, pathname, query)
-                                setView(null)
+                                const query = {
+                                    q: JSON.stringify(parsedParams),
+                                }
+                                if (fullscreen) query['fullscreen'] = fullscreen
+                                router_push(router, pathname, {
+                                    ...query
+                                })
                             }}
                             sx={{borderRadius: 5, background: (view === "network" || !view) ? "#e0e0e0": "none"}}
                         >
@@ -135,10 +136,14 @@ const InteractiveButtons = ({
                     <Tooltip title={"Table view"}>
                         <IconButton color="secondary"
                             onClick={()=>{
-                                // const {view, ...query} = searchParams
-                                // query["view"] = 'table'
-                                // router_push(router, pathname, query)
-                                setView('table')
+                                const query = {
+                                    q: JSON.stringify(parsedParams),
+                                }
+                                if (fullscreen) query['fullscreen'] = fullscreen
+                                router_push(router, pathname, {
+                                    ...query,
+                                    view: 'table'
+                                })
                             }}
                             sx={{borderRadius: 5, background: (view === "table") ? "#e0e0e0": "none"}}
                         >
@@ -151,7 +156,14 @@ const InteractiveButtons = ({
                                 // const {view, ...query} = searchParams
                                 // query["view"] = 'bar'
                                 // router_push(router, pathname, query)
-                                setView('bar')
+                                const query = {
+                                    q: JSON.stringify(parsedParams),
+                                }
+                                if (fullscreen) query['fullscreen'] = fullscreen
+                                router_push(router, pathname, {
+                                    ...query,
+                                    view: 'bar'
+                                })
                             }}
                             sx={{borderRadius: 5, background: view === "bar" ? "#e0e0e0": "none"}}
                         >
@@ -160,8 +172,8 @@ const InteractiveButtons = ({
                     </Tooltip>
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
                     <Tooltip title={"Save subnetwork"}>
-                        <IconButton color="secondary"
-                            disabled={((view && view !== 'network')  || elements===null)}
+                        <IconButton
+                            disabled={((view && view !== 'network')  || elements===null || elements === undefined)}
                             onClick={()=>{
                                 if (elements) process_tables(elements)
                             }}
@@ -171,8 +183,8 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={tooltip ? "Hide tooltip": "Show tooltip"}>
-                        <IconButton color="secondary"
-                            disabled={((view && view !== "network") || elements===null)}
+                        <IconButton
+                            disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={()=>{
                                 if (tooltip) setTooltip(null)
                                 else setTooltip('true')
@@ -182,8 +194,8 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Switch Graph Layout">
-                        <IconButton color="secondary" 
-                            disabled={((view && view !== "network") || elements===null)}
+                        <IconButton 
+                            disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={(e)=>handleClickMenu(e, setAnchorElLayout)}
                             aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                             aria-haspopup="true"
@@ -215,8 +227,8 @@ const InteractiveButtons = ({
                         ))}
                     </Menu>
                     <Tooltip title={edge_labels ? "Hide edge labels": "Show edge labels"}>
-                        <IconButton color="secondary"
-                            disabled={((view && view !== "network") || elements===null)}
+                        <IconButton 
+                            disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={()=>{
                                 if (edge_labels) setEdgeLabels(null)
                                 else setEdgeLabels('true')
@@ -256,9 +268,9 @@ const InteractiveButtons = ({
                                 </Menu>
 
                     <Tooltip title={`Download ${(view === "network" || !view) ? "graph": "bar graph"} as an image file`}>
-                        <IconButton color="secondary" onClick={(e)=>handleClickMenu(e, setAnchorElImg)}
-                            disabled={(view === "table" || elements===null)}
-                            aria-controls={anchorElImg!==null ? 'basic-menu' : undefined}
+                        <IconButton onClick={(e)=>handleClickMenu(e, setAnchorEl)}
+                            disabled={(view === "table" || elements===null || elements === undefined)}
+                            aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={anchorElImg!==null ? 'true' : undefined}
                         ><CameraAltOutlinedIcon/></IconButton>
@@ -370,8 +382,8 @@ const InteractiveButtons = ({
                     {children}
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
                     <Tooltip title={!legend ? "Show legend": "Hide legend"}>
-                        <IconButton color="secondary"
-                            disabled={((view && view !== "network") || elements===null)}
+                        <IconButton 
+                            disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={()=>{
                                 if (legend) {
                                     setLegend(null)
@@ -391,7 +403,7 @@ const InteractiveButtons = ({
                     </Tooltip>
                     {legend &&
                         <Tooltip title="Adjust legend size">
-                            <IconButton color="secondary"
+                            <IconButton 
                                 onClick={()=>{
                                     setLegendSize(`${(parseInt(legend_size) +1)%5}`)
                                 }}
@@ -477,7 +489,7 @@ const InteractiveButtons = ({
                         }}/>} label={<Typography variant='subtitle2'>{i}</Typography>} />
                     ))}
                     <Tooltip title="Show gene links">
-                        <IconButton color="secondary" 
+                        <IconButton 
                             disabled={geneLinks.length === 0}
                             onClick={()=>{
                                 const filter = {...parsedParams}
@@ -491,7 +503,7 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Reset network">
-                        <IconButton color="secondary"  disabled={!gene_links}
+                        <IconButton  disabled={!gene_links}
                             onClick={()=>{
 
                                 const {gene_links, additional_link_tags, ...filter} = parsedParams

@@ -138,7 +138,7 @@ const TooltipComponentGroup = ({
 	float,
 
 }: {
-		elements: null | NetworkSchema,
+		elements?: null | NetworkSchema,
 		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
         tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
 		schema: UISchema,
@@ -154,12 +154,12 @@ const TooltipComponentGroup = ({
 
 	useEffect(()=>{
         if (elements) {
-			const nodes = elements.nodes.reduce((acc, i)=>({
+			const nodes = (elements.nodes || []).reduce((acc, i)=>({
 				...acc,
 				[i.data.id]: i.data
 			}), {})
 
-			const edges = elements.edges.reduce((acc, i)=>({
+			const edges = (elements.edges || []).reduce((acc, i)=>({
 				...acc,
 				[`${i.data.source}_${i.data.relation}_${i.data.target}`]: i.data
 			}), {})

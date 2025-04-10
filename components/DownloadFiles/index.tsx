@@ -5,8 +5,8 @@ const DownloadFiles = async ({src}: {src?: string}) => {
 	const download = await typed_fetch<{
 		network: Array<{
 			name: string,
-			nodes: number,
-			edges: number,
+			nodes: string,
+			edges: string,
 			zip: string,
 			size: string
 		}>,

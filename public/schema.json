@@ -148,7 +148,7 @@
         },
         "tabs": [
             {
-                "endpoint": "/search",
+                "endpoint": "/",
                 "label": "Search",
                 "type": "page",
                 "component": "KnowledgeGraph",
@@ -168,7 +168,7 @@
                 }
             },
             {
-                "endpoint":"/",
+                "endpoint":"/enrichment",
                 "label":"Enrichment",
                 "type":"page",
                 "component":"Chea3Enrichment",
@@ -298,7 +298,7 @@
                 "endpoint": "/help",
                 "label": "Help",
                 "type": "page",
-                "component": "Markdown",
+                "component": "Tutorial",
                 "props": {
                     "src": "https://raw.githubusercontent.com/MaayanLab/Gene-Knowledge-Graph/refs/heads/tf/components/Tutorial.mdx"
                 }

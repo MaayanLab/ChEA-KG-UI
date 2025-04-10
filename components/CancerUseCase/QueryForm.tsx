@@ -33,23 +33,23 @@ const QueryForm = ({
     cell_info,
     parsedParams,
     elements,
-    description
+    description,
+    genes,
 }: {
     description?: string,
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
     cell_info: {[key:string]: {[key: string] : string}},
-	cancer_types: {[key:string]: {[key: string] : string[]}}
+	cancer_types: {[key:string]: {[key: string] : string[]}},
+    genes: string[]
 }) => {
     const router = useRouter()
     const [query, setQuery] = useQueryState('query', parseAsJson<EnrichmentParams>().withDefault({}))
         
     const pathname = usePathname()
-    const [input, setInput] = useState<{genes: Array<string>, description: string}>({genes: [], description: ''})
     const [verified, setVerified] = useState<Array<string>>([])
     const [inputError, setInputError] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(false)
     const [controller, setController] = useState<AbortController>(null)
     const [error, setError] = useState<{message: string, type: string}>(null)
 	const [index, setIndex] = useState(null)
@@ -73,11 +73,9 @@ const QueryForm = ({
         return c
       }
     
-    const prevInput = usePrevious(input) || {genes: [], description: ''}
-
+    
     const verifyList = async (input: Array<string>) => {
         try {
-            setLoading(true)
             const controller = get_controller()
             const verified:Array<string> = await (
                 await fetch(`${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/terms_and_genes`, {
@@ -105,47 +103,12 @@ const QueryForm = ({
 		setIndex(subtype_index)
     },[cancer_types])
 	
-    useEffect(()=>{
-        setLoading(false)
-    },[verified])
 
     useEffect(()=>{
-        setLoading(false)
         setQuery(null)
     }, [elements])
 
-    useEffect(()=> {
-        const resolve_genes = async () => {
-            let counter = 0
-            while (counter < 5) {
-                const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/view?userListId=${userListId}`)
-                if (! request.ok && counter === 4) {
-                    setError({message: "Error resolving genes. Try again in a while.", type: "fail"})
-                }
-                else if (! request.ok && counter < 4) {
-                    setError({message: `Error resolving genes. Trying again in ${counter + 5} seconds...`, type: "retry"})
-                    await delay((counter + 5)*1000)
-                } 
-                else {
-                    const {genes, description} = await request.json()
-                    setError(null)
-                    setInput({
-                        genes,
-                        description
-                    })
-                    break
-                }
-                counter = counter + 1
-            }
-        }
-        if (userListId) {
-            resolve_genes()
-        } else {
-            setInput({genes: [], description: ''})
-        }
-        // setCollapsed(userListId!==undefined)
-    }, [userListId])
-
+    
 
     useEffect(()=>{
         const delayed_reset = async () => {
@@ -158,18 +121,11 @@ const QueryForm = ({
     }, [inputError])
 
     useEffect(()=>{
-        if (input.genes.length === 0) setVerified([])
-        else verifyList(input.genes.map(i=>i.toUpperCase()))
-    }, [input.genes])
+        if (genes.length === 0) setVerified([])
+        else verifyList(genes)
+    }, [genes])
 
-	useEffect(()=>{
-        if (term && group_name) {
-			setInput({
-				genes: cancer_types[group_name][term],
-				description: term
-			})
-		}
-    }, [term])
+	
 
     useEffect(()=>{
 		if (index) {
@@ -262,9 +218,9 @@ const QueryForm = ({
 
                                         {!isFocused ? 
                                             <Card sx={{height: 320, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
-                                                {input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
+                                                {genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
                                                 <CardContent>
-                                                    {input.genes.map(i=>{
+                                                    {genes.map(i=>{
                                                         if (verified.indexOf(i.toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
                                                         else {
                                                             if (i === '') return null
@@ -280,13 +236,7 @@ const QueryForm = ({
                                                 rows={10}
                                                 placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
                                                 fullWidth
-                                                value={input.genes.join("\n")}
-                                                onChange={(e)=>{
-                                                    setInput({
-                                                        ...input,
-                                                        genes: e.target.value.split(/[\t\r\n;]+/)
-                                                    })
-                                                }}
+                                                value={genes.join("\n")}                
                                                 InputProps={{
                                                     sx: {
                                                         fontSize: 14,
@@ -326,9 +276,9 @@ const QueryForm = ({
 							<Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
 								<TextField
 									variant='outlined'
-									value={input.description}
+									value={description}
 									size="small"
-									onChange={e=>setInput({...input, description: e.target.value})}
+									// onChange={e=>setInput({...input, description: e.target.value})}
 									placeholder="Description"
 									label="Description"
 									sx={{width: "100%", backgroundColor: "#FFF"}}
@@ -347,7 +297,7 @@ const QueryForm = ({
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
                     <Typography align={'center'}> <b>Select a cancer type to view the available subtypes:</b> </Typography>
-					<CancerTypeSelector cancer_types={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
+					<CancerTypeSelector elements={elements} cancer_types={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
                     
             </Stack>
             </Grid>}

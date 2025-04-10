@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic"
 import { FilterSchema } from "@/utils/helper"
 import { process_relation } from "@/utils/helper"
-// import ClientTermAndGeneSearch from './client_side'
 import { Grid, Typography, CircularProgress, Card, CardContent, Stack } from "@mui/material"
 import { parseAsJson} from "next-usequerystate"
 import AsyncFormComponent from "./async_form"
@@ -9,14 +8,10 @@ import TooltipComponentGroup from "./tooltip"
 import Form from "./form"
 import NetworkTable from "./network_table"
 import { fetch_kg_schema } from "@/utils/initialize"
-import HubIcon from '@mui/icons-material/Hub';
-import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
-import Icon from '@mdi/react';
-
 const Cytoscape = dynamic(()=>import('../Cytoscape'),
     {
         ssr: false,
-        loading: ()=><CircularProgress/>
+        loading: ()=><CircularProgress sx={{position: "absolute", top: "50%", left: "50%"}}/>
     }
 )
 
@@ -154,14 +149,24 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                                     nodes={nodes}
                                     initial_query={props.initial_query}
                                     direction={'Start'}
-                                    searchParams={searchParams}
+                                    filter={filter}
+                                    fullscreen={searchParams.fullscreen}
+                                    view={searchParams.view}
+                                    type={filter.start}
+                                    field={filter.start_field}
+                                    term={filter.start_term}
                                 />
                                 {filter.end && 
                                 <AsyncFormComponent 
                                     initial_query={props.initial_query}
                                     nodes={nodes}
                                     direction={'End'}
-                                    searchParams={searchParams}
+                                    filter={filter}
+                                    fullscreen={searchParams.fullscreen}
+                                    view={searchParams.view}
+                                    type={filter.end}
+                                    field={filter.end_field}
+                                    term={filter.end_term}
                                 />}
                             </Stack>
                         </CardContent>
@@ -191,7 +196,7 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                             <CardContent>
                             {(searchParams.view === "table") ? 
                                 <div style={{minHeight: 700}}><NetworkTable data={elements} schema={schema}/></div>:
-                                <>
+                                <div style={{minHeight: 700, position: "relative"}}>
                                     {filter.end_term ? 
                                     <Typography variant="h5" sx={{textAlign: "center"}}><b>Connections Between {filter.start_term} and {filter.end_term}</b></Typography>:
                                     <Typography variant="h5" sx={{textAlign: "center"}}><b>Subnetwork of TFs Connected to {filter.start_term}</b></Typography>
@@ -200,7 +205,7 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                                         elements={elements}
                                         wide={true}
                                     />
-                                </>
+                                </div>
                             }
                             </CardContent>
                         </Card>

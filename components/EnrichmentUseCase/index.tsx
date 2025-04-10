@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
     Grid,
     Stack,
     Typography,
     Card,
-    CardContent
+    CardContent,
+    CircularProgress
 } from "@mui/material";
 import TermViz from "@/components/Chea3Enrichment/TermViz";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
@@ -13,6 +14,9 @@ import InteractiveButtons from "@/components/Chea3Enrichment/InteractiveButtons"
 import { fetch_kg_schema, fetch_atlas_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import QueryForm from "./QueryForm";
+import { get_element } from "../Chea3Enrichment/element_resolver";
+import { UISchema } from "@/app/api/schema/route";
+
 export interface EnrichmentParams {
     group_name?: string,
     userListId?: string,
@@ -34,6 +38,68 @@ export interface EnrichmentParams {
     add_nodes?: number,
     limit?: number,
 }
+
+const WrappedTooltip = async ({parsedParams, tooltip_templates_edges, tooltip_templates_nodes, schema, ...props}: 
+    {
+        parsedParams: EnrichmentParams,
+        tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
+        tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
+        schema: UISchema,
+        
+    }) => {
+    const elements = await get_element(parsedParams)
+    return <TooltipComponentGroup 
+    tooltip_templates_edges={tooltip_templates_edges}
+    tooltip_templates_nodes={tooltip_templates_nodes}
+    schema={schema} elements={elements} {...props}/>
+
+}
+
+const WrappedButtons = async ({
+        hiddenLinksRelations=[], 
+        // searchParams,
+        shortId,
+        parsedParams,
+        short_url,
+        min_p=0,
+        max_p=1,
+        min_z=0,
+        max_z=1,
+        fullscreen,
+        additional_link_relation_tags,
+        ...props
+    }: {
+        short_url?: string,
+        hiddenLinksRelations?:Array<string>,
+        shortId?: string,
+        parsedParams: EnrichmentParams,
+        fullscreen?: 'true',
+        additional_link_relation_tags?: Array<string>,
+        min_p?: number,
+        max_p?: number,
+        min_z?: number,
+        max_z?: number,
+    
+    }) => {
+    const elements = await get_element(parsedParams)
+    return <InteractiveButtons 
+                hiddenLinksRelations={hiddenLinksRelations}
+                shortId={shortId}
+                parsedParams={parsedParams}
+                // searchParams={parsedParams}
+                fullscreen={fullscreen}
+                elements={elements}
+                short_url={short_url}
+                additional_link_relation_tags={additional_link_relation_tags}
+                min_p={min_p}
+                max_p={max_p}
+                min_z={min_z}
+                max_z={max_z}
+                {...props}
+            />
+
+}
+
 
 
 const Enrichment = async ({
@@ -66,7 +132,6 @@ const Enrichment = async ({
     }
 
 }) => {
-    
     const query_parser = parseAsJson<EnrichmentParams>().withDefault(props.default_options)
     console.log("Getting schema...")
     const schema = await fetch_kg_schema()
@@ -86,10 +151,6 @@ const Enrichment = async ({
         }
     }
 
-    const libraries_list = sortLibraries ? l.sort(function(a, b) {
-        return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-     }): l
-
 
     const tooltip_templates_node = {}
     const tooltip_templates_edges = {}
@@ -108,30 +169,18 @@ const Enrichment = async ({
     }, [])
     
     const parsedParams: EnrichmentParams = query_parser.parseServerSide(searchParams.q)
+    console.log(parsedParams)
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
         const cell_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_gene_sets`)).json()
         
-        const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
         const default_group = Object.keys(cell_types)[0]
         const default_term = Object.keys(cell_types[default_group])[0]
         
         const {
             term=default_term,
             group_name=default_group,
-            gene_limit,
-            min_lib,
-            gene_degree,
-            term_degree,
-            expand = [],
-            remove = [],
-            augment_limit,
-            gene_links,
-            pvalue,
-            zscore, 
-            add_nodes,
-            limit,
         } = parsedParams
         let elements:NetworkSchema = null
         let shortId = ""
@@ -154,55 +203,10 @@ const Enrichment = async ({
                     body: formData,
                 })
             ).json()).userListId
+            parsedParams.userListId = userListId
+            elements = await get_element(parsedParams)
         }
-        if (userListId !==undefined) {
-            //const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/share?userListId=${userListId}`)
-            //if (request.ok) shortId = (await (request.json())).link_id
-            //else console.log(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
-            console.log("Getting description...")
-            const desc_request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
-            console.log((`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`))
-            if (desc_request.ok) input_desc = (await (desc_request.json())).desc
-            console.log(input_desc)
-            shortId = userListId
-            console.log(`Enrichment ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`,
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        userListId,
-                        libraries,
-                        min_lib,
-                        gene_limit,
-                        gene_degree,
-                        term_degree,
-                        expand,
-                        remove,
-                        augment_limit,
-                        gene_links,
-                        pvalue,
-                        zscore,
-                        add_nodes,
-                        limit: parsedParams.term === undefined ? 50: limit
-                    }),
-                })
-            if (!res.ok) {
-                console.log(`failed connecting to ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-                console.log(await res.text())
-            }
-            else{
-                console.log(`fetched`)
-                elements = await res.json()
-                
-                for (const i of (elements || {}).edges) {
-                    if (typeof i.data.p_value == 'number' && min_p > i.data.p_value) min_p = i.data.p_value
-                    if (typeof i.data.p_value == 'number' && max_p < i.data.p_value) max_p = i.data.p_value
-                    if (typeof i.data.z_score == 'number' && min_z > i.data.z_score) min_z = i.data.z_score
-                    if (typeof i.data.z_score == 'number' && max_z < i.data.z_score) max_z = i.data.z_score
-                    
-                }
-            }
-        }
+        
         const payload = {
             "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
             "apikey": process.env.NEXT_PUBLIC_TURL  
@@ -227,71 +231,47 @@ const Enrichment = async ({
                 {props.description && <Grid item xs={12}>
                     <Typography variant={"subtitle1"}>{props.description}</Typography>
                 </Grid>}
-                    {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
-                            <Link href={"https://maayanlab.cloud/chea3/"} 
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{color: "black", textDecoration: "underline"}}
-                            >
-                                <span style={{fontSize: 16, fontWeight: 700, fontFamily: "Rubik, sans-serif"}}>ChEA3</span>
-                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {add_nodes} mean-ranked transcription factors enriched for the query set.</Typography>:
-                        <Typography variant="subtitle1" sx={{marginBottom: 3}}>Submit your gene set for enrichment analysis with &nbsp;
-                            <Link href={shortId ? `https://maayanlab.cloud/Enrichr/enrich?dataset=${shortId}` : "https://maayanlab.cloud/Enrichr/"} 
-                                target="_blan"
-                                rel="noopener noreferrer"
-                                style={{color: "black", textDecoration: "none"}}
-                            >
-                                <span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>En</span><span style={{color: "red", fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>rich</span><span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>r</span>
-                            </Link>
-                        </Typography>
-                    } */}
 
                 <Grid item xs={12} md={3}>
                     <QueryForm 
-                        parsedParams={parsedParams}
                         elements={elements}
+                        parsedParams={parsedParams}
                         cell_types={cell_types}
                         cell_info = {celltype_info}
+                        genes = {cell_types[group_name][term]}
+                        description={`${group_name}: ${term}`}
                     />
-                    <TooltipComponentGroup
+                    <TooltipComponentGroup 
                         elements={elements}
                         tooltip_templates_edges={tooltip_templates_edges}
                         tooltip_templates_nodes={tooltip_templates_node}
                         schema={schema}
-                    />
+                    {...props}/>
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Stack direction={"column"} alignItems={"flex-start"} spacing={1}>
                         <InteractiveButtons 
                             hiddenLinksRelations={hiddenLinksRelations}
                             shortId={shortId}
-                            parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
+                            elements={elements}
+                            parsedParams={parsedParams}
                             // searchParams={parsedParams}
                             fullscreen={searchParams.fullscreen}
-                            elements={elements}
                             short_url={short_url}
                             additional_link_relation_tags={props.additional_link_relation_tags}
                             min_p={min_p}
                             max_p={max_p}
                             min_z={min_z}
                             max_z={max_z}
-                        />
-                        
+                        {...props}/>
                         <Card sx={{borderRadius: "24px", minHeight: 450, width: "100%"}}>
                             <CardContent>
                                 {(userListId === undefined || (term === undefined && group_name === undefined)) ?
                                     <Typography variant="subtitle1">Please add a gene set</Typography>:
                                     <> 
-                                        {input_desc && 
-                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
-                                        }
-                                        <TermViz
-                                            elements={elements} 
-                                            /*enrichment_results = {enrichment_results}*/
-                                            schema={schema}
-                                            tooltip_templates_edges={tooltip_templates_edges}
-                                            tooltip_templates_nodes={tooltip_templates_node}
-                                        />
+                                        
+                                        <Typography variant="h5" sx={{textAlign: "center"}}><b>{group_name}: {term}</b></Typography>
+                                        {<Suspense fallback={<CircularProgress/>}><TermViz elements={elements} view={searchParams.view}/></Suspense>}
                                     </>
                                 }
                             </CardContent>

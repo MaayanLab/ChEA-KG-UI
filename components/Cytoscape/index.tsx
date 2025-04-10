@@ -11,14 +11,15 @@ import { mdiFamilyTree,  mdiDotsCircle} from '@mdi/js';
 import Icon from '@mdi/react';
 import fileDownload from 'js-file-download';
 import { useSearchParams } from 'next/navigation';
+import { CircularProgress } from '@mui/material';
 export const default_layouts = {
     "Force-directed": {
       name: 'cose',
       quality: 'proof',
       randomize: false,
       animate: true,
-	  componentSpacing: 300,
-      idealEdgeLength: edge => 150,
+	//   componentSpacing: 300,
+    //   idealEdgeLength: edge => 150,
       icon: ()=><HubIcon/>
     },
     "Hierarchical Layout": {
@@ -85,16 +86,14 @@ export default function Cytoscape ({
 	search?:boolean,
 	wide?: boolean
 }) {
-	console.log(wide)
 	const layouts = wide ? layout_wide: default_layouts
 	const cyref = useRef(null);
 	const networkRef = useRef(null);
 	const [id, setId] = useState<number>(0)
-	
 	const [edge_labels, setEdgeLabels] = useQueryState('edge_labels')
-	const [tooltip, setTooltip] = useQueryState('tooltip')
 	const [layout, setLayout] = useQueryState('layout', parseAsString.withDefault('Force-directed'))
 	const [legend, setLegend] = useQueryState('legend')
+	const [loading, setLoading] = useQueryState('loading')
 	const [legend_size, setLegendSize] = useQueryState('legend_size')
 	const [download_image, setDownloadImage] = useQueryState('download_image')
 	const [selected, setSelected] = useQueryState('selected',  parseAsJson<{id: string, type: 'nodes' | 'edges'}>().withDefault(null))
@@ -104,6 +103,7 @@ export default function Cytoscape ({
 	const searchParams = useSearchParams()
 	const filter = searchParams.get('q') || searchParams.get('filter')
 	const { mutate } = useSWRConfig()
+	console.log(filter)
 	useEffect(()=>{
 		const cytoscape = require('cytoscape')
 		const svg = require('cytoscape-svg')
@@ -153,16 +153,19 @@ export default function Cytoscape ({
 		};
 	}, [hovered])
 
-	// if (!ready) return <CircularProgress/>
+	useEffect(()=>{
+		if (elements !== null) setLoading(null)
+	}, [elements])
+	if (loading) {
+		return (
+			<div id="kg-network" style={{minHeight: 500, position: "relative"}} ref={networkRef}>
+				<CircularProgress sx={{position: "absolute", top:"50%", left: "50%"}} />
+			</div>
+		)
+	}
 	return (
 		<div id="kg-network" style={{minHeight: 500, position: "relative"}} ref={networkRef}>
 			{(elements === null) ? (
-				// <Backdrop
-				//     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				//     open={elements === null}
-				// >
-				//     <CircularProgress/>
-				// </Backdrop> 
 				null
 			) : elements.nodes.length === 0 ? (
 				<div>No results</div>
