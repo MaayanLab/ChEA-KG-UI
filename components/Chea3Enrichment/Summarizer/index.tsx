@@ -4,11 +4,8 @@ import { mdiBookOpenPageVariant } from '@mdi/js';
 import { makeTemplate } from '@/utils/helper';
 import Box from '@mui/material/Box';
 
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import ClientSummarizer from './Client';
 
 const style = {

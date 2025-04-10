@@ -1,20 +1,23 @@
-'use client'
 import { precise } from "@/utils/math";
-import { useQueryState } from "next-usequerystate";
 import EnrichmentBar from "./EnrichmentBar";
-import { NetworkSchema } from "@/app/api/knowledge_graph/route";
-import { UISchema } from "@/app/api/schema/route";
 import NetworkTable from "./NetworkTable";
-import { Typography, CircularProgress } from "@mui/material";
+import { Typography, CircularProgress, Box } from "@mui/material";
 import dynamic from "next/dynamic";
-import Cytoscape from "../Cytoscape";
-import { number } from "zod";
+import { EnrichmentParams } from ".";
+import { get_element } from "./element_resolver";
+import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 
-const TermViz = ({elements}:
+const Cytoscape = dynamic(()=>import('../Cytoscape'),
 	{
-		elements:NetworkSchema,
+		ssr: false,
+		loading: ()=><CircularProgress sx={{position: "absolute", top: "50%", left: "50%"}}/>
+	}
+)
+const TermViz = async ({view, elements}:
+	{
+		view?: string,
+		elements: NetworkSchema
 	}) => {
-	const [view, setView] = useQueryState('view')
 	const entries:{[key:string]: {library: string, score: number, [key: string]: number | string | boolean | Array<{library: string, score: number}>}} = {}
 	const columns:{[key:string]: boolean} = {}
 	const libraries = []
@@ -63,10 +66,12 @@ const TermViz = ({elements}:
 	if (sorted_entries.length === 0) return <Typography variant="h5">No Results Found</Typography>
 	else {
 		if (view === 'network' || !view) return (
-			<Cytoscape 
-				elements={elements}
-				search={false}
-			/> 
+			<Box sx={{position: "relative", minHeight: 450}}>
+				<Cytoscape 
+					elements={elements}
+					search={false}
+				/> 
+			</Box>
 		) 
 		else if (view === "table") return (
 			<NetworkTable sorted_entries={sorted_entries} columns={columns}/>

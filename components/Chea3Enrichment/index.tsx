@@ -9,13 +9,12 @@ import {
 } from "@mui/material";
 import GeneSetForm from "./form";
 import TermViz from "./TermViz";
-import { Summarizer } from "./Summarizer";
-import { UISchema } from "@/app/api/schema/route";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "./InteractiveButtons";
 import { fetch_kg_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
+import { get_element } from "./element_resolver";
 
 export interface EnrichmentParams {
     libraries?: Array<{
@@ -113,34 +112,16 @@ const Enrichment = async ({
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
-        parsedParams.libraries = (parsedParams.libraries || []).map(({name, library, limit, term_limit})=>({
-            name: name || library,
-            limit: limit || term_limit,
-        }))
-        const {
-            userListId,
-            gene_limit=props.default_options.gene_limit,
-            min_lib=props.default_options.min_lib,
-            gene_degree=props.default_options.gene_degree,
-            term_degree=props.default_options.term_degree,
-            expand = [],
-            remove = [],
-            augment_limit,
-            gene_links,
-            pvalue,
-            zscore, 
-            add_nodes
-        } = parsedParams
-        const libraries = parsedParams.libraries || []
-        let elements:NetworkSchema = null
         let shortId = ""
         let min_p = 1
         let max_p = 0
         let min_z = 100
         let max_z = 0
         let input_desc
+        let elements: NetworkSchema = null
         // console.log("to remove", typeof parsedParams.remove[0])
-        if (userListId !==undefined && libraries.length > 0) {
+        const userListId = parsedParams.userListId
+        if (userListId !==undefined) {
             console.log("Getting description...")
             const desc_request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
             if (desc_request.ok) input_desc = (await (desc_request.json())).desc
@@ -151,44 +132,7 @@ const Enrichment = async ({
             //else console.log(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
             shortId = userListId
             console.log(`Enrichment ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`,
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        userListId,
-                        libraries: libraries.map(({name, limit, library, term_limit})=>({
-                            library: library || name,
-                            term_limit: limit || term_limit
-                        })),
-                        min_lib,
-                        gene_limit,
-                        gene_degree,
-                        term_degree,
-                        expand,
-                        remove,
-                        augment_limit,
-                        gene_links,
-                        pvalue,
-                        zscore,
-                        add_nodes
-                    }),
-                })
-            if (!res.ok) {
-                console.log(`failed connecting to ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-                console.log(await res.text())
-            }
-            else{
-                console.log(`fetched`)
-                elements = await res.json()
-                
-                for (const i of (elements || {}).edges) {
-                    if (typeof i.data.p_value == 'number' && min_p > i.data.p_value) min_p = i.data.p_value
-                    if (typeof i.data.p_value == 'number' && max_p < i.data.p_value) max_p = i.data.p_value
-                    if (typeof i.data.z_score == 'number' && min_z > i.data.z_score) min_z = i.data.z_score
-                    if (typeof i.data.z_score == 'number' && max_z < i.data.z_score) max_z = i.data.z_score
-                    
-                }
-            }
+            elements = await get_element(parsedParams)
         }
         const payload = {
             "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
@@ -218,7 +162,7 @@ const Enrichment = async ({
                                 style={{color: "black", textDecoration: "underline"}}
                             >
                                 <span style={{fontSize: 16, fontWeight: 700, fontFamily: "Rubik, sans-serif"}}>ChEA3</span>
-                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {add_nodes} mean-ranked transcription factors enriched for the query set.</Typography>:
+                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {parsedParams.add_nodes} mean-ranked transcription factors enriched for the query set.</Typography>:
                         <Typography variant="subtitle1" sx={{marginBottom: 3}}>Submit your gene set for enrichment analysis with &nbsp;
                             <Link href={shortId ? `https://maayanlab.cloud/Enrichr/enrich?dataset=${shortId}` : "https://maayanlab.cloud/Enrichr/"} 
                                 target="_blank"
@@ -258,6 +202,7 @@ const Enrichment = async ({
                                 parsedParams={parsedParams}
                                 // searchParams={parsedParams}
                                 fullscreen={searchParams.fullscreen}
+                                view={searchParams.view}
                                 elements={elements}
                                 short_url={short_url}
                                 additional_link_relation_tags={props.additional_link_relation_tags}
@@ -274,11 +219,9 @@ const Enrichment = async ({
                                         <Typography variant="h5" sx={{textAlign: "center"}}><b>Enriched TF Subnetwork for Input Gene Set</b></Typography>
                                     }
                                     <TermViz
-                                        elements={elements} 
+                                        elements={elements}
+                                        view={searchParams.view}
                                         /*enrichment_results = {enrichment_results}*/
-                                        schema={schema}
-                                        tooltip_templates_edges={tooltip_templates_edges}
-                                        tooltip_templates_nodes={tooltip_templates_node}
                                     />
                                 </CardContent>
                             </Card>

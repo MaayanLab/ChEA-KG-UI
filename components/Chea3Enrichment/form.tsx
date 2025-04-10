@@ -48,7 +48,8 @@ const GeneSetForm = ({
     const [verified, setVerified] = useState<Array<string>>([])
     const [inputError, setInputError] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState<boolean>(false)
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useQueryState('loading')
+    const [verifying, setVerifying] = useState<boolean>(false)
     const [controller, setController] = useState<AbortController>(null)
     const [error, setError] = useState<{message: string, type: string}>(null)
     const [showForm, setShowForm] = useState<boolean>(false)
@@ -97,7 +98,7 @@ const GeneSetForm = ({
     }
     const addList = async () => {
         try {
-            setLoading(true)
+            setLoading('true')
             const formData = new FormData();
             // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
             const {genes = [], description=''} = input
@@ -130,7 +131,7 @@ const GeneSetForm = ({
 
     const verifyList = async (input: Array<string>) => {
         try {
-            setLoading(true)
+            setVerifying(true)
             const controller = get_controller()
             const verified:Array<string> = await (
                 await fetch(`${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/enrichment/terms_and_genes`, {
@@ -148,11 +149,11 @@ const GeneSetForm = ({
     }
 
     useEffect(()=>{
-        setLoading(false)
+        setVerifying(false)
     },[verified])
 
     useEffect(()=>{
-        setLoading(false)
+        setLoading(null)
         setQuery(null)
     }, [elements])
 
@@ -298,10 +299,10 @@ const GeneSetForm = ({
                         </Grid>
                         <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "left"}}>
                             <Stack direction={"row"} spacing={1} alignItems="center">
-                                <Tooltip title={input.genes.length === 0 ? "Input gene set": libraries.length === 0 ? "Select libraries": loading ? "Loading...": "Submit"}>
+                                <Tooltip title={input.genes.length === 0 ? "Input gene set": libraries.length === 0 ? "Select libraries": (loading || verifying) ? "Loading...": "Submit"}>
                                     <Button 
                                         onClick={async ()=>{
-                                            // setSubmitted(true)
+                                            // setSubmitted('true')
                                             if (!(await same_prev_input())) {
                                                 if (input.genes.length > 0 && libraries.length > 0) {
                                                     addList()
@@ -318,14 +319,14 @@ const GeneSetForm = ({
                                                 })
                                             }
                                         }}
-                                        disabled={loading || libraries.length === 0 || input.genes.length === 0}
+                                        disabled={loading == 'true' || verifying || libraries.length === 0 || input.genes.length === 0}
                                         size="large"
                                         variant="contained"
                                         sx={{
                                             padding: "15px 30px"
                                         }}
                                         // disabled={input.genes.length === 0}
-                                    >{loading ? "Searching...": "Submit"}</Button>
+                                    >{loading || verifying ? "Searching...": "Submit"}</Button>
                                 </Tooltip>
                                 {(verified.length > 0 && input.genes.length > 0) && <Tooltip title="Matched genes"><Button onClick={()=>setIsFocused(false)}><Typography color={'secondary'} variant='subtitle2'> {`${verified.length} matched genes`}</Typography></Button></Tooltip>}
                             </Stack>

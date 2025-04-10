@@ -54,16 +54,8 @@ import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { FilterSchema, process_relation } from '@/utils/helper';
 import { process_tables } from '@/utils/helper';
 import { default_layouts as layouts } from '../Cytoscape';  
-
-
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
   
-  function Form({
+function Form({
     edges=[],
     hiddenLinksRelations,
     coexpression_prediction,
@@ -125,7 +117,6 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
     const [download_image, setDownloadImage] = useQueryState('download_image')
 
     const relation = process_relation(r || [])
-    const [error, setError] = useState<{error: string} | null>(null)
     const [anchorEl, setAnchorEl] = useState<HTMLElement>(null)
     const [anchorElLayout, setAnchorElLayout] = useState<HTMLElement>(null)
     const [augmentOpen, setAugmentOpen] = useState<boolean>(false)

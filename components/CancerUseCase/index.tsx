@@ -14,6 +14,7 @@ import { fetch_kg_schema, fetch_atlas_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import QueryForm from "./QueryForm";
 import Link from "next/link";
+import { get_element } from "../Chea3Enrichment/element_resolver";
 export interface EnrichmentParams {
     group_name?: string,
     userListId?: string,
@@ -134,7 +135,7 @@ const Enrichment = async ({
         let max_p = 0
         let min_z = 100
         let max_z = 0
-        let input_desc
+        let input_desc = `${group_name}: ${term}`
         let userListId = parsedParams.userListId
         if (term !==undefined && group_name !== undefined) {
             const formData = new FormData();
@@ -151,54 +152,8 @@ const Enrichment = async ({
                     body: formData,
                 })
             ).json()).userListId
-        }
-        if (userListId !==undefined) {
-            //const request = await fetch(`${process.env.NEXT_PUBLIC_ENRICHR_URL}/share?userListId=${userListId}`)
-            //if (request.ok) shortId = (await (request.json())).link_id
-            //else console.log(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
-            console.log("Getting description...")
-            const desc_request = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`)
-            console.log((`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/view?userListId=${userListId}`))
-            if (desc_request.ok) input_desc = (await (desc_request.json())).desc
-            console.log(input_desc)
-            shortId = userListId
-            console.log(`Enrichment ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-            const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`,
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        userListId,
-                        libraries,
-                        min_lib,
-                        gene_limit,
-                        gene_degree,
-                        term_degree,
-                        expand,
-                        remove,
-                        augment_limit,
-                        gene_links,
-                        pvalue,
-                        zscore,
-                        add_nodes,
-                        limit: parsedParams.term === undefined ? 50: limit
-                    }),
-                })
-            if (!res.ok) {
-                console.log(`failed connecting to ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
-                console.log(await res.text())
-            }
-            else{
-                console.log(`fetched`)
-                elements = await res.json()
-                
-                for (const i of (elements || {}).edges) {
-                    if (typeof i.data.p_value == 'number' && min_p > i.data.p_value) min_p = i.data.p_value
-                    if (typeof i.data.p_value == 'number' && max_p < i.data.p_value) max_p = i.data.p_value
-                    if (typeof i.data.z_score == 'number' && min_z > i.data.z_score) min_z = i.data.z_score
-                    if (typeof i.data.z_score == 'number' && max_z < i.data.z_score) max_z = i.data.z_score
-                    
-                }
-            }
+            parsedParams.userListId = userListId
+            elements = await get_element(parsedParams)
         }
         const payload = {
             "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
@@ -251,6 +206,7 @@ const Enrichment = async ({
 
                 <Grid item xs={12} md={3}>
                     <QueryForm 
+                        genes={cancer_types[group_name][term]}
                         parsedParams={parsedParams}
                         elements={elements}
                         cancer_types={cancer_types}
