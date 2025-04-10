@@ -13,7 +13,7 @@ const Cytoscape = dynamic(()=>import('../Cytoscape'),
 		loading: ()=><CircularProgress sx={{position: "absolute", top: "50%", left: "50%"}}/>
 	}
 )
-const TermViz = async ({view, elements}:
+const TermViz = ({view, elements}:
 	{
 		view?: string,
 		elements: NetworkSchema
