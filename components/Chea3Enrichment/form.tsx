@@ -37,6 +37,7 @@ const GeneSetForm = ({
     elements: NetworkSchema,
     example?: {
         gene_set?: string,
+        description?:string
     },
     parsedParams: EnrichmentParams,
 }) => {
@@ -334,11 +335,12 @@ const GeneSetForm = ({
                             <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "right"}}>
                                 <Button 
                                     onClick={()=>{
-                                        const {gene_set} = example
-                                        setInput({genes: gene_set.split('\n'), description: "Sample Input"})
+                                        console.log("example", example)
+                                        const {gene_set, description} = example
+                                        setInput({genes: gene_set.split('\n'), description: description})
                                     }}
                                     
-                                ><Typography color={'secondary'} variant='subtitle2'>Try an example</Typography></Button>
+                                ><Typography color={'secondary'} variant='subtitle2'>Try the example</Typography></Button>
                             </Grid>
                         }
                         <Grid item sx={{ flexGrow: 1, marginTop: 3 }}>

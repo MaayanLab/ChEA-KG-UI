@@ -5,7 +5,8 @@ import {
     Stack,
     Typography,
     Card,
-    CardContent
+    CardContent,
+    Box
 } from "@mui/material";
 import GeneSetForm from "./form";
 import TermViz from "./TermViz";
@@ -16,6 +17,9 @@ import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "./InteractiveButtons";
 import { fetch_kg_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
+import GoogleIcon from '@mui/icons-material/Google';
+import IconButton from '@mui/material/IconButton'
+
 
 export interface EnrichmentParams {
     libraries?: Array<{
@@ -67,6 +71,7 @@ const Enrichment = async ({
     },
     example?: {
         gene_set?: string,
+        description?:string
     },
     libraries?: Array<{name: string, node: string, regex?: string}>,
     sortLibraries?: boolean,
@@ -211,23 +216,29 @@ const Enrichment = async ({
             <Grid container spacing={1} alignItems={"flex-start"}>
                 <Grid item xs={12}>
                     <Typography variant={"h2"}>{props.title || "Enrichment Analysis"}</Typography>
-                    { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
+                    <Box>
+                        <Typography gutterBottom variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
                             <Link href={"https://maayanlab.cloud/chea3/"} 
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{color: "black", textDecoration: "underline"}}
                             >
                                 <span style={{fontSize: 16, fontWeight: 700, fontFamily: "Rubik, sans-serif"}}>ChEA3</span>
-                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {add_nodes} mean-ranked transcription factors enriched for the query set.</Typography>:
-                        <Typography variant="subtitle1" sx={{marginBottom: 3}}>Submit your gene set for enrichment analysis with &nbsp;
-                            <Link href={shortId ? `https://maayanlab.cloud/Enrichr/enrich?dataset=${shortId}` : "https://maayanlab.cloud/Enrichr/"} 
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{color: "black", textDecoration: "none"}}
-                            >
-                                <span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>En</span><span style={{color: "red", fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>rich</span><span style={{fontSize: 20, fontWeight: 500, letterSpacing: "0.1em"}}>r</span>
+                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top mean-ranked transcription factors enriched for the query set.
+                        </Typography> 
+                        <Typography variant={'subtitle1'}>
+                            This <b>Google Colab notebook </b>
+                            <Link href='https://colab.research.google.com/drive/1j7mmKFSOvCwzEbxAKFqaCvu3UCnwEuJS?usp=sharing' target='_blank' rel='noopener noreferrer'>
+                                <IconButton size='small'>
+                                    <GoogleIcon/>
+                                </IconButton>
                             </Link>
+                            shows how we prepared the example gene set using differential gene expression.
                         </Typography>
+
+                    </Box>
+                    { 
+
                     }
                 </Grid>
                 <Grid item xs={12} md={elements===null?12:3}>
