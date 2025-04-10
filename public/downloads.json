@@ -1,82 +1,24 @@
 {"network":[
     {
         "name":"Node-draw filtered GRN",
-        "nodes": 1559,
-        "edges": 131181,
+        "nodes": "1,559",
+        "edges": "131,181",
         "zip": " http://s3.amazonaws.com/maayan-kg/chea-kg/node_draw_GRN.zip",
         "size": "2.3 MiB"
     },
     {
         "name":"Target-set-swap filtered GRN",
-        "nodes": 1560,
-        "edges": 109813,
+        "nodes": "1,560",
+        "edges": "109,813",
         "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/target_set_swap_GRN.zip",
         "size": "2.3 MiB"
     },
     {
         "name":"Unfiltered GRN",
-        "nodes": 1556,
-        "edges": 373250,
+        "nodes": "1,556",
+        "edges": "373,250",
         "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_GRN.zip",
         "size": "2.3 MiB"
-    }
-],
-"benchmark":[
-    {
-        "resource":"ChEA3",
-        "library":"ARCHS4-Coexpression",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/ARCHS4_Coexpression.gmt",
-        "size":"3.2 MB"
-
-    },
-    {
-        "resource":"ChEA3",
-        "library":"ENCODE ChIP-seq",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/ENCODE_ChIP-seq.gmt",
-        "size":"5.6 MB"
-
-    },
-    {
-        "resource":"ChEA3",
-        "library":"Enrichr_Queries",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/Enrichr_Queries.gmt",
-        "size":"2.5 MB"
-
-    },
-    {
-        "resource":"ChEA3",
-        "library":"GTEx Coexpression",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/GTEx_Coexpression.gmt",
-        "size":"3.2 MB"
-
-    },
-    {
-        "resource":"ChEA3",
-        "library":"Literature_ChIP-seq",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/Literature_ChIP-seq.gmt",
-        "size":"2.5 MB"
-
-    },
-    {
-        "resource":"ChEA3",
-        "library":"ReMap_ChIP-seq",
-        "url":"https://maayanlab.cloud/chea3/assets/tflibs/ReMap_ChIP-seq.gmt",
-        "size":"3.0 MB"
-
-    },
-    {
-        "resource":"Enrichr",
-        "library":"TRRUST_Transcription_Factors_2019",
-        "url":"https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=TRRUST_Transcription_Factors_2019",
-        "size":"80 KB"
-
-    },
-    {
-        "resource":"Enrichr",
-        "library":"TRANSFAC_and_JASPAR_PWMs",
-        "url":"https://maayanlab.cloud/Enrichr/geneSetLibrary?mode=text&libraryName=TRANSFAC_and_JASPAR_PWMs",
-        "size":"2.8 MB"
-
     }
 ],
 "rummageo":[
@@ -97,27 +39,33 @@
             "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt",
             "gene_sets": 131,
             "size":"78 KiB"
+        },
+        {
+            "resource":"Cancer Atlas GMT File from CPTAC3 tumor subtypes profiled by Multiomics2Targets",
+            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_cptac.gmt",
+            "gene_sets":69,
+            "size":"263 KiB"
         }
     ],
 "notebooks":[
     {
         "title":"construct_edge_list.ipynb",
         "description":"Build the unfiltered network edge list using RummaGEO and ChEA3",
-        "url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/construct_edge_list.ipynb"
+        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/construct_edge_list.ipynb"
     },
     {
         "title":"filter_network_assertions.ipynb",
         "description":"Filter the network assertions on significance using three methods of expected counts: signature shuffling, node weighted, and edge weighted",
-        "url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/filter_network_assertions.ipynb"
+        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/filter_network_assertions.ipynb"
     },
     {
         "title":"benchmark_network.ipynb",
         "description":"Benchmark the filtered networks against TF interaction libraries from ChEA3 and Enrichr",
-        "url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/benchmark_network.ipynb"
+        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/benchmark_network.ipynb"
     },
     {
         "title":"format_assertions_for_ingestion.ipynb",
         "description":"Format the assertions for ingestion into Neo4j",
-        "url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/format_assertions_for_ingestion.ipynb"
+        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/format_assertions_for_ingestion.ipynb"
     }
 ]}
