@@ -205,6 +205,7 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                                     <Cytoscape 
                                         elements={elements}
                                         wide={true}
+                                        stepsize={100}
                                     />
                                 </div>
                             }

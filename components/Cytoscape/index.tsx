@@ -80,11 +80,13 @@ export const default_layouts = {
 export default function Cytoscape ({
 	elements,
 	search,
-	wide
+	wide,
+	stepsize=50
 }: {
 	elements: null | NetworkSchema, 
 	search?:boolean,
-	wide?: boolean
+	wide?: boolean,
+	stepsize?:number
 }) {
 	const layouts = wide ? layout_wide: default_layouts
 	const cyref = useRef(null);
@@ -103,7 +105,6 @@ export default function Cytoscape ({
 	const searchParams = useSearchParams()
 	const filter = searchParams.get('q') || searchParams.get('filter')
 	const { mutate } = useSWRConfig()
-	console.log(filter)
 	useEffect(()=>{
 		const cytoscape = require('cytoscape')
 		const svg = require('cytoscape-svg')
@@ -195,6 +196,7 @@ export default function Cytoscape ({
 							selector: 'edge',
 							style: {
 								'curve-style': 'bezier',
+								'control-point-step-size': stepsize,
 								// 'opacity': '0.5',
 								'line-color': 'data(lineColor)',
 								'width': '3',
@@ -205,9 +207,10 @@ export default function Cytoscape ({
 								"text-margin-y": 0,
 								'font-size': '12px',
 								'target-arrow-shape': `data(directed)` as ArrowShape,
-								'target-endpoint': 'outside-to-node',
-								'source-endpoint': 'outside-to-node',
+								'target-endpoint': 'outside-to-line',
+								'source-endpoint': 'outside-to-line',
 								'target-arrow-color': 'data(lineColor)',
+								'edge-distances': 'node-position',
 								'line-style': ( ele )=>{
 									return(ele.data('hidden') ? "dotted": "solid")
 								},
