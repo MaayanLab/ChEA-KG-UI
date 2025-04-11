@@ -152,9 +152,9 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                                     filter={filter}
                                     fullscreen={searchParams.fullscreen}
                                     view={searchParams.view}
-                                    type={filter.start}
-                                    field={filter.start_field}
-                                    term={filter.start_term}
+                                    type={filter.start || props.initial_query.start}
+                                    field={filter.start_field || props.initial_query.start_field}
+                                    term={filter.start_term || props.initial_query.start_term}
                                 />
                                 {filter.end && 
                                 <AsyncFormComponent 
