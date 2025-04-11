@@ -199,6 +199,7 @@ const Enrichment = async ({
                                 tooltip_templates_edges={tooltip_templates_edges}
                                 tooltip_templates_nodes={tooltip_templates_node}
                                 schema={schema}
+                                filter_field="q"
                             />
                         </CardContent>
                     </Card>

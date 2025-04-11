@@ -177,6 +177,7 @@ const TermAndGeneSearch = async ({searchParams, props}: {
                             tooltip_templates_edges={tooltip_templates_edges}
                             tooltip_templates_nodes={tooltip_templates_nodes}
                             schema={schema}
+                            filter_field="filter"
                         />
                 </Grid>
                 <Grid item xs={12} md={8} lg={9}>

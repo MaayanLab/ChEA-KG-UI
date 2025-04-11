@@ -39,69 +39,6 @@ export interface EnrichmentParams {
     limit?: number,
 }
 
-const WrappedTooltip = async ({parsedParams, tooltip_templates_edges, tooltip_templates_nodes, schema, ...props}: 
-    {
-        parsedParams: EnrichmentParams,
-        tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
-        tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
-        schema: UISchema,
-        
-    }) => {
-    const elements = await get_element(parsedParams)
-    return <TooltipComponentGroup 
-    tooltip_templates_edges={tooltip_templates_edges}
-    tooltip_templates_nodes={tooltip_templates_nodes}
-    schema={schema} elements={elements} {...props}/>
-
-}
-
-const WrappedButtons = async ({
-        hiddenLinksRelations=[], 
-        // searchParams,
-        shortId,
-        parsedParams,
-        short_url,
-        min_p=0,
-        max_p=1,
-        min_z=0,
-        max_z=1,
-        fullscreen,
-        additional_link_relation_tags,
-        ...props
-    }: {
-        short_url?: string,
-        hiddenLinksRelations?:Array<string>,
-        shortId?: string,
-        parsedParams: EnrichmentParams,
-        fullscreen?: 'true',
-        additional_link_relation_tags?: Array<string>,
-        min_p?: number,
-        max_p?: number,
-        min_z?: number,
-        max_z?: number,
-    
-    }) => {
-    const elements = await get_element(parsedParams)
-    return <InteractiveButtons 
-                hiddenLinksRelations={hiddenLinksRelations}
-                shortId={shortId}
-                parsedParams={parsedParams}
-                // searchParams={parsedParams}
-                fullscreen={fullscreen}
-                elements={elements}
-                short_url={short_url}
-                additional_link_relation_tags={additional_link_relation_tags}
-                min_p={min_p}
-                max_p={max_p}
-                min_z={min_z}
-                max_z={max_z}
-                {...props}
-            />
-
-}
-
-
-
 const Enrichment = async ({
     libraries: l,
     sortLibraries,
@@ -169,19 +106,20 @@ const Enrichment = async ({
     }, [])
     
     const parsedParams: EnrichmentParams = query_parser.parseServerSide(searchParams.q)
-    console.log(parsedParams)
+    console.log(parsedParams, "params")
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
         const cell_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_gene_sets`)).json()
         
-        const default_group = Object.keys(cell_types)[0]
-        const default_term = Object.keys(cell_types[default_group])[0]
+        const default_group = props.default_options.group_name || Object.keys(cell_types)[0]
+        const default_term = props.default_options.term || Object.keys(cell_types[default_group])[0]
         
         const {
             term=default_term,
             group_name=default_group,
         } = parsedParams
+
         let elements:NetworkSchema = null
         let shortId = ""
         let min_p = 1
@@ -246,6 +184,7 @@ const Enrichment = async ({
                         tooltip_templates_edges={tooltip_templates_edges}
                         tooltip_templates_nodes={tooltip_templates_node}
                         schema={schema}
+                        filter_field="q"
                     {...props}/>
                 </Grid>
                 <Grid item xs={12} md={9}>

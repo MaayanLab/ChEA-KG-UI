@@ -109,26 +109,14 @@ const Enrichment = async ({
     try {
         const cancer_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_cancer_gene_sets`)).json()
         
-        const libraries = [{"library":"Integrated--meanRank","term_limit":10}]
-        const default_group = Object.keys(cancer_types)[0]
-        const default_term = Object.keys(cancer_types[default_group])[0]
+        const default_group = props.default_options.group_name || Object.keys(cancer_types)[0]
+        const default_term = props.default_options.term || Object.keys(cancer_types[default_group])[0]
         
         const {
             term=default_term,
             group_name=default_group,
-            gene_limit,
-            min_lib,
-            gene_degree,
-            term_degree,
-            expand = [],
-            remove = [],
-            augment_limit,
-            gene_links,
-            pvalue,
-            zscore, 
-            add_nodes,
-            limit,
         } = parsedParams
+
         let elements:NetworkSchema = null
         let shortId = ""
         let min_p = 1
@@ -207,7 +195,7 @@ const Enrichment = async ({
                 <Grid item xs={12} md={3}>
                     <QueryForm 
                         genes={cancer_types[group_name][term]}
-                        parsedParams={parsedParams}
+                        parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
                         elements={elements}
                         cancer_types={cancer_types}
                         cell_info = {celltype_info}
@@ -217,6 +205,7 @@ const Enrichment = async ({
                         tooltip_templates_edges={tooltip_templates_edges}
                         tooltip_templates_nodes={tooltip_templates_node}
                         schema={schema}
+                        filter_field="q"
                     />
                 </Grid>
                 <Grid item xs={12} md={9}>

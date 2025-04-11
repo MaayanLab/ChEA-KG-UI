@@ -23,7 +23,7 @@ import SendIcon from '@mui/icons-material/Send'
 import { UISchema } from "@/app/api/schema/route"
 import Link from "next/link"
 
-export const TooltipComponent = ({data, float, tooltip_templates, schema}: {
+export const TooltipComponent = ({data, float, tooltip_templates, schema, filter_field}: {
 	data: {
 		id: string,
 		label?: string,
@@ -33,20 +33,20 @@ export const TooltipComponent = ({data, float, tooltip_templates, schema}: {
 	},
 	tooltip_templates: {[key: string]: Array<{[key: string]: string}>}, 
 	schema: UISchema,
-	float?: boolean
+	float?: boolean,
+	filter_field: 'q' | 'filter'
 }) => {
 	const searchParams = useSearchParams()
 	const pathname = usePathname()
 	const queryParams = {}
 	let filter = {}
-	let filter_field = 'filter'
 	searchParams.forEach((value, key) => {
 		if (['filter', 'q', 'selected', 'hovered'].indexOf(key) === -1) queryParams[key] = value;
 		else if (['filter', 'q'].indexOf(key) > -1) {
-			filter_field = key
 			filter = JSON.parse(value)
 		}
 	});
+	console.log(filter)
 	const router = useRouter()
 	const elements = []
 	const field = data.kind === "Relation" ? data.label : data.kind.replace(/Queried TFs that are also enriched|Top Ranked TFs|Expanded TFs/g, "Transcription Factor")
@@ -136,14 +136,14 @@ const TooltipComponentGroup = ({
     tooltip_templates_edges,
 	schema,
 	float,
-
+	filter_field
 }: {
 		elements?: null | NetworkSchema,
 		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
         tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
 		schema: UISchema,
 		float?: boolean,
-
+		filter_field: 'q' | 'filter'
 	}) => {
 	
 	const [tooltip, setTooltip] = useQueryState('tooltip')
@@ -174,6 +174,7 @@ const TooltipComponentGroup = ({
 					tooltip_templates={user_input.type === 'nodes' ? tooltip_templates_nodes: tooltip_templates_edges}
 					schema={schema}
 					float={float}
+					filter_field={filter_field}
 				/>
 		)
 	}
