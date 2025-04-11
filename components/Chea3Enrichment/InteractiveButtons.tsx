@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, usePathname, useSearchParams} from 'next/navigation';
-import { parseAsJson, useQueryState } from 'next-usequerystate';
+import { parseAsInteger, parseAsJson, useQueryState } from 'next-usequerystate';
 import React, {useState, useEffect } from 'react';
 import { default_layouts as layouts } from '../Cytoscape';  
 import Tooltip from '@mui/material/Tooltip';
@@ -84,7 +84,7 @@ const InteractiveButtons = ({
 	const [layout, setLayout] = useQueryState('layout')
 	const [legend, setLegend] = useQueryState('legend')
     const [tooltip, setTooltip] = useQueryState('tooltip')
-	const [legend_size, setLegendSize] = useQueryState('legend_size')
+	const [legend_size, setLegendSize] = useQueryState('legend_size', parseAsInteger.withDefault(1))
     const [query, setQuery] = useQueryState('query', parseAsJson<EnrichmentParams>().withDefault({}))
     const [download_image, setDownloadImage] = useQueryState('download_image')
     const [export_json, setExportJson] = useQueryState('export_json')
@@ -381,7 +381,7 @@ const InteractiveButtons = ({
                     </Tooltip>
                     {children}
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
-                    <Tooltip title={!legend ? "Show legend": "Hide legend"}>
+                    <Tooltip title={legend ? "Show legend": "Hide legend"}>
                         <IconButton 
                             disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={()=>{
@@ -390,8 +390,8 @@ const InteractiveButtons = ({
                                     setLegendSize(null)
                                 }
                                 else {
-                                    setLegend('true')
-                                    setLegendSize('0')
+                                    setLegend('false')
+                                    setLegendSize(0)
                                 }
                                 // const {legend, legend_size, ...query} = searchParams
                                 // if (!legend) query['legend'] = 'true'
@@ -401,14 +401,14 @@ const InteractiveButtons = ({
                             {!legend ? <LabelIcon />: <LabelOffIcon />}
                         </IconButton>
                     </Tooltip>
-                    {legend &&
+                    {legend===null &&
                         <Tooltip title="Adjust legend size">
                             <IconButton 
                                 onClick={()=>{
-                                    setLegendSize(`${(parseInt(legend_size) +1)%5}`)
+                                    setLegendSize((legend_size +1)%5)
                                 }}
                             >
-                                {parseInt(legend_size) < 4 ? <ZoomInIcon/>: <ZoomOutIcon/>}
+                                {legend_size < 4 ? <ZoomInIcon/>: <ZoomOutIcon/>}
                             </IconButton>
                         </Tooltip>
                     }

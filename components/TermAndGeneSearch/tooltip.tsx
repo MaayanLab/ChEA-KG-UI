@@ -11,7 +11,7 @@ import { Stack,
 	CardActions, 
 	Button, 
 	IconButton,
-	Tooltip
+	Tooltip,
  } from "@mui/material"
 import { NetworkSchema } from "@/app/api/knowledge_graph/route"
 import { useQueryState, parseAsJson } from 'next-usequerystate';

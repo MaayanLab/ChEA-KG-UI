@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { useQueryState } from 'next-usequerystate'
+import { parseAsInteger, useQueryState } from 'next-usequerystate'
 import { usePathname, useRouter } from 'next/navigation';
 import fileDownload from 'js-file-download'
 import { 
@@ -113,7 +113,7 @@ function Form({
     const [tooltip, setTooltip] = useQueryState('tooltip')
 	const [layout, setLayout] = useQueryState('layout')
 	const [legend, setLegend] = useQueryState('legend')
-	const [legend_size, setLegendSize] = useQueryState('legend_size')
+	const [legend_size, setLegendSize] = useQueryState('legend_size', parseAsInteger.withDefault(0))
     const [download_image, setDownloadImage] = useQueryState('download_image')
     const [export_json, setExportJson] = useQueryState('export_json')
 
@@ -476,7 +476,7 @@ function Form({
                                 </Grid>
                             }
                             <Grid item>
-                                <Tooltip title={!legend ? "Show legend": "Hide legend"}>
+                                <Tooltip title={legend ? "Show legend": "Hide legend"}>
                                     <IconButton color="secondary"
                                         onClick={()=>{
                                             if (legend) {
@@ -484,8 +484,8 @@ function Form({
                                                 setLegendSize(null)
                                             }
                                             else {
-                                                setLegend('true')
-                                                setLegendSize('0')
+                                                setLegend('false')
+                                                setLegendSize(0)
                                             }
                                             // const {legend, legend_size, ...query} = searchParams
                                             // if (!legend) query['legend'] = 'true'
@@ -496,18 +496,18 @@ function Form({
                                     </IconButton>
                                 </Tooltip>
                             </Grid>
-                            {legend &&
+                            {legend===null &&
                                 <Grid item>
                                     <Tooltip title="Adjust legend size">
                                         <IconButton color="secondary"
                                             onClick={()=>{
-                                                setLegendSize(`${(parseInt(legend_size) +1)%5}`)
+                                                setLegendSize((legend_size +1) %5)
                                                 // const {legend_size='0', ...query} = searchParams
                                                 // query['legend_size'] = `${(parseInt(legend_size) +1)%5}`
                                                 // router_push(router, pathname, query)
                                             }}
                                         >
-                                            {parseInt(legend_size) < 4 ? <ZoomInIcon/>: <ZoomOutIcon/>}
+                                            {legend_size < 4 ? <ZoomInIcon/>: <ZoomOutIcon/>}
                                         </IconButton>
                                     </Tooltip>
                                 </Grid>

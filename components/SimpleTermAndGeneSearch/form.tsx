@@ -422,7 +422,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
                                                 setLegendSize(null)
                                             }
                                             else {
-                                                setLegend('true')
+                                                setLegend('false')
                                                 setLegendSize('0')
                                             }
                                             // const {legend, legend_size, ...query} = searchParams
