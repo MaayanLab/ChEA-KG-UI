@@ -246,6 +246,7 @@ const Enrichment = async ({
                                         }
                                         <TermViz
                                             elements={elements} 
+                                            view={searchParams.view}
                                             /*enrichment_results = {enrichment_results}*/
                                             
                                         />

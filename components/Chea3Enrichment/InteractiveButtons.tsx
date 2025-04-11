@@ -118,7 +118,7 @@ const InteractiveButtons = ({
             <Grid item xs={12}>
                 <Stack direction={"row"} alignItems={"center"}>
                     <Tooltip title={"Network view"}>
-                        <IconButton color="secondary"
+                        <IconButton
                             onClick={()=>{
                                 const query = {
                                     q: JSON.stringify(parsedParams),
@@ -134,7 +134,7 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Table view"}>
-                        <IconButton color="secondary"
+                        <IconButton
                             onClick={()=>{
                                 const query = {
                                     q: JSON.stringify(parsedParams),
@@ -151,7 +151,7 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Tooltip title={"Bar view"}>
-                        <IconButton color="secondary"
+                        <IconButton
                             onClick={()=>{
                                 // const {view, ...query} = searchParams
                                 // query["view"] = 'bar'
@@ -241,7 +241,7 @@ const InteractiveButtons = ({
                     </Tooltip>
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
                     <Tooltip title={"Save subnetwork"}>
-                                <IconButton color="secondary"  onClick={(e)=>handleClickMenu(e, setAnchorEl)}
+                                <IconButton   onClick={(e)=>handleClickMenu(e, setAnchorEl)}
                                         aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                                         aria-haspopup="true"
                                         aria-expanded={anchorEl!==null ? 'true' : undefined}
@@ -352,17 +352,17 @@ const InteractiveButtons = ({
                             <Grid item xs={1}>
                                 <Stack direction={"row"}>
                                     <Tooltip title="Copy Link">
-                                        <IconButton color="secondary" onClick={()=>navigator.clipboard.writeText(short_url ? short_url: window.location.toString())}><ContentCopyIcon/></IconButton>
+                                        <IconButton  onClick={()=>navigator.clipboard.writeText(short_url ? short_url: window.location.toString())}><ContentCopyIcon/></IconButton>
                                     </Tooltip>
                                     <Tooltip title="Close">
-                                        <IconButton color="secondary" onClick={()=>setOpenShare(false)}><HighlightOffIcon/></IconButton>
+                                        <IconButton  onClick={()=>setOpenShare(false)}><HighlightOffIcon/></IconButton>
                                     </Tooltip>
                                 </Stack>
                             </Grid>
                         </Grid>
                     </Modal>
                     <Tooltip title={fullscreen ? "Exit full screen": "Full screen"}>
-                        <IconButton color="secondary"
+                        <IconButton
                             onClick={()=>{
                                 if (!fullscreen) {
                                     router_push(router, pathname, {
@@ -452,7 +452,7 @@ const InteractiveButtons = ({
                 </Tooltip> 
                 <Tooltip title={`Submit changes`}>
                 <Link href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
-                    <IconButton color="secondary" >
+                    <IconButton  >
                             <SendIcon />
                         </IconButton>
                     </Link>
