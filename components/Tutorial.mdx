@@ -182,4 +182,4 @@ The table view of the enrichment analysis results in ChEA-KG lists the enriched 
 
 ## **User Data** <a name="user-data"></a>
 
-Submitted gene sets are stored in the database for persistent link purposes only. These gene sets are linked to a unique UUID which are kept private unless the users share the persistent link with anyone.
+User-submitted gene sets are stored as unique node entities in the Neo4j database and are identified with a UUID that is produced when the set is originally submitted. This UUID is made part of the URL that provides permanent access to the results page of the submitted set. The UUID is kept private unless the user shares the URL with their colleagues. As the owners of the site, we guarantee that we have no intention to ever share, sell, analyze, post, or combine the uploaded gene sets with other users, and we will do our best effort to ensure that the database that stores these gene sets is secured. 
