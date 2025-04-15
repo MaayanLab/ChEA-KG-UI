@@ -53,6 +53,7 @@ export default function Footer({style, layout, footer_text}: {
                         <Grid item xs={10} style={{marginTop: 30, marginBottom: 2}}>
                             <Stack>
                                 <Typography variant="caption">{parse(footer_text)}</Typography>
+                                <Typography variant="caption">This site does not use any cookies.</Typography>
                                 {/* <CookieFooterWrapped/> */}
                             </Stack>
                         </Grid>
