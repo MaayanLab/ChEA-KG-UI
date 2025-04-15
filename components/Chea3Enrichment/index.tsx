@@ -6,7 +6,8 @@ import {
     Typography,
     Card,
     CardContent,
-    Box
+    Box,
+    Button
 } from "@mui/material";
 import GeneSetForm from "./form";
 import TermViz from "./TermViz";
@@ -16,8 +17,7 @@ import InteractiveButtons from "./InteractiveButtons";
 import { fetch_kg_schema } from "@/utils/initialize";
 import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import { get_element } from "./element_resolver";
-import GoogleIcon from '@mui/icons-material/Google';
-import IconButton from '@mui/material/IconButton'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
 
 export interface EnrichmentParams {
@@ -168,22 +168,28 @@ const Enrichment = async ({
                                 style={{color: "black", textDecoration: "underline"}}
                             >
                                 <span style={{fontSize: 16, fontWeight: 700, fontFamily: "Rubik, sans-serif"}}>ChEA3</span>
-                            </Link>. The result is a subnetwork of the ChEA-KG GRN, made of the top {parsedParams.add_nodes} mean-ranked transcription factors enriched for the query set.
-                        </Typography> 
-                        <Typography variant={'subtitle1'}>
-                            This <b>Google Colab notebook </b>
-                            <Link href='https://colab.research.google.com/drive/1j7mmKFSOvCwzEbxAKFqaCvu3UCnwEuJS?usp=sharing' target='_blank' rel='noopener noreferrer'>
-                                <IconButton size='small'>
-                                    <GoogleIcon/>
-                                </IconButton>
+                            </Link>. The result is a subnetwork of connected transcription factors enriched for the query set.
+                            <br />Learn how to prepare differentially expressed gene sets from an RNA-seq gene expression count matrix: &nbsp;  
+                                <Link href='https://colab.research.google.com/drive/1hE-bBBE38YndLlbjMO3m-Tv38MssKjVc?usp=sharing' target='_blank' rel='noopener noreferrer'>
+                                
+                                
+                                    <Button size='small' variant="outlined" sx={{ color:'black', borderColor:'black',p:'5px' }}>
+                                        Gene count matrix demo notebook in Google Colab &nbsp;<OpenInNewIcon fontSize='small'/>
+                                    </Button>
+                                
                             </Link>
-                            shows how we prepared the example gene set using differential gene expression.
-                        </Typography>
+                            <br />Learn how to prepare gene sets from a BED file:&nbsp;
+                            <Link href='https://colab.research.google.com/drive/1PQ6xhmARN1yh0X6YnOle39tTIYjpmS5u?usp=sharing' target='_blank' rel='noopener noreferrer'>
+                            
+                          
+                                    <Button size='small' variant="outlined" sx={{ color: 'black', borderColor:'black',p:'5px' }}>
+                                        BED file demo notebook in Google Colab &nbsp;<OpenInNewIcon fontSize='small'/>
+                                    </Button>
+           
+                            </Link>
+                                </Typography>
 
                     </Box>
-                    { 
-
-                    }
                 </Grid>
                 <Grid item xs={12} md={elements===null?12:3}>
                     <Card elevation={0} sx={{borderRadius: "8px", backgroundColor: (!schema.ui_theme || schema.ui_theme === "cfde_theme" || elements !== null) ? "tertiary.light": "#FFF"}}>

@@ -341,7 +341,7 @@ const GeneSetForm = ({
                                         setInput({genes: gene_set.split('\n'), description: description})
                                     }}
                                     
-                                ><Typography color={'secondary'} variant='subtitle2'>Try the example</Typography></Button>
+                                ><Typography color={'secondary'} variant='subtitle2'>Try a gene set example</Typography></Button>
                             </Grid>
                         }
                         <Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
