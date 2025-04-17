@@ -14,7 +14,7 @@ services:
         type: Recreate
       imagePullPolicy: IfNotPresent
       annotations:
-        maayanlab.cloud/ingress: ${NEXT_PUBLIC_HOST_PROD}/
+        maayanlab.cloud/ingress: ${NEXT_PUBLIC_HOST}/
     ports:
       - 3000:3000
     environment:
