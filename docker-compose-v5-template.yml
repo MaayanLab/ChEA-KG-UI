@@ -55,12 +55,6 @@ services:
       - 7474:7474
     volumes:
       - ${APP_NAME}-neo4j-v5:/data
-    deploy:
-      resources:
-        limits:
-          memory: 15G
-        reservations:
-          memory: 10G
 
 volumes:
   ${APP_NAME}-neo4j-v5:
