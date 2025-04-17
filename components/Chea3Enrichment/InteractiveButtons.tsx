@@ -268,7 +268,7 @@ const InteractiveButtons = ({
                                 </Menu>
 
                     <Tooltip title={`Download ${(view === "network" || !view) ? "graph": "bar graph"} as an image file`}>
-                        <IconButton onClick={(e)=>handleClickMenu(e, setAnchorEl)}
+                        <IconButton onClick={(e)=>handleClickMenu(e, setAnchorElImg)}
                             disabled={(view === "table" || elements===null || elements === undefined)}
                             aria-controls={anchorEl!==null ? 'basic-menu' : undefined}
                             aria-haspopup="true"
