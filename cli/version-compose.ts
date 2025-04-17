@@ -14,6 +14,6 @@ if (process.env.OFFLINE === 'true') {
 let compose = fs.readFileSync(path.join(__dirname, '..', filename), { encoding: 'utf-8' })
 compose = compose.replaceAll(/\$\{APP_NAME\}/g, process.env.APP_NAME)
 compose = compose.replaceAll(/\$\{VERSION\}/g, process.env.npm_package_version)
-compose = compose.replaceAll(/\$\{NEXT_PUBLIC_HOST\}/g, process.env.NEXT_PUBLIC_HOST_PUBLIC)
+compose = compose.replaceAll(/\$\{NEXT_PUBLIC_HOST\}/g, process.env.NEXT_PUBLIC_HOST_PROD)
 compose = compose.replaceAll(/\$\{DOCKERHUB_NAME\}/g, process.env.DOCKERHUB_NAME)
 fs.writeFileSync(path.join(__dirname, '..', `docker-compose.yml`), compose)
