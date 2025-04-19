@@ -8,13 +8,13 @@ services:
         - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
         - NEXT_PUBLIC_HOST=${NEXT_PUBLIC_HOST_PROD}  
     platform: linux/amd64
-    image: maayanlab/chea4:2.5.22
+    image: maayanlab/chea4:2.5.23
     x-kubernetes:
       strategy:
         type: Recreate
       imagePullPolicy: IfNotPresent
       annotations:
-        maayanlab.cloud/ingress: http://localhost:3000
+        maayanlab.cloud/ingress: https://chea-kg.maayanlab.cloud/
     ports:
       - 3000:3000
     environment:
@@ -55,12 +55,6 @@ services:
       - 7474:7474
     volumes:
       - chea4-neo4j-v5:/data
-    deploy:
-      resources:
-        limits:
-          memory: 15G
-        reservations:
-          memory: 10G
 
 volumes:
   chea4-neo4j-v5:
