@@ -242,7 +242,7 @@ export default function Cytoscape ({
 						{
 							selector: 'edge.focusedColored',
 							style: {
-								'line-color': '#F8333C',
+								// 'line-color': '#F8333C',
 								'width': '6'
 							}
 						},
