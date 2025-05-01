@@ -75,7 +75,7 @@ export const get_element = async(parsedParams:EnrichmentParams)=>{
 			}
 		}
 	}
-	return elements
+	return {elements, min_z, max_z}
 }
 
 

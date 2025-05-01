@@ -141,7 +141,10 @@ const Enrichment = async ({
                 })
             ).json()).userListId
             parsedParams.userListId = userListId
-            elements = await get_element(parsedParams)
+            const parsed = await get_element(parsedParams)
+            elements = parsed.elements
+            min_z = parsed.min_z
+            max_z = parsed.max_z
         }
         const payload = {
             "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
