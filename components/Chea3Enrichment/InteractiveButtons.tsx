@@ -1,10 +1,9 @@
 'use client'
-import { useRouter, usePathname, useSearchParams} from 'next/navigation';
+import { useRouter, usePathname} from 'next/navigation';
 import { parseAsInteger, parseAsJson, useQueryState } from 'next-usequerystate';
 import React, {useState, useEffect } from 'react';
 import { default_layouts as layouts } from '../Cytoscape';  
 import Tooltip from '@mui/material/Tooltip';
-import ShareIcon from '@mui/icons-material/Share';
 
 import Button from '@mui/material/Button'
 
@@ -41,6 +40,7 @@ import {
     Checkbox,
     FormControlLabel,
     Divider,
+    CircularProgress,
 } from '@mui/material';
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import { router_push } from '@/utils/client_side';
@@ -100,12 +100,15 @@ const InteractiveButtons = ({
     const [geneLinks, setGeneLinks] = useState<Array<string>>([])
     const [additionalLinkTags, setAdditionalLinkTags] = useState<Array<string>>([])
     const [edgeFilter, setEdgeFilter] = useState<{zscore?: number, add_nodes?: number}>({})
- 
+    const [loading, setLoading] = useState(false)
     useEffect(()=>{
         if (gene_links) setGeneLinks(gene_links)
         else setGeneLinks([])
     }, [parsedParams.gene_links])
     
+    useEffect(()=>{
+        setLoading(false)
+    }, [elements, parsedParams])
 
     const handleClickMenu = (e:any, setter:Function) => {
 		setter(e.currentTarget);
@@ -113,6 +116,13 @@ const InteractiveButtons = ({
 	const handleCloseMenu = (setter:Function) => {
 		setter(null);
 	};
+
+    const user_filter = {
+        zscore: parsedParams.zscore || min_z,
+        add_nodes: parsedParams.add_nodes || 10
+    }
+    
+    const disable_button = Object.keys(edgeFilter).length === 0 || (user_filter.zscore === edgeFilter.zscore && user_filter.add_nodes === edgeFilter.add_nodes)
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -420,9 +430,8 @@ const InteractiveButtons = ({
                 <Tooltip title={`Change number of top-ranked nodes from ChEA3`}>
                     <Slider 
                         color="secondary"
-                        value={edgeFilter.add_nodes !== undefined ? edgeFilter.add_nodes : 10}
+                        value={edgeFilter.add_nodes !== undefined ? edgeFilter.add_nodes : parsedParams.add_nodes ? parsedParams.add_nodes : 10}
                         onChange={(e, nv:number)=>{
-                            // console.log({...parsedParams, pvalue: nv})
                             // router_push(router, pathname, {
                             //     q: JSON.stringify({...parsedParams, pvalue: nv}),
                             // })
@@ -440,7 +449,7 @@ const InteractiveButtons = ({
                 <Tooltip title={`Filter edges by z-score`}>
                     <Slider 
                         color="secondary"
-                        value={edgeFilter.zscore !== undefined ? edgeFilter.zscore: min_z}
+                        value={edgeFilter.zscore !== undefined ? edgeFilter.zscore: parsedParams.zscore ? parsedParams.zscore : min_z}
                         onChange={(e, nv:number)=>{
                             setEdgeFilter({...edgeFilter, zscore: nv})
                         }}
@@ -451,11 +460,17 @@ const InteractiveButtons = ({
                         aria-labelledby="z-slider" />
                 </Tooltip> 
                 <Tooltip title={`Submit changes`}>
-                <Link href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
-                    <IconButton  >
-                            <SendIcon />
-                        </IconButton>
-                    </Link>
+                    <IconButton disabled={disable_button} sx={{position: "relative"}}>
+                        <Link onClick={()=>{
+                            if ((user_filter.zscore !== edgeFilter.zscore || min_z) || (user_filter.add_nodes !== edgeFilter.add_nodes || 10)) 
+                                setLoading(true)
+                            }} 
+                            href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
+                            
+                                <SendIcon/> {loading && <CircularProgress sx={{position: "absolute", left: 0}}/>}
+                            
+                        </Link>
+                    </IconButton>
                 </Tooltip>
                 <div style={{ marginLeft: 'auto' }}>
                 <Tooltip title={`Reset subnetwork`}>
