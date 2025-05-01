@@ -24,7 +24,7 @@
 "rummageo":[
     {
         "resource":"RummaGEO Human Gene Sets",
-        "url":"https://s3.amazonaws.com/maayanlab-public/rummageo/2.5/human-geo-auto.gmt.gz",
+        "url":"https://minio.dev.maayanlab.cloud/rummageo/2.5/human-geo-auto.gmt.gz",
         "size":"1.1 GB"
     },
     {
