@@ -3,16 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import { makeTemplate } from "@/utils/helper";
 import { precise } from "@/utils/math";
 import { Grid, Button, Tabs, Tab, Card, CardContent } from "@mui/material";
-import { DataGrid, GridToolbar, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { UISchema } from "@/app/api/schema/route";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 import { CustomToolbar } from "../Chea3Enrichment/NetworkTable";
+import Icon from '@mdi/react';
+import { mdiOpenInNew } from '@mdi/js';
 const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) => {
 	const [processedData, setProcessedData] = useState<{
 		[key:string]: {
 			header: Array<{field: string, headerName: string, count: number, [key: string]: string | number | {[key:string]: any}}>, 
 			data: {[key: string]: {[key: string]: any}}, 
-			columnVisibilityModel: {[key: string]: boolean}
+			columnVisibilityModel: {[key: string]: boolean},
 		}
 	} | null>(null)
 	// const [mapper, setMapper] = useState({})
@@ -55,13 +57,16 @@ const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) =
 									header.push({
 										field,
 										headerName: field,
-										flex: 2,
+										flex: ["ARCHS4", "GDLPA"].indexOf(field) > -1 ? 1.5: 2,
 										style: {flexDirection: "row"},
 										align: "left",
 										text: prop.text,
 										href: prop.href,
 										renderCell: ({row, field})=>{
-											return <Button href={row[field].href}>{row[field].text}</Button>
+											if (["Harmonizome", "ARCHS4", "GDLPA"].indexOf(field) > -1) {
+												return <Button color="secondary" href={row[field].href}><Icon path={mdiOpenInNew} size={1} /></Button>	
+											}
+											return <Button color="secondary" href={row[field].href}>{row[field].text}</Button>
 										},
 										count: 0
 									})
@@ -70,7 +75,7 @@ const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) =
 									header.push({
 										field,
 										headerName: field,
-										flex: 1,
+										flex: field === "TF" ? 2: 1,
 										style: {flexDirection: "row"},
 										align: "left",
 										text: prop.text,
