@@ -140,8 +140,8 @@ const Enrichment = async ({
                     body: formData,
                 })
             ).json()).userListId
-            parsedParams.userListId = userListId
-            const parsed = await get_element(parsedParams)
+            // parsedParams.userListId = userListId
+            const parsed = await get_element({...parsedParams, userListId})
             elements = parsed.elements
             min_z = parsed.min_z
             max_z = parsed.max_z
@@ -162,6 +162,7 @@ const Enrichment = async ({
         if (request.ok) short_url = (await request.json())["shorturl"]
         else console.log("failed turl")
         console.log("Got url")
+        console.log(parsedParams)
         return (
             <Grid container spacing={2} >
                 <Grid item xs={12}>
