@@ -12,42 +12,19 @@ export async function generateMetadata(): Promise<Metadata> {
   // optionally access and extend (rather than replace) parent metadata
   const metadata: Metadata = {
     title: header.icon.faviconTitle || header.title,
-    description: '',
-    icons: {
-      icon: header.icon.favicon
-    },
-    openGraph: {
-      title: 'ChEA-KG',
-      description: 'Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1559 source and 700 target human transcription factors.',
-      url: 'https://chea-kg.maayanlab.cloud/',
-      siteName: 'ChEA-KG',
-      images: [
-        {
-          url:'https://chea-kg.maayanlab.cloud/hgrnchear_logo.png',
-          width: 1024,
-          height: 998
-        }
-      ],
-      locale:'en_US',
-      type: 'website'
-    }
-
+    description: 'Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1559 source and 700 target human transcription factors.',
   }
   return metadata
 }
 
 export default async function RootLayout({
-  jsonld,
   children
 }: {
-  jsonld: React.ReactNode
   children: React.ReactNode
-  
 }) {
   const schema = await fetch_kg_schema()
   return (
     <html lang="en">
-      <head>{jsonld}</head>
         <body>
           <ThemeRegistry options={{ key: 'mui' }} theme={schema.ui_theme || "cfde_theme"}>
             {children}
