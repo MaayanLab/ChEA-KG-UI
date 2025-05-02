@@ -106,8 +106,6 @@ const Enrichment = async ({
     }, [])
     
     const parsedParams: EnrichmentParams = query_parser.parseServerSide(searchParams.q)
-    console.log(parsedParams, "params")
-    //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
         const cell_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_gene_sets`)).json()
