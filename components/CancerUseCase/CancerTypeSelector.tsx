@@ -66,7 +66,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 		icon_buttons.push(
 			// <Grid item key={i} sx={{mx:1}} xs={4} sm={3} md={2}>
 			// <Link key={i} href={`/cancer_atlas?q={"min_lib":3, "group_name": "${i}", "term": "${Object.keys(cancer_types[currentType])[0]}", "zscore": 5, "search":true, "limit": 50}`}>
-			<Button sx={active ? activeStyle : buttonStyle} onClick={()=>{
+			<Button key={i} sx={active ? activeStyle : buttonStyle} onClick={()=>{
 				setLoading(true)
 				setClicked(i)
 				const query = {
