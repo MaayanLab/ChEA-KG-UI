@@ -57,7 +57,7 @@ const NetworkTable = ({data, schema}: {data: NetworkSchema, schema: UISchema}) =
 									header.push({
 										field,
 										headerName: field,
-										flex: ["ARCHS4", "GDLPA"].indexOf(field) > -1 ? 1.5: 2,
+										flex: ["ARCHS4", "GDLPA"].indexOf(field) > -1 ? 1.4: 2,
 										style: {flexDirection: "row"},
 										align: "left",
 										text: prop.text,
