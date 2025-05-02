@@ -15,6 +15,10 @@
 	3. &nbsp;Filtering the results
 	4. &nbsp;Viewing results in a table or bar chart
 6. [User Data](#user-data)	
+7. [API](#api)
+	1. &nbsp;Analyze a gene set
+    2. &nbsp;View added gene set
+    3. &nbsp;Get enriched subnetwork  
 
 ## **Abstract** <a name="grn-search"></a>
 Gene expression is controlled by transcription factors that selectively bind to DNA to regulate mRNA expression of all human genes. Transcription factors control the expression of other transcription factors, forming a complex gene regulatory network (GRN) with switches, feedback loops, and other regulatory motifs. Many experimental methods and computational tools have been developed to reconstruct GRNs in-silico. Here we present a different approach to reconstruct the human GRN. By submitting thousands of gene sets from the RummaGEO resource for transcription factor enrichment analysis with ChEA3, we are able to distill signed and directed edges that connect all human transcription factors to construct a high quality human GRN. The GRN has 130,793 signed and directed edges between 703 source and 1,543 target transcription factors. The network is made accessible via an interactive web-based application called ChEA-KG. ChEA-KG enables users to query the GRN by searching for single or pairs of transcription factors, as well as by submitting gene sets to perform transcription factor enrichment analysis with ChEA3 and then place the enriched transcription factors in context of ChEA-KG. To demonstrate the utility of ChEA-KG, we systematically identified transcription factor subnetworks that regulate differentially expressed genes in tumors from ten cancer types, and 69 subtypes, profiled by the Clinical Proteomic Tumor Analysis Consortium (CPTAC).    
@@ -195,3 +199,195 @@ The table view of the enrichment analysis results in ChEA-KG lists the enriched 
 ## **User Data** <a name="user-data"></a>
 
 User-submitted gene sets are stored as unique node entities in the Neo4j database and are identified with a UUID that is produced when the set is originally submitted. This UUID is made part of the URL that provides permanent access to the results page of the submitted set. The UUID is kept private unless the user shares the URL with their colleagues. As the owners of the site, we guarantee that we have no intention to ever share, sell, analyze, post, or combine the uploaded gene sets with other users, and we will do our best effort to ensure that the database that stores these gene sets is secured. 
+
+## **API Documentation** <a name="api"></a>  
+The ChEA-KG API enables users to programmatically access the enrichment analysis feature. For more examples on how to use these endpoints, we have created two notebooks that show how to prepare and analyze gene sets with ChEA-KG, using either [gene counts](https://colab.research.google.com/drive/1hE-bBBE38YndLlbjMO3m-Tv38MssKjVc?usp=sharing) or [BED files](https://colab.research.google.com/drive/1PQ6xhmARN1yh0X6YnOle39tTIYjpmS5u?usp=sharing) as input. 
+### *Analyze gene set*
+**Method** POST  
+**URL** /enrichment/addList  
+**Returns** JSON object with unique ID to view analysis results  
+**Parameters**    
+|||
+|--|--|
+| list | newline-separated list of genes | 
+| description | optional description of input gene set |
+
+**Example code:**  
+
+```python
+CHEA_KG = 'https://chea-kg.maayanlab.cloud/api/enrichment'
+
+gene_list = [MIR4454','RNU86','SNORD34','EEF1A1','RPL11','DCT','RPL37A','SNORD33','GAPDH','SNORD74','MIR4461','MIR4680','CD63','SNORD68',
+'LDHA','TMSB4X','RPL27','SNORD108','MIR3191','RPS18','RPL41','ENO1','CAPG','RPS15A','SNORD79','FN1','LGALS3','GPNMB','NPM1','RPL7',
+'RPS14','SNORD38A','RPS13','RPS7','ATOX1','PKM2','RPL31','SNORD76','SNORD42B','RPS29','BCYRN1','RPL6','ATP5E','RPS3A','RPL39','YWHAZ',
+'TOMM7','RPS27A','SNORD49A','MIR4482-1','SNORD5','RPL30','MIR1292','RPL5','SNORD59A','RPS21','PSAP','RPL35A','RPL13AP5','SNORD50B',
+'H2AFZ','SNORD27','PPIA','PRDX1','RPL21P28','RPL9','RPS12','HSP90B1','COX7C','RPL23','SNORD30','LDHB','GNB2L1','SGK1','FKBP1A','SNORD57',
+'HSPD1','SNORD12','MIR4273','RPS4X','UQCRH','RPS2','COX5B','ATP5B','MIR4687','MIR4263','RPS10','RAN','MIR3687','PTTG1','SNORD87','ATP1A1',
+'NME2','SNORD18A','RPSA','TUBB','RPL22','RPLP0','SNORD101','ANXA5','CD74','RPS6','MIR4691','GNAS','GSTO1','EIF4A1','NQO1','SNAR-G1',
+'MIR4653','UBB','RPL38','SNORD4A','SNORD82','MIA','SNORD37','EIF3E','MIR4678','PDIA6','SLC25A3','PARK7','PGK1','C17orf76-AS1','YBX1',
+'NCL','RPL35','HSP90AB1','MIR103B2','RPL26','DSTN','SNHG8','CALR','EEF1G','ATP5J2','TUBA1B','CSTB','SPP1','CALU','PABPC1','PRAME','LY6E',
+'HNRNPA2B1','SNORD38B','SLC25A5','FABP5','MIR1915','SERPINF1','RPS8','DDOST','HINT1','RPL18A','RPS20','PSMA7','CHCHD2','HNRNPA1','RPL15',
+'PSMA1','HLA-DRA','RPS3','RPL27A','EEF1B2','TXN','RPL4','SNORD16','PRNP','MDH1','NME1','CANX','SNORD35B','TBCA','TPI1','LOC645591','PTMA',
+'ATP5A1','CBX3','SDCBP','C1QBP','DBI','SNORD59B','PLA1A','RPL37','NACA','CDK2','MIR324','RPS9','ALDOA','COX6A1','RPN2','ATP5F1','ATP5G3',
+'SNAR-E','GMPR','SNRPD2','MIR4700','GYPC','CTSK','SHFM1','P4HB','CTSZ','MIR1260B','PCNA','HMGB1','COX7B','TM4SF1','SNORA41','CTSB',
+'SLC20A1','IER3','ACSL3','CKS2','ATP1B3','MIR3188','ZNFX1-AS1','COX7A2','MIR135A1','PTGES3','CSDE1','LAMP2','SDC3','AMD1','MIR4523',
+'SPON2','RPL10A','MIR4639','MIR4517','XRCC6','CSE1L','RPL8','MIR3653','MIR3190','SNORD54','RPL14','NBL1','ACTR3','ATP5C1','SNORD22',
+'ATP1A1OS','EIF5A','SNORA10','GNG12','EIF3L','YWHAE','VDAC1','CD109','SRP9','ATP5H','SLIRP','MFI2','RPL19','LPXN','CLIC4','BTF3','HLA-A',
+'FAM167B','PDIA3','SEC61G','MGST1','TXNRD1','ATP5G1','LITAF','HSD17B12','IVNS1ABP','SNORD31','NT5E','A2M','UBA52','POMP','HMGN2',
+'ARL6IP5','HSP90AA1','SIRPA','EMP3','WFDC1','EIF3D','PYGB','SSBP1','SNRPB','RPL32','CCT7','IFI6','MCAM','RPL10','XRCC5','ATP6V1E1',
+'SNRPG','MITF','RPL13A','MIR2861','C3orf14','C14orf2','RPS5','FBXO7','SPARC','SYPL1','RGS10','SLC45A2','APP','ANXA1','CD68','CCT2','IPO7',
+'CCT4','HNRNPA3','CAP1','HSPE1','MBP','ACTR2','UCN2','MIR25','CASP1','EIF3I','SMS','MME','ARPC2','CDC42','NDUFB9','AP1S2','PRDX3','SRPX',
+'PHGDH','FBL','CTSC','SNORA20','HNRNPH1','PDIA4','EIF3H','SOAT1','VGF','GANAB','HSPA9','GLO1','PRKAR1A','SNRPF','SDHB','TIMP1','PSMD6',
+'BCL2A1','SNRPB2','NDUFB3','SNHG6','CORO1C','THOC7','SNX10','CEACAM1','LAPTM4B','SFRP1','ARPC3','G3BP1','COX17','GPM6B','SSR3','ETFB',
+'MIR4665','CCT8','SLC43A3','GJB1','EIF4B','RPL18','KPNA2','CAPZB','FABP7','NOP56','HNRNPK','ERP29','VAMP8','OAT','PSMB1','CTSH','NSA2',
+'LGALS3BP','SSB','LUZP6','POLE4','TIMP3','SF3B14','SUMO1','UGP2','PSMA2','PEG10','ERGIC3','ERH','MIR4785','C19orf79','PLP2','AKR1B1',
+'AZIN1','RAB38','ADSL]
+
+description = "Genes bound by AR in CCS1477-treated pancreatic cancer cells"
+
+payload = {
+    'list': (None, "\n".join(gene_list)),
+    'description': (None, description)
+}
+
+response=requests.post(f"{CHEA_KG}/addList", files=payload)
+data = json.loads(response.text)
+print(data)
+```
+<br></br>
+**Example results**
+
+```
+{'userListId': '4793eb83-6b01-4387-ac2b-15bc3f911cf3'}
+```
+<br></br>
+## *View added gene set*
+**Method** GET  
+**URL** /enrichment/view  
+**Returns** JSON object with genes and description  
+**Parameters**    
+|||  
+|--|--|  
+| set| list of genes |     
+| desc | description of input gene set |    
+     
+<br></br>
+**Example code:**   
+```python
+response = requests.get(f'{CHEA_KG}/view?userListId={data['userListId']}')
+if not response.ok:
+    raise Exception('Error getting gene list')
+    
+data = json.loads(response.text)
+print(data)
+```
+
+<br></br>
+**Example result:**
+```json
+{
+    'set': ['PHF14', 'RBM3', 'MSL1', 'PHF21A', 'ARL10', 'INSR', 'JADE2', 'P2RX7', 'LINC00662', 'CCDC101', 
+            'PPM1B', 'KANSL1L', 'CRYZL1', 'ANAPC16', 'TMCC1', 'CDH8', 'RBM11', 'CNPY2', 'HSPA1L', 'CUL2', 'PLBD2', 
+            'LARP7', 'TECPR2', 'ZNF302', 'CUX1', 'MOB2', 'CYTH2', 'SEC22C', 'EIF4E3', 'ROBO2', 'ADAMTS9-AS2', 
+            'CXXC1', 'LINC01314', 'ATF7', 'ATP5F1'], 
+    'desc': 'Genes bound by AR in CCS1477-treated pancreatic cancer cells'
+}
+```
+<br></br>
+## *View enriched subnetwork data*
+**Method** GET  
+**URL** /enrichment/  
+**Returns** JSON formatted node and edge data  
+**Parameters**    
+|||
+|--|--|
+| userListId | ID returned from addList endpoint | 
+| minLib | minimum number of [ChEA3 primary libraries](https://maayanlab.cloud/chea3/) in which a TF must be ranked |
+| term_limit | number of top-ranked TFs to visualize (ChEA-KG defaults to 10) |
+| libraries | this specifies the ChEA3 ranking method, we use 'Integrated--meanRank' |
+
+**Example code:**     
+```python
+q = {
+    'min_lib': 3, # minimum number of libraries that a TF must be ranked in
+    'libraries': [
+        {'library': "Integrated--meanRank", 'term_limit': 10} # edit term_limit to change number of top-ranked TFs
+    ],
+    'limit':50, # controls number of edges returned - may cause issues with visualization if too large
+    'userListId': data['userListId']
+}
+
+query_json=json.dumps(q)
+
+res = requests.post(CHEA_KG, data=query_json)
+if res.ok:
+    data = json.loads(res.text)
+    print(data)
+else:
+    data = None
+    print(res.text)
+```
+<br></br>
+**Example results:**
+```  
+{
+	"nodes": [
+		{
+			"data": {
+				"id": 7701,
+				"kind": "Top Ranked TFs",
+				"label": "ZNF142",
+				"HGNC": "HGNC:12927",
+				"Ensembl": "ENSG00000115568",
+				"uri": "https://www.ncbi.nlm.nih.gov/gene/7701",
+				"library": "Integrated--meanRank",
+				"enrichr_label": "ZNF142",
+				"score": 107,
+				"rank": "7",
+				"overlap": 3,
+				"libs": [
+					{
+						"library": "ARCHS4 Coexpression",
+						"score": 193
+					},
+					{
+						"library": "Enrichr Queries",
+						"score": 95
+					},
+					{
+						"library": "GTEx Coexpression",
+						"score": 33
+					}
+				],
+				"rank_sum": 321,
+				"value": 0.4604951343720062,
+				"node_type": 0,
+				"borderWidth": 0,
+				"gradient_color": "#8ad6ff",
+				"color": "#8ad6ff"
+			}
+		},
+        ...
+    ],
+    [
+        "edges": [
+		{
+			"data": {
+				"source": 6664,
+				"target": 6664,
+				"source_label": "SOX11",
+				"target_label": "SOX11",
+				"kind": "Relation",
+				"label": "downregulates",
+				"p_value": 0,
+				"z_score": 27.88027928302959,
+				"relation": "downregulates",
+				"lineColor": "#c70a2d",
+				"directed": "tee"
+			}
+		},
+        ...
+        ]
+    ]
+}
+```   
