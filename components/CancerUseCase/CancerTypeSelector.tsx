@@ -58,6 +58,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 	const buttonStyle = styles.enabled
 	const activeStyle = styles.active
 	const currentType = group_name
+	console.log(elements)
 	useEffect(()=>{
 		setLoading(false)
 	}, [elements])
@@ -66,13 +67,14 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 		icon_buttons.push(
 			// <Grid item key={i} sx={{mx:1}} xs={4} sm={3} md={2}>
 			// <Link key={i} href={`/cancer_atlas?q={"min_lib":3, "group_name": "${i}", "term": "${Object.keys(cancer_types[currentType])[0]}", "zscore": 5, "search":true, "limit": 50}`}>
+			<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})}`}>
 			<Button key={i} sx={active ? activeStyle : buttonStyle} onClick={()=>{
 				setLoading(true)
 				setClicked(i)
-				const query = {
-					q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
-				}
-				router_push(router, pathname, query)
+				// const query = {
+				// 	q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
+				// }
+				// router_push(router, pathname, query)
 				
 			}}>
 				<Image
@@ -87,6 +89,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 				/>
 				{(loading && i === clicked) && <CircularProgress sx={{position: "absolute", objectFit: "contain"}}/> }
 			</Button>
+			</Link>
 			// </Link>
 			// </Grid>
 		)
@@ -110,17 +113,14 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 				}>
 					{Object.keys(cancer_types[currentType]).map((type) => (
 						<MenuItem key={type} sx={{backgroundColor:'transparent'}}>
+							<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentType, "term": type, "zscore": 5, "search":true, "limit": 50})}`}>
 							<Button sx={{color: "black"}} onClick={(e)=>{
 								// e.preventDefault()
-								setLoading(true)
-								const query = {
-									q: JSON.stringify({"min_lib":3, "group_name": currentType, "term": type, "zscore": 5, "search":true, "limit": 50})
-								}
-								router_push(router, pathname, query)	
-								
+								setLoading(true)								
 							}}>
 								{type}, {cancer_types[currentType][type].length} genes
 							</Button> 
+							</Link>
 						</MenuItem>
 					))}
 				</Select>

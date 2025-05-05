@@ -162,7 +162,7 @@ const Enrichment = async ({
         if (request.ok) short_url = (await request.json())["shorturl"]
         else console.log("failed turl")
         console.log("Got url")
-        console.log(parsedParams)
+        console.log(elements.nodes.length)
         return (
             <Grid container spacing={2} >
                 <Grid item xs={12}>

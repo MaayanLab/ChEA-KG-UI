@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { router_push } from "@/utils/client_side";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
+import Link from "next/link";
 export const CellTypeForm = ({cell_types, limit=10, group_name, term, elements}: {cell_types: {[key:string]: {[key: string] : string[]}}, limit?: number, term: string, group_name: string, elements: NetworkSchema}) => {
 	const [loading, setLoading] = useState(false)
 	const [clicked, setClicked] = useState({group: '', label: ''})
@@ -60,16 +61,19 @@ export const CellTypeForm = ({cell_types, limit=10, group_name, term, elements}:
 									// 		<ArrowForwardIcon />
 									// 	</IconButton>
 									// </Link>
-									<IconButton edge="end" sx={{position: "relative"}}aria-label="enrich" onClick={()=>{
-										if ((group_name !== group) || (term !== label)) {
-											setLoading(true)
-											setClicked({group, label})
-										}
-										const query={"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50}
-										router_push(router, pathname, {q: JSON.stringify(query)})
-									}}> 
-										<ArrowForwardIcon /> {(loading && clicked.group === group && clicked.label === label) && <CircularProgress sx={{position: "absolute", left: 0}}/>}
-									</IconButton>
+									<Link href={`/cell_atlas?q=${JSON.stringify({"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50})}`}>
+										<IconButton edge="end" sx={{position: "relative"}} aria-label="enrich" onClick={()=>{
+											if ((group_name !== group) || (term !== label)) {
+												setLoading(true)
+												setClicked({group, label})
+											}
+											// const query={"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50}
+											// router_push(router, pathname, {q: JSON.stringify(query)})
+										}}> 
+												<ArrowForwardIcon /> {(loading && clicked.group === group && clicked.label === label) && <CircularProgress sx={{position: "absolute", left: 0}}/>}
+											
+										</IconButton>
+									</Link>
 								}
 							>
 								<Typography variant="subtitle2">{label.replace(/-/g, ' ')}</Typography>

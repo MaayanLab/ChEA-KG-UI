@@ -46,7 +46,6 @@ export const TooltipComponent = ({data, float, tooltip_templates, schema, filter
 			filter = JSON.parse(value)
 		}
 	});
-	console.log(filter)
 	const router = useRouter()
 	const elements = []
 	const field = data.kind === "Relation" ? data.label : data.kind.replace(/Queried TFs that are also enriched|Top Ranked TFs|Expanded TFs/g, "Transcription Factor")
