@@ -1,5 +1,5 @@
 import { Grid, Container } from '@mui/material'
-import { Component } from "../../component_selector"
+import { AsyncComponent } from "../../component_selector"
 import { fetch_kg_schema } from "@/utils/initialize"
 import { Suspense } from 'react'
 import Header from '@/components/Header'
@@ -48,9 +48,7 @@ export default async function Page({params, searchParams}: {
           <main className="mt-8 pb-8 pl-10 pr-10">
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Suspense>
-                    <Component searchParams={searchParams} {...root_tab}/>
-                </Suspense>
+                  <Suspense><AsyncComponent searchParams={searchParams} {...root_tab}/></Suspense>
               </Grid>
             </Grid>
           </main>

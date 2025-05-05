@@ -13,11 +13,10 @@ import SimpleTermAndGeneSearch from '@/components/SimpleTermAndGeneSearch'
 import Credits from '@/components/Credits'
 import Tutorial from '@/components/Tutorial.mdx'
 import { Suspense } from 'react'
-import { LinearProgress } from '@mui/material'
 import EnrichmentUseCase from '@/components/EnrichmentUseCase'
 import CancerUseCase from '@/components/CancerUseCase'
 
-const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
+export const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
 	{component: string, endpoint: string, searchParams: {[key:string]: any}, 
 	props: {[key:string]: any}}) => {
 	if (component === "KnowledgeGraph") return await TermAndGeneSearch({props, searchParams})
@@ -39,9 +38,8 @@ const AsyncComponent = async ({component, searchParams, props, endpoint,}:
 	else return null
 }
 
-export const Component = (props: {component: string, endpoint: string, searchParams: {[key:string]: any}, props: {[key:string]: any}}) => {
-	return <>
-		{/*@ts-expect-error Server Component*/}
-		<AsyncComponent {...props}/>
-	</>
-}
+// export const Component = (props: {component: string, endpoint: string, searchParams: {[key:string]: any}, props: {[key:string]: any}}) => {
+// 	return <Suspense>
+// 		<AsyncComponent {...props}/>
+// 	</Suspense>
+// }
