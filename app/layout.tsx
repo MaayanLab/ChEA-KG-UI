@@ -3,8 +3,8 @@ import ThemeRegistry from './ThemeRegistry'
 import './global.css'
 import { fetch_kg_schema } from '@/utils/initialize'
 import React from 'react'
+import Head from 'next/head'
 
- 
 export async function generateMetadata(): Promise<Metadata> {
  
   // fetch data
@@ -13,6 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const metadata: Metadata = {
     title: header.icon.faviconTitle || header.title,
     description: 'Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1559 source and 700 target human transcription factors.',
+    icons: {
+      icon: header.icon.favicon
+    }
   }
   return metadata
 }
