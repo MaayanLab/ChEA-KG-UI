@@ -38,9 +38,7 @@ export default async function Home({searchParams}: {
           <main className="mt-8 pb-8 pl-10 pr-10">
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                  <Suspense>
                     <AsyncComponent searchParams={searchParams} {...root_tab}/>
-                  </Suspense>
               </Grid>
             </Grid>
           </main>
