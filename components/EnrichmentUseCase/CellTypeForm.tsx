@@ -14,7 +14,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { router_push } from "@/utils/client_side";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
@@ -24,10 +24,15 @@ export const CellTypeForm = ({cell_types, limit=10, group_name, term, elements}:
 	const [clicked, setClicked] = useState({group: '', label: ''})
 	const router = useRouter()
 	const pathname = usePathname()
+	const timer = useRef(null)
 	useEffect(()=>{
 		setClicked({group: '', label: ''})
+		if (timer.current) clearTimeout(timer.current)
 		setLoading(false)
 	}, [elements])
+	
+	
+
 	return (
 		<>
 		<Card sx={{height: 550, overflow: "auto", borderWidth:1, borderColor:'black', boxShadow: "none", position: "relative"}}>
@@ -66,6 +71,12 @@ export const CellTypeForm = ({cell_types, limit=10, group_name, term, elements}:
 											if ((group_name !== group) || (term !== label)) {
 												setLoading(true)
 												setClicked({group, label})
+												timer.current = setTimeout(()=>{
+													const query = {q: JSON.stringify({"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50})}
+													console.log("refreshing", query)
+													router_push(router, pathname, query)
+												}, 50000)
+												
 											}
 											// const query={"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50}
 											// router_push(router, pathname, {q: JSON.stringify(query)})

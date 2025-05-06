@@ -15,7 +15,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryState } from "next-usequerystate";
 import { router_push } from "@/utils/client_side";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 
 const Button = dynamic(() => import('@mui/material/Button'));
@@ -54,14 +54,18 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 	const [clicked, setClicked] = useState(group_name)
 	const router = useRouter()
 	const pathname = usePathname()
+	const timer = useRef(null)
 	let icon_buttons = []
 	const buttonStyle = styles.enabled
 	const activeStyle = styles.active
 	const currentType = group_name
-	console.log(elements)
 	useEffect(()=>{
 		setLoading(false)
 	}, [elements])
+	useEffect(()=>{
+			if (timer.current) clearTimeout(timer.current)
+			setLoading(false)
+		}, [elements])
 	for (const i of ((Object.keys(cancer_types)))) {
 		let active = i === currentType ? true : false
 		icon_buttons.push(
@@ -75,6 +79,13 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 				// 	q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
 				// }
 				// router_push(router, pathname, query)
+				timer.current = setTimeout(()=>{
+					const query = {
+						q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
+					}
+					console.log("refreshing", query)
+					router_push(router, pathname, query)
+				}, 50000)
 				
 			}}>
 				<Image
@@ -116,7 +127,14 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 							<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentType, "term": type, "zscore": 5, "search":true, "limit": 50})}`}>
 							<Button sx={{color: "black"}} onClick={(e)=>{
 								// e.preventDefault()
-								setLoading(true)								
+								setLoading(true)	
+								timer.current = setTimeout(()=>{
+									const query = {
+										q: JSON.stringify({"min_lib":3, "group_name": currentType, "term": type, "zscore": 5, "search":true, "limit": 50})
+									}
+									console.log("refreshing", query)
+									router_push(router, pathname, query)
+								}, 50000)							
 							}}>
 								{type}, {cancer_types[currentType][type].length} genes
 							</Button> 
