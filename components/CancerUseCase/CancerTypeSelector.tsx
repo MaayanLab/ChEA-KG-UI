@@ -59,9 +59,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 	const buttonStyle = styles.enabled
 	const activeStyle = styles.active
 	const currentType = group_name
-	useEffect(()=>{
-		setLoading(false)
-	}, [elements])
+	
 	useEffect(()=>{
 			if (timer.current) clearTimeout(timer.current)
 			setLoading(false)
@@ -85,7 +83,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 					}
 					console.log("refreshing", query)
 					router_push(router, pathname, query)
-				}, 5000)
+				}, 12000)
 				
 			}}>
 				<Image
@@ -134,7 +132,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 									}
 									console.log("refreshing", query)
 									router_push(router, pathname, query)
-								}, 5000)							
+								}, 12000)							
 							}}>
 								{type}, {cancer_types[currentType][type].length} genes
 							</Button> 

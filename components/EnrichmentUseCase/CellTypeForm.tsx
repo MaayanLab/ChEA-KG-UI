@@ -75,7 +75,7 @@ export const CellTypeForm = ({cell_types, limit=10, group_name, term, elements}:
 													const query = {q: JSON.stringify({"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50})}
 													console.log("refreshing", query)
 													router_push(router, pathname, query)
-												}, 5000)
+												}, 12000)
 												
 											}
 											// const query={"min_lib":3, "group_name": group, "term": label, "zscore": 5, "search":true, "limit": 50}
