@@ -85,7 +85,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 					}
 					console.log("refreshing", query)
 					router_push(router, pathname, query)
-				}, 50000)
+				}, 5000)
 				
 			}}>
 				<Image
@@ -134,7 +134,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 									}
 									console.log("refreshing", query)
 									router_push(router, pathname, query)
-								}, 50000)							
+								}, 5000)							
 							}}>
 								{type}, {cancer_types[currentType][type].length} genes
 							</Button> 
