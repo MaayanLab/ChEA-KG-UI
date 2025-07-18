@@ -11,6 +11,9 @@ import { Logo } from '../misc/logo';
 import Counter from '../Counter';
 import { TextNav } from './TextNav';
 import SmallNav from "./SmallNav";
+import { Annoucement } from "./Annoucement"
+import { useState, useEffect } from "react"
+
 
 export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 	{
@@ -94,10 +97,13 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 export default function Header ({schema}: {schema:UISchema}) {
 	const {title, icon, tabs, divider, counterTop, counter} = schema.header
 	return  (
-		<AppBar position="static" sx={{color: "#000", marginBottom: 1}}>
-			<Toolbar>
-				<Nav counterTop={counterTop} counter={counter} tabs={tabs} divider={divider} ui_theme={schema.ui_theme} title={title} icon={icon}/>
-			</Toolbar>
-		</AppBar>
+		<>
+				<AppBar position="static" sx={{color: "#000", marginBottom: 1}}>
+					<Toolbar>
+						<Nav counterTop={counterTop} counter={counter} tabs={tabs} divider={divider} ui_theme={schema.ui_theme} title={title} icon={icon}/>
+					</Toolbar>
+				</AppBar>
+				<Annoucement/>
+		</>
 	)
 }

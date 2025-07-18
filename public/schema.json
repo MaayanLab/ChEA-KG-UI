@@ -155,7 +155,7 @@
                 "props": {
                     "init_function": "initialize_kg",
                     "title": "Transcription Factor Regulatory Subnetworks",
-                    "description": "Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1559 source and 700 target human transcription factors.",
+                    "description": "Search for subnetworks within the ChEA-KG GRN by entering one or two TFs. The background GRN contains 131,181 signed and directed TF-TF regulatory relationships between 1,559 target and 700 source human transcription factors.",
                     "initial_query": {
                         "start": "Transcription Factor",
                         "start_term": "LYL1",
