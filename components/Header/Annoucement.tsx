@@ -1,6 +1,6 @@
 
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Alert, Button, AlertTitle, Grid, Typography } from '@mui/material'
 import Zoom from '@mui/material/Zoom'
 
@@ -21,17 +21,32 @@ const styles = {
 export const Annoucement = () => {
     const [visible, setVisible] = useState(true);
     // keeps annoucement from reloading on page refresh or tab switch
-    /*useEffect(() => {
+
+    useEffect(() => {
+        const handleUnload = () => {
+            sessionStorage.removeItem('announcementClosed'); // Or any other item
+        };
+
+        window.addEventListener('unload', handleUnload);
+
+        return () => {
+            window.removeEventListener('unload', handleUnload);
+        };
+    }, [])
+
+    useEffect(() => {
         const closed = sessionStorage.getItem("announcementClosed");
-        if (closed === "true") {
-          setVisible(false);
+        if (closed === null) {
+          setVisible(true);
+        } else {
+            setVisible(false)
         }
-       setVisible(false)
-      }, [])*/
+       
+      }, [])
     
     const handleClose = () => {
         setVisible(false)
-        //sessionStorage.setItem("announcementClosed", "true");
+        sessionStorage.setItem("announcementClosed", "true");
     }
 
     return(
