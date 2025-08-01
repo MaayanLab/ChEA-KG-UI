@@ -103,7 +103,6 @@ export default function Header ({schema}: {schema:UISchema}) {
 						<Nav counterTop={counterTop} counter={counter} tabs={tabs} divider={divider} ui_theme={schema.ui_theme} title={title} icon={icon}/>
 					</Toolbar>
 				</AppBar>
-				<Annoucement/>
 		</>
 	)
 }
