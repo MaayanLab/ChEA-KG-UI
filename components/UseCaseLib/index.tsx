@@ -6,6 +6,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import { Stack } from '@mui/material'
 
 export const UseCase = ({title, description, src, image, launch, index}:
     {
@@ -31,35 +32,38 @@ export const UseCase = ({title, description, src, image, launch, index}:
                                 {title}
                             </Typography>}
                     />
-                    <CardMedia
-                        component='img'
-          
-                        image={image}
-                        alt={title}
-                    />
-                    <CardContent>
-                        <Typography variant="body2" align = 'left' noWrap={false} sx={{paddingBottom:2}}>
-                            {description}
-                        </Typography>
-                        <Box sx={{ display: 'flex', justifyContent: 'center'}}>
-                            <Button 
-                                href={src} 
-                                key={title} 
-                                size="large"
-                                variant="contained"
-                                color='primary'
-                                target='_blank'
-                                rel='noopener noreferrer'
-                                sx={{
-                                    alignContent: 'center',
-                                    padding: "2px 10px 2px 10px",                                    
-                                }}
-                                > 
-                                {launch} 
-                                </Button>
+                    <CardContent sx={{flexGrow: 1}}>
+                        <Stack sx={{height: '100%'}}>
+                            <CardMedia
+                                component='img'
+                
+                                image={image}
+                                alt={title}
+                            />
+                            <Box sx={{flexGrow: 1}}>
+                                <Typography variant="body2" align = 'left' noWrap={false} sx={{paddingBottom:2, flexGrow: 1}}>
+                                    {description}
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+                                <Button 
+                                    href={src} 
+                                    key={title} 
+                                    size="large"
+                                    variant="contained"
+                                    color='primary'
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    sx={{
+                                        alignContent: 'center',
+                                        padding: "2px 10px 2px 10px",                                    
+                                    }}
+                                    > 
+                                    {launch} 
+                                    </Button>
 
-                        </Box>
-                        
+                            </Box>
+                        </Stack>
                     </CardContent>
                 </Card>
 
