@@ -5,10 +5,10 @@ services:
       context: .
       dockerfile: ./Dockerfile.next
       args:
-        - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
+        - NEO4J_URL=${NEO4J_PROD_URL}
         - NEXT_PUBLIC_HOST=${NEXT_PUBLIC_HOST_PROD}  
     platform: linux/amd64
-    image: maayanlab/chea4:2.7.0
+    image: maayanlab/chea4:2.7.1
     x-kubernetes:
       strategy:
         type: Recreate
@@ -18,18 +18,18 @@ services:
     ports:
       - 3000:3000
     environment:
-      - NEXT_PUBLIC_NEO4J_URL=${NEXT_PUBLIC_NEO4J_PROD_URL}
+      - NEO4J_URL=${NEO4J_PROD_URL}
       - NEXT_PUBLIC_ENRICHR_URL=https://maayanlab.cloud/Enrichr
       - NEXT_PUBLIC_GENESHOT_URL=https://maayanlab.cloud/geneshot
-      - NEXT_PUBLIC_NEO4J_USER
-      - NEXT_PUBLIC_NEO4J_NAME
-      - NEXT_PUBLIC_NEO4J_PASSWORD
+      - NEO4J_USER
+      - NEO4J_NAME
+      - NEO4J_PASSWORD
       - NEXT_PUBLIC_PREFIX
       - NEXT_PUBLIC_GA_MEASUREMENT_ID
       - NEXT_PUBLIC_HOST=${NEXT_PUBLIC_HOST_PROD}
       - NEXT_PUBLIC_SCHEMA
-      - NEXT_PUBLIC_TURL
-      - NEXT_PUBLIC_TURL_URL
+      - TURL
+      - TURL_URL
       - NEXT_PUBLIC_HOMEPAGE
     deploy:
       resources:
@@ -46,7 +46,7 @@ services:
         type: Recreate
     environment:
       - NEO4J_PLUGINS= ["apoc", "n10s"]
-      - NEO4J_AUTH=${NEXT_PUBLIC_NEO4J_USER}/${NEXT_PUBLIC_NEO4J_PASSWORD}
+      - NEO4J_AUTH=${NEO4J_USER}/${NEO4J_PASSWORD}
       - NEO4J_dbms_memory_heap_max__size=8G
       - NEO4J_dbms_memory_heap_initial__size=2G
       - NEO4J_server_config_strict__validation_enabled=false
