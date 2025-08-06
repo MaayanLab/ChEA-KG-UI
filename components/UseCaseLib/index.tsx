@@ -96,7 +96,7 @@ export default function UseCaseLib({usecaselib}:
             </Typography>
             <Grid container columnSpacing={2}>
             {usecaselib.map((el, i) => (
-                <Grid item xs={12} md={6} sx={{ display: 'flex' }}>
+                <Grid item xs={12} key={i} md={6} sx={{ display: 'flex' }}>
                     <UseCase
                         title={el.title}
                         description={el.description}
