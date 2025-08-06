@@ -15,7 +15,7 @@ import Tutorial from '@/components/Tutorial.mdx'
 import { Suspense } from 'react'
 import EnrichmentUseCase from '@/components/EnrichmentUseCase'
 import CancerUseCase from '@/components/CancerUseCase'
-
+import UseCaseLib from '@/components/UseCaseLib'
 export const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
 	{component: string, endpoint: string, searchParams: {[key:string]: any}, 
 	props: {[key:string]: any}}) => {
@@ -35,6 +35,7 @@ export const AsyncComponent = async ({component, searchParams, props, endpoint,}
 	else if (component === "WholeNetwork") return await WholeNetwork({props})
 	else if (component === "DownloadFiles") return await DownloadFiles({...props})
 	else if (component === "Credits") return await Credits()
+	else if (component == 'UseCaseLib') return await UseCaseLib({...props})
 	else return null
 }
 
