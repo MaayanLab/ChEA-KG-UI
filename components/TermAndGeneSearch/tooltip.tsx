@@ -24,6 +24,15 @@ import SendIcon from '@mui/icons-material/Send'
 import { UISchema } from "@/app/api/schema/route"
 import Link from "next/link"
 
+const parseNum = (node_id:string|number) => {
+	try {
+		if (typeof node_id === 'string')
+			return parseInt(node_id)
+		return node_id
+	} catch (error) {
+		return node_id
+	}
+}
 export const TooltipComponent = ({data, float, tooltip_templates, header_endpoint, filter_field}: {
 	data: {
 		id: string | number,
@@ -97,7 +106,7 @@ export const TooltipComponent = ({data, float, tooltip_templates, header_endpoin
               {!filter["end_term"] && <Tooltip title="Delete Node">
 				<Link href={`${pathname}?${filter_field}=${JSON.stringify({
 					...filter,
-					remove: [...(filter["remove"] || []), data.id]
+					remove: [...(filter["remove"] || []), parseNum(data.id)]
 				})}${Object.keys(queryParams).length ? "&" + Object.entries(queryParams).map(([k,v])=>`${k}=${v}`).join("&"): ""}`}>
 					<IconButton>
 						<DeleteIcon/>
@@ -107,7 +116,7 @@ export const TooltipComponent = ({data, float, tooltip_templates, header_endpoin
 			  <Tooltip title="Expand Node">
 				<Link href={`${pathname}?${filter_field}=${JSON.stringify({
 					...filter,
-					expand: [...(filter["expand"] || []), data.id]
+					expand: [...(filter["expand"] || []), parseNum(data.id)]
 				})}${Object.keys(queryParams).length ? "&" + Object.entries(queryParams).map(([k,v])=>`${k}=${v}`).join("&"): ""}`}>
 					<IconButton>
 						<HubIcon/>
@@ -129,6 +138,7 @@ export const TooltipComponent = ({data, float, tooltip_templates, header_endpoin
 		</Card>
 	)
 }
+
 
 const TooltipComponentGroup = ({
 	elements,

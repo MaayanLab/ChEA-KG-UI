@@ -22,9 +22,9 @@ export interface NetworkSchema {
     }>,
     edges: Array<{
         data: {
-            source: string,
+            source: string | number,
             source_label: string,
-            target: string,
+            target: string | number,
             target_label: string,
             kind: string,
             label: string,

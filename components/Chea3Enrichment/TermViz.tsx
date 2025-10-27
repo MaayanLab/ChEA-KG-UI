@@ -77,7 +77,7 @@ const TermViz = ({view, elements, header_endpoint, tooltip_templates_edges, tool
 					stepsize={100}
 					tooltip_templates_edges={tooltip_templates_edges}
 					tooltip_templates_nodes={tooltip_templates_nodes}
-					filter_field="filter"
+					filter_field="q"
 					header_endpoint={header_endpoint}
 				/>
 			</Box>

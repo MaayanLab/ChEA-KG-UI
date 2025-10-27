@@ -58,6 +58,7 @@ export const get_element = async(parsedParams:EnrichmentParams)=>{
 					limit: parsedParams.term === undefined ? 50: limit
 				}),
 			})
+		console.log(res.ok)
 		if (!res.ok) {
 			console.log(`failed connecting to ${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment${parsedParams.augment===true ? "/augment": ""}`)
 			console.log(await res.text())

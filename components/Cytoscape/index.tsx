@@ -169,7 +169,7 @@ export default function Cytoscape ({
 		cytoscape.use(svg)
 		cytoscape.use(cytoscapePopper(popperFactory));
 	},[])
-
+	
 	useEffect(()=>{
 		if (download_image === 'svg') {
 			fileDownload(cyref.current.svg({output: "blob"}), "network.svg")
@@ -193,10 +193,11 @@ export default function Cytoscape ({
 			await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ''}/api/counter/update`)
 			mutate('/api/counter')
 		}
+		setTooltipProps(null)
 		if (elements && elements.nodes.length > 0) update_counter()
 		setId(id+1)
+	
 	}, [elements, filter])
-
 
 	useEffect(()=>{
 		setId(id+1)
@@ -298,7 +299,7 @@ export default function Cytoscape ({
 								'height': `mapData(node_type, 0, 1, 90, 170)`,
 							}
 						},
-						{
+							{
 							selector: 'edge.focusedColored',
 							style: {
 								// 'line-color': '#F8333C',
