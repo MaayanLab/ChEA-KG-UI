@@ -15,7 +15,6 @@ import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "./InteractiveButtons";
 import { fetch_kg_schema } from "@/utils/initialize";
-import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import { get_element } from "./element_resolver";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 
@@ -97,10 +96,10 @@ const Enrichment = async ({
      }): l
 
 
-    const tooltip_templates_node = {}
+    const tooltip_templates_nodes = {}
     const tooltip_templates_edges = {}
     for (const i of schema.nodes) {
-        tooltip_templates_node[i.node] = i.display
+        tooltip_templates_nodes[i.node] = i.display
     }
 
     for (const e of schema.edges) {
@@ -202,13 +201,6 @@ const Enrichment = async ({
                                 fullWidth={elements===null}
                                 elements={elements}
                                 {...props}
-                            /> 
-                            <TooltipComponentGroup
-                                elements={elements}
-                                tooltip_templates_edges={tooltip_templates_edges}
-                                tooltip_templates_nodes={tooltip_templates_node}
-                                schema={schema}
-                                filter_field="q"
                             />
                         </CardContent>
                     </Card>
@@ -242,6 +234,9 @@ const Enrichment = async ({
                                     <TermViz
                                         elements={elements}
                                         view={searchParams.view}
+                                        header_endpoint={(schema.header.tabs.filter(i=>i.component === 'KnowledgeGraph')[0] || {}).endpoint || '/'}
+                                        tooltip_templates_edges={tooltip_templates_edges}
+                                        tooltip_templates_nodes={tooltip_templates_nodes}
                                         /*enrichment_results = {enrichment_results}*/
                                     />
                                 </CardContent>

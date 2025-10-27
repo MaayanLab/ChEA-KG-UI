@@ -31,6 +31,7 @@ services:
       - TURL
       - TURL_URL
       - NEXT_PUBLIC_HOMEPAGE
+      - NEXT_PUBLIC_CHEA3_URL
     deploy:
       resources:
         limits:

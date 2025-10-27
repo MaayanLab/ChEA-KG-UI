@@ -12,6 +12,7 @@ import { Stack,
 	Button, 
 	IconButton,
 	Tooltip,
+	Popper,
  } from "@mui/material"
 import { NetworkSchema } from "@/app/api/knowledge_graph/route"
 import { useQueryState, parseAsJson } from 'next-usequerystate';
@@ -23,16 +24,16 @@ import SendIcon from '@mui/icons-material/Send'
 import { UISchema } from "@/app/api/schema/route"
 import Link from "next/link"
 
-export const TooltipComponent = ({data, float, tooltip_templates, schema, filter_field}: {
+export const TooltipComponent = ({data, float, tooltip_templates, header_endpoint, filter_field}: {
 	data: {
-		id: string,
+		id: string | number,
 		label?: string,
 		relation?: string,
 		kind: string,
 		[key: string]: string | number
 	},
 	tooltip_templates: {[key: string]: Array<{[key: string]: string}>}, 
-	schema: UISchema,
+	header_endpoint: string,
 	float?: boolean,
 	filter_field: 'q' | 'filter'
 }) => {
@@ -87,7 +88,7 @@ export const TooltipComponent = ({data, float, tooltip_templates, schema, filter
 		extrasx["zIndex"] = 100
 	}
 	return (
-		<Card sx={{marginTop: 2, ...extrasx}}>
+		<Card sx={{marginTop: 2, zIndex: 10000, ...extrasx}}>
 			<CardContent sx={{padding: 2}}>
 				{elements}
 			</CardContent>
@@ -114,7 +115,7 @@ export const TooltipComponent = ({data, float, tooltip_templates, schema, filter
 				</Link>
               </Tooltip>
               <Tooltip title="Open node in new page">
-				<Link href={`${(schema.header.tabs.filter(i=>i.component === 'KnowledgeGraph')[0] || {}).endpoint || '/'}?filter=${JSON.stringify({
+				<Link href={`${header_endpoint}?filter=${JSON.stringify({
                         start: data.kind.replace(/Queried TFs that are also enriched|Top Ranked TFs|Search TFs/g, "Transcription Factor"),
                         start_term: data.label
                       })}`}>
@@ -133,21 +134,24 @@ const TooltipComponentGroup = ({
 	elements,
 	tooltip_templates_nodes,
     tooltip_templates_edges,
-	schema,
+	header_endpoint,
 	float,
-	filter_field
+	filter_field,
+	anchorEl,
+	kind,
+	id
 }: {
 		elements?: null | NetworkSchema,
 		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
         tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
-		schema: UISchema,
+		header_endpoint: string,
 		float?: boolean,
-		filter_field: 'q' | 'filter'
+		filter_field: 'q' | 'filter',
+		anchorEl?: HTMLElement,
+		kind?: 'nodes' | 'edges', 
+		id?: string | number
 	}) => {
 	
-	const [tooltip, setTooltip] = useQueryState('tooltip')
-	const [selected, setSelected] = useQueryState('selected',  parseAsJson<{id: string, type: 'nodes' | 'edges'}>().withDefault(null))
-	const [hovered, setHovered] = useQueryState('hovered',  parseAsJson<{id: string, type: 'nodes' | 'edges'}>().withDefault(null))
 	const [elementMapper, setElementMapper] = useState({nodes: {}, edges: {}})
 
 
@@ -165,16 +169,18 @@ const TooltipComponentGroup = ({
 			setElementMapper({nodes, edges})
 		}
     }, [elements])
-	const user_input = selected || hovered
-	if (!tooltip && user_input !== null && elementMapper[user_input.type][user_input.id] !== undefined) {
+	if (anchorEl && id !== undefined && elementMapper[kind][id] !== undefined) {
 		return (
-			<TooltipComponent 
-					data={elementMapper[user_input.type][user_input.id]} 
-					tooltip_templates={user_input.type === 'nodes' ? tooltip_templates_nodes: tooltip_templates_edges}
-					schema={schema}
-					float={float}
-					filter_field={filter_field}
-				/>
+			<Popper sx={{zIndex: 100}} open={anchorEl!==undefined} anchorEl={anchorEl}>
+				<TooltipComponent 
+						data={elementMapper[kind][id]} 
+						tooltip_templates={kind === 'nodes' ? tooltip_templates_nodes: tooltip_templates_edges}
+						// header_endpoint={(schema.header.tabs.filter(i=>i.component === 'KnowledgeGraph')[0] || {}).endpoint || '/'}
+						header_endpoint={header_endpoint}
+						float={float}
+						filter_field={filter_field}
+					/>
+			</Popper>
 		)
 	}
 	else return null

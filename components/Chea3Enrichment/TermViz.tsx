@@ -13,10 +13,14 @@ const Cytoscape = dynamic(()=>import('../Cytoscape'),
 		loading: ()=><CircularProgress sx={{position: "absolute", top: "50%", left: "50%"}}/>
 	}
 )
-const TermViz = ({view, elements}:
+const TermViz = ({view, elements, header_endpoint, tooltip_templates_edges, tooltip_templates_nodes}:
 	{
 		view?: string,
-		elements: NetworkSchema
+		elements: NetworkSchema,
+		header_endpoint: string,
+		tooltip_templates_edges: {[key: string]: Array<{[key: string]: string}>},
+        tooltip_templates_nodes: {[key: string]: Array<{[key: string]: string}>},
+		
 	}) => {
 	const entries:{[key:string]: {library: string, score: number, [key: string]: number | string | boolean | Array<{library: string, score: number}>}} = {}
 	const columns:{[key:string]: boolean} = {}
@@ -69,8 +73,13 @@ const TermViz = ({view, elements}:
 			<Box sx={{position: "relative", minHeight: 450}}>
 				<Cytoscape 
 					elements={elements}
-					search={false}
-				/> 
+					wide={true}
+					stepsize={100}
+					tooltip_templates_edges={tooltip_templates_edges}
+					tooltip_templates_nodes={tooltip_templates_nodes}
+					filter_field="filter"
+					header_endpoint={header_endpoint}
+				/>
 			</Box>
 		) 
 		else if (view === "table") return (

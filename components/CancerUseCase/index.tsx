@@ -11,7 +11,6 @@ import { NetworkSchema } from "@/app/api/knowledge_graph/route";
 import { parseAsJson } from "next-usequerystate";
 import InteractiveButtons from "@/components/Chea3Enrichment/InteractiveButtons";
 import { fetch_kg_schema, fetch_atlas_schema } from "@/utils/initialize";
-import TooltipComponentGroup from "../TermAndGeneSearch/tooltip";
 import QueryForm from "./QueryForm";
 import Link from "next/link";
 import { get_element } from "../Chea3Enrichment/element_resolver";
@@ -87,10 +86,10 @@ const Enrichment = async ({
     } 
 
 
-    const tooltip_templates_node = {}
+    const tooltip_templates_nodes = {}
     const tooltip_templates_edges = {}
     for (const i of schema.nodes) {
-        tooltip_templates_node[i.node] = i.display
+        tooltip_templates_nodes[i.node] = i.display
     }
 
     for (const e of schema.edges) {
@@ -203,13 +202,6 @@ const Enrichment = async ({
                         cancer_types={cancer_types}
                         cell_info = {celltype_info}
                     />
-                    <TooltipComponentGroup
-                        elements={elements}
-                        tooltip_templates_edges={tooltip_templates_edges}
-                        tooltip_templates_nodes={tooltip_templates_node}
-                        schema={schema}
-                        filter_field="q"
-                    />
                 </Grid>
                 <Grid item xs={12} md={9}>
                     <Stack direction={"column"} alignItems={"flex-start"} spacing={1}>
@@ -237,11 +229,13 @@ const Enrichment = async ({
                                             <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
                                         }
                                         <TermViz
-                                            elements={elements} 
-                                            view={searchParams.view}
-                                            /*enrichment_results = {enrichment_results}*/
-                                            
-                                        />
+                                                elements={elements}
+                                                view={searchParams.view}
+                                                header_endpoint={(schema.header.tabs.filter(i=>i.component === 'KnowledgeGraph')[0] || {}).endpoint || '/'}
+                                                tooltip_templates_edges={tooltip_templates_edges}
+                                                tooltip_templates_nodes={tooltip_templates_nodes}
+                                                /*enrichment_results = {enrichment_results}*/
+                                            />
                                     </>
                                 }
                             </CardContent>
