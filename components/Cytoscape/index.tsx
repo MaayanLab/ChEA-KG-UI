@@ -77,7 +77,7 @@ export const default_layouts = {
       quality: 'proof',
       randomize: false,
       animate: true,
-	  componentSpacing: 5000,
+	//   componentSpacing: 5000,
       idealEdgeLength: edge => 200,
       icon: ()=><HubIcon/>
     },

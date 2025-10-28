@@ -74,7 +74,6 @@ const TermViz = ({view, elements, header_endpoint, tooltip_templates_edges, tool
 				<Cytoscape 
 					elements={elements}
 					wide={true}
-					stepsize={100}
 					tooltip_templates_edges={tooltip_templates_edges}
 					tooltip_templates_nodes={tooltip_templates_nodes}
 					filter_field="q"
