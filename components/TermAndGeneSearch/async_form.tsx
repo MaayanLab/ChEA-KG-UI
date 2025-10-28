@@ -115,7 +115,7 @@ const AsyncFormComponent = ({direction,
             <Grid item xs={12}>
                 <Typography variant="body1" color="secondary"><b>{direction} with</b></Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={4} md={12}>
                 <Selector 
                     entries={Object.keys(nodes).sort()} 
                     value={type} 
@@ -149,7 +149,7 @@ const AsyncFormComponent = ({direction,
                         }
                 }}/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={4} md={12}>
                 <Selector entries={(nodes[type] || {}).search || []} value={field} prefix={`${type}field`} onChange={(field)=>{
                     const new_term = (selected || {})[field]
                     if (direction === 'Start') {
@@ -184,7 +184,7 @@ const AsyncFormComponent = ({direction,
                     
                 }}/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={Object.keys(nodes).length > 1 ? 4: 12} md={12}>
                 <Autocomplete
                     id="my-input" aria-describedby="gene" 
                     options={Object.keys(options || {})}
@@ -254,8 +254,8 @@ const AsyncFormComponent = ({direction,
                 />
             </Grid>
             <Grid item xs={12}>
-                <Stack>
-                    <Typography variant="caption">Example</Typography>
+                <Stack sx={{flexDirection: {xs: 'row', md: 'column', alignContent: "center"}}}>
+                    <Typography variant="caption">Example:</Typography>
                     {((nodes[type] || {}).example || []).map((e,i)=>{
                         let query = {}
                         if (direction === 'Start') {
@@ -285,7 +285,7 @@ const AsyncFormComponent = ({direction,
                                 color="secondary"
                                 href={pathname + `?filter=${JSON.stringify(query)}`}
                             >
-                            <Typography variant="body2" color="secondary">{e}</Typography>
+                            <Typography sx={{marginLeft: {xs: 2, md: 'auto'}}} variant="caption" color="secondary">{e}</Typography>
                         </Link> 
                     )
                     })}

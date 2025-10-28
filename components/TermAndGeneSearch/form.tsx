@@ -19,7 +19,8 @@ import {
     Checkbox,
     FormControlLabel,
     TextField,
-    Divider
+    Divider,
+    Box
  } from '@mui/material';
 
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
@@ -144,7 +145,7 @@ function Form({
     return(
         <Grid container justifyContent="space-around" spacing={1}>
             <Grid item xs={12}>
-                <Grid container spacing={1} alignItems="flex-start" justifyContent="flex-start">
+                <Grid container spacing={1} alignItems="center" justifyContent="flex-start">
                     {/* {edges.length && 
                         <Grid item xs={12} md={4} lg={5}>
                             <Autocomplete
@@ -189,7 +190,7 @@ function Form({
                             />
                         </Grid>
                         } */}
-                    <Grid item xs={12} md={8} lg={7}>
+                    {relation.length > 0 && <Grid item xs={12} md={8} lg={7}>
                         <Grid container spacing={1} alignItems="center">
                             {relation.map((value) => (
                                 <Grid item key={value.name}>
@@ -218,43 +219,9 @@ function Form({
                             ))}
                         </Grid>
                     </Grid>
+                    }
                     <Grid item>
                         <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                            <Typography variant="subtitle2">Size:</Typography>
-                            <Icon path={mdiMinusCircleOutline} size={0.8} />
-                            <Tooltip title={!end ? 'Set limit per relationship:': 'Limit number of paths:'}>
-                                <Slider 
-                                    value={limit ? limit: !end ? relation.length === 1? ((elements || {}).edges || []).length: 5: 25}
-                                    color="secondary"
-                                    valueLabelDisplay='auto'
-                                    onChange={(e, nv)=>{
-                                        const {filter: f, ...rest} = searchParams
-                                        const filter = {
-                                            start: initial_query.start,
-                                            start_field: initial_query.start_field,
-                                            start_term: initial_query.start_term,
-                                            ...JSON.parse(f || '{}'),
-                                            limit: nv
-                                        }
-                                        if (filter.relation) filter.relation = relation.map(({name, limit})=>({name, limit: nv}))
-                                        const query = {
-                                            ...rest,
-                                            filter: JSON.stringify(filter)
-                                        }
-                                        router_push(router, pathname, query)
-                                    }}
-                                    min={1}
-                                    max={!end ? start === "Gene" ? 50: neighborCount : 150}
-                                    sx={{width: 150}}
-                                    aria-labelledby="continuous-slider"
-                                />
-                            </Tooltip>
-                            <Icon path={mdiPlusCircleOutline} size={0.8} />
-                            {/* <Typography variant="subtitle2">{limit ? limit: !end ? relation.length === 1? ((elements || {}).edges || []).length: 5: 25}</Typography> */}
-                        {/*</Stack>
-                    </Grid>
-                    <Grid item>
-                        <Stack direction={"row"} alignItems={"center"} spacing={1}> */}
                             <Tooltip title={fullscreen ? "Exit full screen": "Full screen"}>
                                 <IconButton color="secondary"
                                     onClick={()=>{
@@ -512,6 +479,40 @@ function Form({
                                     </Tooltip>
                                 </Grid>
                             }
+                            <Grid item>
+                                <Stack direction={"row"} alignItems={"center"} spacing={2}>
+                                    <Typography variant="subtitle2">Size:</Typography>
+                                    <Icon path={mdiMinusCircleOutline} size={0.8} />
+                                    <Tooltip title={!end ? 'Set limit per relationship:': 'Limit number of paths:'}>
+                                        <Slider 
+                                            value={limit ? limit: !end ? relation.length === 1? ((elements || {}).edges || []).length: 5: 25}
+                                            color="secondary"
+                                            valueLabelDisplay='auto'
+                                            onChange={(e, nv)=>{
+                                                const {filter: f, ...rest} = searchParams
+                                                const filter = {
+                                                    start: initial_query.start,
+                                                    start_field: initial_query.start_field,
+                                                    start_term: initial_query.start_term,
+                                                    ...JSON.parse(f || '{}'),
+                                                    limit: nv
+                                                }
+                                                if (filter.relation) filter.relation = relation.map(({name, limit})=>({name, limit: nv}))
+                                                const query = {
+                                                    ...rest,
+                                                    filter: JSON.stringify(filter)
+                                                }
+                                                router_push(router, pathname, query)
+                                            }}
+                                            min={1}
+                                            max={!end ? start === "Gene" ? 50: neighborCount : 150}
+                                            sx={{width: 150}}
+                                            aria-labelledby="continuous-slider"
+                                        />
+                                    </Tooltip>
+                                    <Icon path={mdiPlusCircleOutline} size={0.8} />
+                                </Stack>
+                            </Grid>
                             {(geneLinksOpen) &&
                                 <Grid item xs={12}>
                                     <Grid container justifyContent={'flex-start'}>
