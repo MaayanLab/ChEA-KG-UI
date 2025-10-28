@@ -27,6 +27,7 @@ import { useQueryState, parseAsJson } from 'next-usequerystate';
 import { EnrichmentParams } from '.';
 import { CancerTypeSelector } from './CancerTypeSelector';
 import FlexSearch from 'flexsearch';
+import { useWidth } from '../Chea3Enrichment/form';
 
 const QueryForm = ({
     cancer_types,
@@ -58,8 +59,9 @@ const QueryForm = ({
 	const [cellTypes, setCellTypes] = useState(cancer_types)
 	const [limit, setLimit] = useState(15)
     const [v, setValue] = useState<string>('1')
-    
+    const [formVisibility, setFormVisibility] = useState(false)
     const combined_query = {...parsedParams, ...query}
+    const width = useWidth()
     const {
         userListId,
 		term,
@@ -105,6 +107,11 @@ const QueryForm = ({
 	
 
     useEffect(()=>{
+        if ((width === 'xs' || width == 'sm') && elements) setFormVisibility(false)
+        else setFormVisibility(true)
+    },[width, elements])
+        
+    useEffect(()=>{
         setQuery(null)
     }, [elements])
 
@@ -143,7 +150,7 @@ const QueryForm = ({
     }, [fullTextQuery])
 
  
-
+    if (!formVisibility) return <Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button>
     return (
         <FormGroup>
             <Snackbar open={error!==null}
@@ -301,6 +308,9 @@ const QueryForm = ({
                     
             </Stack>
             </Grid>}
+            
+            {['xs' , 'sm'].indexOf(width) > -1 && <Grid item xs={12}><Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button></Grid>}
+            
             </Grid>
         </FormGroup>
     )

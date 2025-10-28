@@ -29,6 +29,7 @@ import { EnrichmentParams } from '.';
 import { CellTypeForm } from './CellTypeForm';
 import FlexSearch from 'flexsearch';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useWidth } from '../Chea3Enrichment/form';
 
 const QueryForm = ({
     cell_types,
@@ -54,11 +55,17 @@ const QueryForm = ({
     const [error, setError] = useState<{message: string, type: string}>(null)
 	const [index, setIndex] = useState(null)
 	const [showGeneSet, setShowGeneSet] = useState(false)
+    const [formVisibility, setFormVisibility] = useState(false)
 	const [fullTextQuery, setFullTextQuery] = useState('')
 	const [cellTypes, setCellTypes] = useState(cell_types)
 	const [limit, setLimit] = useState(15)
     const [v, setValue] = useState<string>('1')
     const combined_query = parsedParams
+    const width = useWidth()
+    useEffect(()=>{
+            if ((width === 'xs' || width == 'sm') && elements) setFormVisibility(false)
+            else setFormVisibility(true)
+        },[width, elements])
     const {
         userListId,
 		term,
@@ -122,6 +129,7 @@ const QueryForm = ({
     useEffect(()=>{
         verifyList(genes)
     }, [genes])
+    if (!formVisibility) return <Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button>        
     return (
         <FormGroup>
             <Snackbar open={error!==null}
@@ -323,6 +331,7 @@ const QueryForm = ({
 				</Grid>
 			}
             </Grid>}
+            {['xs' , 'sm'].indexOf(width) > -1 && <Grid item xs={12}><Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button></Grid>}
             </Grid>
         </FormGroup>
     )

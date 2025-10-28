@@ -18,20 +18,36 @@ import {
     FormGroup, 
     Stack, 
     TextField,
-    Switch,
     Snackbar,
-    Alert
+    Alert,
+    Breakpoint,
+    Theme,
+    useTheme,
 } from '@mui/material';
-import LibraryPicker from './LibraryPicker';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { useQueryState, parseAsJson } from 'next-usequerystate';
 import { EnrichmentParams } from '.';
+
+
+export function useWidth() {
+  const theme: Theme = useTheme();
+  const keys: readonly Breakpoint[] = [...theme.breakpoints.keys].reverse();
+  return (
+    keys.reduce((output: Breakpoint | null, key: Breakpoint) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const matches = useMediaQuery(theme.breakpoints.up(key));
+      return !output && matches ? key : output;
+    }, null) || 'xs'
+  );
+}
 
 const GeneSetForm = ({
     example,
     parsedParams,
     fullWidth,
     elements, 
+    ui_theme,
 }: {
     fullWidth:boolean,
     elements: NetworkSchema,
@@ -40,6 +56,7 @@ const GeneSetForm = ({
         description?:string
     },
     parsedParams: EnrichmentParams,
+    ui_theme?: string
 }) => {
     const router = useRouter()
     const [query, setQuery] = useQueryState('query', parseAsJson<EnrichmentParams>().withDefault({}))
@@ -53,12 +70,19 @@ const GeneSetForm = ({
     const [verifying, setVerifying] = useState<boolean>(false)
     const [controller, setController] = useState<AbortController>(null)
     const [error, setError] = useState<{message: string, type: string}>(null)
+    const width = useWidth()
     const [showForm, setShowForm] = useState<boolean>(false)
+    const [formVisibility, setFormVisibility] = useState<boolean>(false)
     const combined_query = {...parsedParams, ...query}
     const {
         userListId,
     } = combined_query
 
+
+    useEffect(()=>{
+        if ((width === 'xs' || width == 'sm') && elements) setFormVisibility(false)
+        else setFormVisibility(true)
+    },[width, elements])
     const get_controller = () => {
         if (controller) controller.abort()
         const c = new AbortController()
@@ -208,332 +232,332 @@ const GeneSetForm = ({
         else verifyList(input.genes.map(i=>i.toUpperCase()))
     }, [input.genes])
 
-    // useEffect(()=>{
-    //     if (input.description === "null" || input.description === null) {
-    //         setInput({
-    //             ...input,
-    //             description: ''
-    //         })
-    //     } else {
-    //         setDescription(input.description || '')
-    //     }
-    // }, [input.description])
+    if (!formVisibility) return <Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button>
     return (
-        <FormGroup>
-            <Snackbar open={error!==null}
-					anchorOrigin={{ vertical:"bottom", horizontal:"left" }}
-					autoHideDuration={4500}
-					onClose={()=>{
-                        if ((error || {} ).type === "fail") {
-                            router_push(router, pathname, {})
-                            setQuery(null)
-                            setError(null)
-                        } else {
-                            setError(null)
-                        }
-                    }}
-				>
-                    <Alert 
-                        onClose={()=>{
-                            if ((error || {} ).type === "fail") {
-                                router_push(router, pathname, {})
-                                setQuery(null)
-                                setError(null)
-                            } else {
-                                setError(null)
-                            }
-                        }}
-                        severity={(error || {} ).type === "fail" ? "error": "warning"}
-                        sx={{ width: '100%' }} 
-                        variant="filled"
-                        elevation={6}
-                    >
-                        <Typography>{( error || {}).message || ""}</Typography>
-                    </Alert>
-                </Snackbar>
-            {/*<Grid container spacing={1}>
-                <Grid item xs={12} md={fullWidth ?6: 12}> */}
-                    <Grid container alignItems={"center"} spacing={1}>
-                        <Grid item xs={12}>
-                            <div tabIndex={0}>
-                                {!isFocused ? 
-                                    <Card sx={{height: 235, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
-                                        {input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
-                                        <CardContent>
-                                            {input.genes.map(i=>{
-                                                if (verified.indexOf(i.trim().toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
-                                                else {
-                                                    if (i === '') return null
-                                                    else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
-                                                }
-                                            })}
-                                        </CardContent>
-                                    </Card>:
+        <Card elevation={0} sx={{borderRadius: "8px", backgroundColor: (!ui_theme || ui_theme === "cfde_theme" || elements !== null) ? "tertiary.light": "#FFF", display: {md: 'flex', xs: formVisibility ? 'flex': 'none'}}}>
+            <CardContent sx={{width: "100%"}}>
+                <FormGroup>
+                    <Snackbar open={error!==null}
+                            anchorOrigin={{ vertical:"bottom", horizontal:"left" }}
+                            autoHideDuration={4500}
+                            onClose={()=>{
+                                if ((error || {} ).type === "fail") {
+                                    router_push(router, pathname, {})
+                                    setQuery(null)
+                                    setError(null)
+                                } else {
+                                    setError(null)
+                                }
+                            }}
+                        >
+                            <Alert 
+                                onClose={()=>{
+                                    if ((error || {} ).type === "fail") {
+                                        router_push(router, pathname, {})
+                                        setQuery(null)
+                                        setError(null)
+                                    } else {
+                                        setError(null)
+                                    }
+                                }}
+                                severity={(error || {} ).type === "fail" ? "error": "warning"}
+                                sx={{ width: '100%' }} 
+                                variant="filled"
+                                elevation={6}
+                            >
+                                <Typography>{( error || {}).message || ""}</Typography>
+                            </Alert>
+                        </Snackbar>
+                    {/*<Grid container spacing={1}>
+                        <Grid item xs={12} md={fullWidth ?6: 12}> */}
+                            <Grid container alignItems={"center"} spacing={1}>
+                                <Grid item xs={12}>
+                                    <div tabIndex={0}>
+                                        {!isFocused ? 
+                                            <Card sx={{height: 235, overflowY: "auto", boxShadow: "none", border: "1px solid black"}} onClick={() => setIsFocused(true)}>
+                                                {input.genes.length === 0 && <Typography variant="subtitle2" align='left' sx={{paddingLeft: 1, paddingTop: 2, fontSize: 13.75, color: "#bdbdbd"}}>Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box</Typography> }
+                                                <CardContent>
+                                                    {input.genes.map(i=>{
+                                                        if (verified.indexOf(i.trim().toUpperCase()) > -1) return <Typography key={i} color="secondary" align='left' sx={{fontSize: 14}}>{i}</Typography>
+                                                        else {
+                                                            if (i === '') return null
+                                                            else return <Stack direction='row' key={i} spacing={1} alignItems={"center"} justifyContent="flex-start"><Typography align='left' color={verified.length > 0 ? 'error': 'default'} sx={{fontSize: 14}}>{i}</Typography><ErrorIcon color="error" sx={{width: 15}}/></Stack>
+                                                        }
+                                                    })}
+                                                </CardContent>
+                                            </Card>:
+                                            <TextField
+                                                onBlur={() => setIsFocused(!isFocused)}
+                                                multiline
+                                                className='EnrichmentForm'
+                                                rows={10}
+                                                placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
+                                                fullWidth
+                                                value={input.genes.join('\n')}
+                                                // value = {input.genes}
+                                                onChange={(e)=>{
+                                                    setInput({
+                                                        ...input,
+                                                        genes: e.target.value.split(/[\t\r\n,;]+/)
+                                                    })
+                                                }}
+                                                InputProps={{
+                                                    sx: {
+                                                        fontSize: 14,
+                                                    },
+                                                }}
+                                                inputProps={{
+                                                    sx: {
+                                                        paddingRight: 0
+                                                    }
+                                                }}
+                                            />
+                                        }
+                                    </div>
+                                </Grid>
+                                <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "left"}}>
+                                    <Grid container direction={"row"} spacing={1} alignItems="center">
+                                        <Grid item>
+                                            <Tooltip title={input.genes.length === 0 ? "Input gene set": libraries.length === 0 ? "Select libraries": (loading || verifying) ? "Loading...": "Submit"}>
+                                                <Button 
+                                                    onClick={async ()=>{
+                                                        // setSubmitted('true')
+                                                        if (!(await same_prev_input())) {
+                                                            if (input.genes.length > 0 && libraries.length > 0) {
+                                                                addList()
+                                                            }
+                                                        } else {
+                                                            const {search, augment, augment_limit, gene_links, ...rest} = combined_query
+                                                            // setSubmitted(false)
+                                                            router_push(router, pathname, {
+                                                                q: JSON.stringify({
+                                                                    ...rest,
+                                                                    libraries: libraries,
+                                                                    search: true
+                                                                })
+                                                            })
+                                                        }
+                                                    }}
+                                                    disabled={loading == 'true' || verifying || libraries.length === 0 || input.genes.length === 0}
+                                                    size="large"
+                                                    variant="contained"
+                                                    sx={{
+                                                        padding: "15px 30px",
+                                                    }}
+                                                    // disabled={input.genes.length === 0}
+                                                >{loading || verifying ? "Searching...": "Submit"}</Button>
+                                            </Tooltip>
+                                        </Grid>
+                                        {(verified.length > 0 && input.genes.length > 0) && <Grid item><Typography color={'secondary'} variant='caption'> {`${verified.length} matched genes`}</Typography></Grid>}
+                                    </Grid>
+                                </Grid>
+                                { fullWidth && 
+                                    <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "right"}}>
+                                        <Button 
+                                            onClick={()=>{
+                                                console.log("example", example)
+                                                const {gene_set, description} = example
+                                                setInput({genes: gene_set.split('\n'), description: description})
+                                            }}
+                                            
+                                        ><Typography color={'secondary'} variant='subtitle2'>Try a gene set example</Typography></Button>
+                                    </Grid>
+                                }
+                                <Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
                                     <TextField
-                                        onBlur={() => setIsFocused(!isFocused)}
-                                        multiline
-                                        className='EnrichmentForm'
-                                        rows={10}
-                                        placeholder={"Paste a set of valid Entrez gene symbols (e.g. STAT3) on each row in the text-box"}
-                                        fullWidth
-                                        value={input.genes.join('\n')}
-                                        // value = {input.genes}
-                                        onChange={(e)=>{
-                                            setInput({
-                                                ...input,
-                                                genes: e.target.value.split(/[\t\r\n,;]+/)
-                                            })
-                                        }}
+                                        variant='outlined'
+                                        value={input.description}
+                                        size="small"
+                                        onChange={e=>setInput({...input, description: e.target.value})}
+                                        placeholder="Description"
+                                        label="Description"
+                                        sx={{width: "100%", backgroundColor: "#FFF"}}
                                         InputProps={{
-                                            sx: {
-                                                fontSize: 14,
+                                            style: {
+                                            fontSize: 14,
                                             },
                                         }}
-                                        inputProps={{
-                                            sx: {
-                                                paddingRight: 0
-                                            }
-                                        }}
                                     />
-                                }
-                            </div>
-                        </Grid>
-                        <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "left"}}>
-                            <Stack direction={"row"} spacing={1} alignItems="center">
-                                <Tooltip title={input.genes.length === 0 ? "Input gene set": libraries.length === 0 ? "Select libraries": (loading || verifying) ? "Loading...": "Submit"}>
-                                    <Button 
-                                        onClick={async ()=>{
-                                            // setSubmitted('true')
-                                            if (!(await same_prev_input())) {
-                                                if (input.genes.length > 0 && libraries.length > 0) {
-                                                    addList()
-                                                }
-                                            } else {
-                                                const {search, augment, augment_limit, gene_links, ...rest} = combined_query
-                                                // setSubmitted(false)
-                                                router_push(router, pathname, {
-                                                    q: JSON.stringify({
-                                                        ...rest,
-                                                        libraries: libraries,
-                                                        search: true
-                                                    })
-                                                })
-                                            }
-                                        }}
-                                        disabled={loading == 'true' || verifying || libraries.length === 0 || input.genes.length === 0}
-                                        size="large"
-                                        variant="contained"
-                                        sx={{
-                                            padding: "15px 30px"
-                                        }}
-                                        // disabled={input.genes.length === 0}
-                                    >{loading || verifying ? "Searching...": "Submit"}</Button>
-                                </Tooltip>
-                                {(verified.length > 0 && input.genes.length > 0) && <Tooltip title="Matched genes"><Button onClick={()=>setIsFocused(false)}><Typography color={'secondary'} variant='subtitle2'> {`${verified.length} matched genes`}</Typography></Button></Tooltip>}
-                            </Stack>
-                        </Grid>
-                        { fullWidth && 
-                            <Grid item xs={fullWidth? 6: 12} sx={{textAlign: "right"}}>
-                                <Button 
-                                    onClick={()=>{
-                                        console.log("example", example)
-                                        const {gene_set, description} = example
-                                        setInput({genes: gene_set.split('\n'), description: description})
-                                    }}
-                                    
-                                ><Typography color={'secondary'} variant='subtitle2'>Try a gene set example</Typography></Button>
+                                </Grid>
+                                
+                                {['xs' , 'sm'].indexOf(width) > -1 && <Grid item xs={12}><Button color="secondary" variant="outlined" onClick={()=>setFormVisibility(!formVisibility)}>{formVisibility ? 'Hide' : 'Show'} Form</Button></Grid>}
+                                
+                                {/* <Grid item xs={12}>
+                                    <Stack direction={'row'} alignItems={"center"} justifyContent={'space-between'}>
+                                        <Typography variant="caption">Advanced Options</Typography>
+                                            <Switch 
+                                                color="secondary" 
+                                                checked={showForm}
+                                                onChange={()=>{setShowForm(!showForm)}}
+                                            />
+                                        </Stack>
+                                </Grid>
+                            </Grid>
+                            { showForm && 
+                            <>*/}
+                                <Grid item xs={12}>
+                                    <Grid container alignItems={"stretch"} spacing={2}>
+                                        {/* <Grid item><Typography variant='subtitle2'>Minimum libraries per gene</Typography></Grid>
+                                        <Grid item sx={{ flexGrow: 1 }}>
+                                            <Tooltip title={`Filter out genes that are not in multiple libraries.`}>
+                                                <Slider 
+                                                    color="secondary"
+                                                    value={min_lib || 3}
+                                                        onChange={(e, nv:number)=>{
+                                                        // const {search, augment, augment_limit, gene_links, ...rest} = combined_query
+                                                        setQuery({
+                                                            ...query,
+                                                            min_lib: nv
+                                                        })
+                                                        // router_push(router, pathname, {
+                                                        //     ...rest,
+                                                        //     min_lib: nv
+                                                        // })
+                                                    }}
+                                                    sx={{width: "100%"}}
+                                                    min={1}
+                                                    max={6}
+                                                    marks
+                                                    valueLabelDisplay='auto'
+                                                    aria-labelledby="gene-slider" />
+                                                </Tooltip>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant='subtitle2'>
+                                                {min_lib || 3}
+                                            </Typography>
+                                        </Grid> */}
+                                    </Grid>
+                                </Grid>
+                            
+                                {/*<Grid item xs={12}>
+                                    <Grid container alignItems={"stretch"} spacing={2}>
+                                        <Grid item><Typography variant='subtitle2'>Minimum links per gene</Typography></Grid>
+                                        <Grid item sx={{ flexGrow: 1 }}>
+                                            <Tooltip title={`Filter out genes with fewer connections`}>
+                                                <Slider 
+                                                    value={gene_degree || 1}
+                                                    color="secondary"
+                                                    onChange={(e, nv:number)=>{
+                                                        // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
+                                                        // router_push(router, pathname, {
+                                                        //     ...rest,
+                                                        //     gene_degree: nv
+                                                        // })
+                                                        setQuery({
+                                                            ...query,
+                                                            gene_degree: nv
+                                                        })
+                                                    }}
+                                                    sx={{width: "100%"}}
+                                                    min={1}
+                                                    max={libraries.reduce((acc, i)=>(acc+i.limit), 0) || 5}
+                                                    marks
+                                                    valueLabelDisplay='auto'
+                                                    aria-labelledby="degree-slider" />
+                                                </Tooltip>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant='subtitle2'>
+                                                {gene_degree || 1}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container alignItems={"stretch"} spacing={2}>
+                                        <Grid item><Typography variant='subtitle2'>Minimum links per term</Typography></Grid>
+                                        <Grid item sx={{ flexGrow: 1 }}>
+                                            <Tooltip title={`Filter out terms with fewer connections`}>
+                                                <Slider 
+                                                    color="secondary"
+                                                    value={term_degree || 1}
+                                                    onChange={(e, nv:number)=>{
+                                                        // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
+                                                        // router_push(router, pathname, {
+                                                        //     ...rest,
+                                                        //     term_degree: nv
+                                                        // })
+                                                        setQuery({
+                                                            ...query,
+                                                            term_degree: nv
+                                                        })
+                                                    }}
+                                                    sx={{width: "100%"}}
+                                                    min={1}
+                                                    max={20}
+                                                    marks
+                                                    valueLabelDisplay='auto'
+                                                    aria-labelledby="degree-slider" />
+                                                </Tooltip>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant='subtitle2'>
+                                                {term_degree || 1}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container alignItems={"stretch"} spacing={2}>
+                                        <Grid item><Typography variant='subtitle2'>Subgraph size limit</Typography></Grid>
+                                        <Grid item sx={{ flexGrow: 1 }}>
+                                            <Tooltip title={`How many genes should the knowledge graph return? (Prioritized by gene connectivity)`}>
+                                                <Slider 
+                                                    color="secondary"
+                                                    value={combined_query.gene_limit || verified.length || input.genes.length || 100}
+                                                    onChange={(e, nv:number)=>{
+                                                        // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
+                                                        // router_push(router, pathname, {
+                                                        //     ...rest,
+                                                        //     gene_limit: nv
+                                                        // })
+                                                        setQuery({
+                                                            ...query,
+                                                            gene_limit: nv
+                                                        })
+                                                    }}
+                                                    sx={{width: "100%"}}
+                                                    min={1}
+                                                    max={verified.length || input.genes.length || 100}
+                                                    valueLabelDisplay='auto'
+                                                    aria-labelledby="top-gene-slider" />
+                                                </Tooltip>
+                                        </Grid>
+                                        <Grid item>
+                                            <Typography variant='subtitle2'>
+                                                {combined_query.gene_limit || verified.length || input.genes.length || 100}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </> 
+                        }*/}
+                        {/*</Grid>
+                        { fullWidth &&
+                            <Grid item xs={12} md={6}>
+                                <Grid container spacing={1} justifyContent="flex-end">
+                                    <Grid item xs={12}>
+                                        <EnrichrTermSearch setInput={setInput}/>
+                                    </Grid> */}
+                                    {/* <Grid item xs={12}>
+                                        <Typography variant={'subtitle2'}>
+                                            Select libraries to include
+                                        </Typography>
+                                        <LibraryPicker parsedParams={parsedParams}
+                                            libraries_list={libraries_list}
+                                            fullWidth={fullWidth}
+                                            disableLibraryLimit={disableLibraryLimit || true}
+                                        />
+                                    </Grid> 
+                                </Grid>    
                             </Grid>
                         }
-                        <Grid item sx={{ flexGrow: 1, marginTop: 3 }}>
-                            <TextField
-                                variant='outlined'
-                                value={input.description}
-                                size="small"
-                                onChange={e=>setInput({...input, description: e.target.value})}
-                                placeholder="Description"
-                                label="Description"
-                                sx={{width: "100%", backgroundColor: "#FFF"}}
-                                InputProps={{
-                                    style: {
-                                      fontSize: 14,
-                                    },
-                                  }}
-                            />
-                        </Grid>
-                        {/*<Grid item xs={12}>
-                            <Stack direction={'row'} alignItems={"center"} justifyContent={'space-between'}>
-                                <Typography variant="caption">Advanced Options</Typography>
-                                    <Switch 
-                                        color="secondary" 
-                                        checked={showForm}
-                                        onChange={()=>{setShowForm(!showForm)}}
-                                    />
-                                </Stack>
-                        </Grid>
+                    </Grid>*/}
                     </Grid>
-                    { showForm && 
-                    <>*/}
-                        <Grid item xs={12}>
-                            <Grid container alignItems={"stretch"} spacing={2}>
-                                {/* <Grid item><Typography variant='subtitle2'>Minimum libraries per gene</Typography></Grid>
-                                <Grid item sx={{ flexGrow: 1 }}>
-                                    <Tooltip title={`Filter out genes that are not in multiple libraries.`}>
-                                        <Slider 
-                                            color="secondary"
-                                            value={min_lib || 3}
-                                                onChange={(e, nv:number)=>{
-                                                // const {search, augment, augment_limit, gene_links, ...rest} = combined_query
-                                                setQuery({
-                                                    ...query,
-                                                    min_lib: nv
-                                                })
-                                                // router_push(router, pathname, {
-                                                //     ...rest,
-                                                //     min_lib: nv
-                                                // })
-                                            }}
-                                            sx={{width: "100%"}}
-                                            min={1}
-                                            max={6}
-                                            marks
-                                            valueLabelDisplay='auto'
-                                            aria-labelledby="gene-slider" />
-                                        </Tooltip>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='subtitle2'>
-                                        {min_lib || 3}
-                                    </Typography>
-                                </Grid> */}
-                            </Grid>
-                        </Grid>
-                    
-                        {/*<Grid item xs={12}>
-                            <Grid container alignItems={"stretch"} spacing={2}>
-                                <Grid item><Typography variant='subtitle2'>Minimum links per gene</Typography></Grid>
-                                <Grid item sx={{ flexGrow: 1 }}>
-                                    <Tooltip title={`Filter out genes with fewer connections`}>
-                                        <Slider 
-                                            value={gene_degree || 1}
-                                            color="secondary"
-                                            onChange={(e, nv:number)=>{
-                                                // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
-                                                // router_push(router, pathname, {
-                                                //     ...rest,
-                                                //     gene_degree: nv
-                                                // })
-                                                setQuery({
-                                                    ...query,
-                                                    gene_degree: nv
-                                                })
-                                            }}
-                                            sx={{width: "100%"}}
-                                            min={1}
-                                            max={libraries.reduce((acc, i)=>(acc+i.limit), 0) || 5}
-                                            marks
-                                            valueLabelDisplay='auto'
-                                            aria-labelledby="degree-slider" />
-                                        </Tooltip>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='subtitle2'>
-                                        {gene_degree || 1}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container alignItems={"stretch"} spacing={2}>
-                                <Grid item><Typography variant='subtitle2'>Minimum links per term</Typography></Grid>
-                                <Grid item sx={{ flexGrow: 1 }}>
-                                    <Tooltip title={`Filter out terms with fewer connections`}>
-                                        <Slider 
-                                            color="secondary"
-                                            value={term_degree || 1}
-                                            onChange={(e, nv:number)=>{
-                                                // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
-                                                // router_push(router, pathname, {
-                                                //     ...rest,
-                                                //     term_degree: nv
-                                                // })
-                                                setQuery({
-                                                    ...query,
-                                                    term_degree: nv
-                                                })
-                                            }}
-                                            sx={{width: "100%"}}
-                                            min={1}
-                                            max={20}
-                                            marks
-                                            valueLabelDisplay='auto'
-                                            aria-labelledby="degree-slider" />
-                                        </Tooltip>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='subtitle2'>
-                                        {term_degree || 1}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container alignItems={"stretch"} spacing={2}>
-                                <Grid item><Typography variant='subtitle2'>Subgraph size limit</Typography></Grid>
-                                <Grid item sx={{ flexGrow: 1 }}>
-                                    <Tooltip title={`How many genes should the knowledge graph return? (Prioritized by gene connectivity)`}>
-                                        <Slider 
-                                            color="secondary"
-                                            value={combined_query.gene_limit || verified.length || input.genes.length || 100}
-                                            onChange={(e, nv:number)=>{
-                                                // const {search, augment, augment_limit, gene_links, ...rest} = searchParams
-                                                // router_push(router, pathname, {
-                                                //     ...rest,
-                                                //     gene_limit: nv
-                                                // })
-                                                setQuery({
-                                                    ...query,
-                                                    gene_limit: nv
-                                                })
-                                            }}
-                                            sx={{width: "100%"}}
-                                            min={1}
-                                            max={verified.length || input.genes.length || 100}
-                                            valueLabelDisplay='auto'
-                                            aria-labelledby="top-gene-slider" />
-                                        </Tooltip>
-                                </Grid>
-                                <Grid item>
-                                    <Typography variant='subtitle2'>
-                                        {combined_query.gene_limit || verified.length || input.genes.length || 100}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </> 
-                }*/}
-                {/*</Grid>
-                { fullWidth &&
-                    <Grid item xs={12} md={6}>
-                        <Grid container spacing={1} justifyContent="flex-end">
-                             <Grid item xs={12}>
-                                <EnrichrTermSearch setInput={setInput}/>
-                            </Grid> */}
-                            {/* <Grid item xs={12}>
-                                <Typography variant={'subtitle2'}>
-                                    Select libraries to include
-                                </Typography>
-                                <LibraryPicker parsedParams={parsedParams}
-                                    libraries_list={libraries_list}
-                                    fullWidth={fullWidth}
-                                    disableLibraryLimit={disableLibraryLimit || true}
-                                />
-                            </Grid> 
-                        </Grid>    
-                    </Grid>
-                }
-            </Grid>*/}
-            </Grid>
-        </FormGroup>
+                </FormGroup>
+            </CardContent>
+        </Card>
     )
 }
 

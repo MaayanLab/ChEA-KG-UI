@@ -48,7 +48,7 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 					<TextNav path={tab.endpoint} title={tab.label}/>
 				</div>
 			)
-			if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "block", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>)
+			if (divider) tab_component[position].push(<Divider key={tab.label + "div"} sx={{display: {xs: "none", sm: "none", md: "flex", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>)
 		}
 	}
 	if (divider) {
@@ -61,10 +61,10 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 			<Grid item sx={{ flexGrow: 1 }}>
 				<Logo alt={icon.alt} src={icon.favicon} title={title} avatar={icon.avatar} size='large' color="secondary"/>
 			</Grid>
-			<Grid item sx={{display: {xs: "none", sm: "none", md: "block"}}}>
+			<Grid item sx={{display: {xs: "none", sm: "none", md: "flex"}}}>
 					<Stack direction={"row"} alignItems={"center"} spacing={2}>
 						{tab_component.top}
-						{divider && <Divider sx={{display: {xs: "none", sm: "none", md: "block", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>}
+						{divider && <Divider sx={{display: {xs: "none", sm: "none", md: "flex", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>}
 						{(counter && tab_component.bottom.length === 0 && counterTop) && 
 							<Counter ui_theme={ui_theme}/>
 						}
@@ -72,7 +72,7 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 					
 			</Grid>
 			{tab_component.bottom.length > 0 &&
-				<Grid item xs={12} sx={{display: {xs: "none", sm: "none", md: "block"}}}>
+				<Grid item xs={12} sx={{display: {xs: "none", sm: "none", md: "flex"}}}>
 					<Stack direction={"row"} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
 						<Stack direction={"row"} alignItems={"center"} spacing={2}>
 							{tab_component.bottom}		
@@ -83,11 +83,11 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 				</Grid>
 			}
 			{(counter && tab_component.bottom.length === 0 && !counterTop) &&
-				<Grid item xs={12} className='flex justify-end' sx={{display: {xs: "none", sm: "none", md: "block"}}}>		
+				<Grid item xs={12} className='flex justify-end' sx={{display: {xs: "none", sm: "none", md: "flex"}}}>		
 					<Counter ui_theme={ui_theme}/>
 				</Grid>
 			}
-			<Grid item className='flex justify-end' sx={{display: {xs: "block", sm: "block", md: "none", lg: "none", xl: "none"}}}>
+			<Grid item className='flex justify-end' sx={{display: {xs: "flex", sm: "flex", md: "none", lg: "none", xl: "none"}}}>
 				<SmallNav counter={counter} tab_component={tab_component} ui_theme={ui_theme}/>
 			</Grid>
 		</Grid>

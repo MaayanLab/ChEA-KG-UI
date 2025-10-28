@@ -5,8 +5,6 @@ import React, {useState, useEffect } from 'react';
 import { default_layouts as layouts } from '../Cytoscape';  
 import Tooltip from '@mui/material/Tooltip';
 
-import Button from '@mui/material/Button'
-
 import IconButton from '@mui/material/IconButton'
 
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
@@ -21,8 +19,7 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import SaveIcon from '@mui/icons-material/Save';
-import Icon from '@mdi/react';
-import { mdiGraph, mdiTable, mdiPoll, mdiTooltipRemove, mdiTooltip} from '@mdi/js';
+import { mdiGraph, mdiTable, mdiPoll, mdiTooltipRemove, mdiTooltip, mdiSend} from '@mdi/js';
 import SendIcon from '@mui/icons-material/Send';
 import UndoIcon from '@mui/icons-material/Undo';
 
@@ -49,6 +46,8 @@ import { process_tables } from '../../utils/helper';
 import { NetworkSchema } from '@/app/api/knowledge_graph/route';
 import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { EnrichmentParams } from '.';
+import Icon from '@mdi/react';
+import { mdiArrowULeftBottomBold } from '@mdi/js';
 import Link from 'next/link';
 const InteractiveButtons = ({
         hiddenLinksRelations=[], 
@@ -124,7 +123,7 @@ const InteractiveButtons = ({
     
     const disable_button = Object.keys(edgeFilter).length === 0 || (user_filter.zscore === edgeFilter.zscore && user_filter.add_nodes === edgeFilter.add_nodes)
     return (
-        <Grid container>
+        <Grid container spacing={1} alignItems={"center"}>
             <Grid item xs={12}>
                 <Stack direction={"row"} alignItems={"center"}>
                     <Tooltip title={"Network view"}>
@@ -424,70 +423,80 @@ const InteractiveButtons = ({
                     }
                 </Stack>
         </Grid>
-        <Grid item xs={12}>
-            <Stack direction={"row"} alignItems={"center"} spacing={2}>
-                <Typography variant='subtitle2'>Add/remove nodes:</Typography>
-                <Tooltip title={`Change number of top-ranked nodes from ChEA3`}>
-                    <Slider 
-                        color="secondary"
-                        value={edgeFilter.add_nodes !== undefined ? edgeFilter.add_nodes : parsedParams.add_nodes ? parsedParams.add_nodes : 10}
-                        onChange={(e, nv:number)=>{
-                            // router_push(router, pathname, {
-                            //     q: JSON.stringify({...parsedParams, pvalue: nv}),
-                            // })
-                            setEdgeFilter({...edgeFilter, add_nodes: nv})
+        <Grid item xs={12} sm={5}>
+            <div className='flex'>
+                <div className='mr-3'><Typography variant='subtitle2'>Add/remove nodes:</Typography></div>
+                <div className='flex-grow'>
+                    <Tooltip title={`Change number of top-ranked nodes from ChEA3`}>
+                        <Slider 
+                            color="secondary"
+                            value={edgeFilter.add_nodes !== undefined ? edgeFilter.add_nodes : parsedParams.add_nodes ? parsedParams.add_nodes : 10}
+                            onChange={(e, nv:number)=>{
+                                // router_push(router, pathname, {
+                                //     q: JSON.stringify({...parsedParams, pvalue: nv}),
+                                // })
+                                setEdgeFilter({...edgeFilter, add_nodes: nv})
 
-                        }}
-                        sx={{width: "12%"}}
-                        min={5}
-                        max={25}
-                        valueLabelDisplay='auto'
-                        step={5}
-                        aria-labelledby="node-slider" />
-                </Tooltip> 
-                <Typography variant='subtitle2'>Add/remove edges:</Typography>
-                <Tooltip title={`Filter edges by z-score`}>
-                    <Slider 
-                        color="secondary"
-                        value={edgeFilter.zscore !== undefined ? edgeFilter.zscore: parsedParams.zscore ? parsedParams.zscore : min_z}
-                        onChange={(e, nv:number)=>{
-                            setEdgeFilter({...edgeFilter, zscore: nv})
-                        }}
-                        sx={{width: "12%", marginRight: 2, marginLeft: 2}}
-                        max={max_z}
-                        min={0}
-                        valueLabelDisplay='auto'
-                        aria-labelledby="z-slider" />
-                </Tooltip> 
-                <Tooltip title={`Submit changes`}>
-                    <IconButton disabled={disable_button} sx={{position: "relative"}}>
-                        <Link onClick={()=>{
-                            if ((user_filter.zscore !== edgeFilter.zscore || min_z) || (user_filter.add_nodes !== edgeFilter.add_nodes || 10)) 
-                                setLoading(true)
-                            }} 
-                            href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
-                            
-                                <SendIcon/> {loading && <CircularProgress sx={{position: "absolute", left: 0}}/>}
-                            
-                        </Link>
-                    </IconButton>
-                </Tooltip>
-                <div style={{ marginLeft: 'auto' }}>
-                <Tooltip title={`Reset subnetwork`}>
-                <Link href={`${pathname}?q=${JSON.stringify({...parsedParams, zscore:0, add_nodes:10, remove:[], expand:[]})}${layout ? "&layout=" + layout: ""}`} >
-                    <Button 
-                        size="small"
-	                    variant="contained"
-	                    sx={{
-	                        padding: "7.5px 20px"
-	                    }}
-                    ><Typography color={'secondary'} variant='subtitle2'>Reset subnetwork</Typography></Button>
-                    </Link>
-                </Tooltip>    
-                </div>            
-            </Stack>
+                            }}
+                            sx={{width: {xs: "50%", sm: "100%"}}}
+                            min={5}
+                            max={25}
+                            valueLabelDisplay='auto'
+                            step={5}
+                            aria-labelledby="node-slider" />
+                    </Tooltip> 
+                </div>
+            </div>
         </Grid>
-        {(elements && geneLinksOpen) &&
+        <Grid item  xs={12} sm={5}>
+            <div className='flex mr-5'>
+                <div className='mr-3'><Typography variant='subtitle2'>Add/remove edges:</Typography></div>
+                <div className='flex-grow'>
+                    <Tooltip title={`Filter edges by z-score`}>
+                        <Slider 
+                            color="secondary"
+                            value={edgeFilter.zscore !== undefined ? edgeFilter.zscore: parsedParams.zscore ? parsedParams.zscore : min_z}
+                            onChange={(e, nv:number)=>{
+                                setEdgeFilter({...edgeFilter, zscore: nv})
+                            }}
+                            sx={{width: {xs: "50%", sm: "100%"}, marginRight: 2, marginLeft: 2}}
+                            max={max_z}
+                            min={0}
+                            valueLabelDisplay='auto'
+                            aria-labelledby="z-slider" />
+                    </Tooltip> 
+                </div>
+            </div>
+        </Grid>
+        <Grid item>
+            <div className='flex justify-start items-center'>
+                <div className='mb-2.5'>
+                    <Tooltip title={`Submit changes`}>
+                        <IconButton disabled={disable_button} sx={{position: "relative"}}>
+                            <Link onClick={()=>{
+                                if ((user_filter.zscore !== edgeFilter.zscore || min_z) || (user_filter.add_nodes !== edgeFilter.add_nodes || 10)) 
+                                    setLoading(true)
+                                }} 
+                                href={`${pathname}?q=${JSON.stringify({...parsedParams, ...edgeFilter})}${layout ? "&layout=" + layout: ""}`}>
+                                
+                                   <Icon path={mdiSend} size={1} /> {loading && <CircularProgress sx={{position: "absolute", left: 0}}/>}
+                                
+                            </Link>
+                        </IconButton>
+                    </Tooltip>
+                </div>
+                <div className='mb-2.5'>
+                    <Tooltip title={`Reset subnetwork`}>
+                        <Link href={`${pathname}?q=${JSON.stringify({...parsedParams, zscore:0, add_nodes:10, remove:[], expand:[]})}${layout ? "&layout=" + layout: ""}`} >
+                            <IconButton >
+                                <Icon path={mdiArrowULeftBottomBold} size={1} />
+                            </IconButton>
+                        </Link>
+                    </Tooltip>    
+                </div>
+            </div>
+        </Grid>
+         {(elements && geneLinksOpen) &&
             <Grid item xs={12}>
                 <Stack direction="row" alignItems="center" justifyContent={"flex-end"}>
                     <Typography variant='subtitle2' sx={{marginRight: 5}}>Select relationships:</Typography>
