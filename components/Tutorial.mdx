@@ -1,4 +1,5 @@
-# ChEA-KG: Human Transcription Factor Regulatory Network with a Knowledge Graph Interactive User Interface  
+# ChEA-KG: Human Transcription Factor Regulatory Network with a Knowledge Graph Interactive User Interface 
+<br></br> 
 ## **Table of Contents**
 1. [Abstract](#abstract)
 2. [The ChEA-KG GRN](#introduction)
@@ -19,13 +20,14 @@
 	1. &nbsp;Analyze a gene set
     2. &nbsp;View added gene set
     3. &nbsp;Get enriched subnetwork  
-
-## **Abstract** <a name="grn-search"></a>
+8. [Citing ChEA-KG](#citation)
+<br></br>
+## **Abstract** <a name="abstract"></a>
 Gene expression is controlled by transcription factors that selectively bind to DNA to regulate mRNA expression of all human genes. Transcription factors control the expression of other transcription factors, forming a complex gene regulatory network (GRN) with switches, feedback loops, and other regulatory motifs. Many experimental methods and computational tools have been developed to reconstruct GRNs in-silico. Here we present a different approach to reconstruct the human GRN. By submitting thousands of gene sets from the RummaGEO resource for transcription factor enrichment analysis with ChEA3, we are able to distill signed and directed edges that connect all human transcription factors to construct a high quality human GRN. The GRN has 130,793 signed and directed edges between 703 source and 1,543 target transcription factors. The network is made accessible via an interactive web-based application called ChEA-KG. ChEA-KG enables users to query the GRN by searching for single or pairs of transcription factors, as well as by submitting gene sets to perform transcription factor enrichment analysis with ChEA3 and then place the enriched transcription factors in context of ChEA-KG. To demonstrate the utility of ChEA-KG, we systematically identified transcription factor subnetworks that regulate differentially expressed genes in tumors from ten cancer types, and 69 subtypes, profiled by the Clinical Proteomic Tumor Analysis Consortium (CPTAC).    
 
 ## **The ChEA-KG GRN** <a name="introduction"></a>
-ChEA-KG visualizes a human GRN that connects **1,553** transcription factors (TFs) with signed, directed edges that indicate up- or down-regulatory 
-relationships between TFs. There are **63,375** upregulated edges and **67,418** downregulated edges in the GRN. The network is constructed by inputting **171,441** human gene 
+ChEA-KG visualizes a human GRN that connects **1,559** transcription factors (TFs) with signed, directed edges that indicate up- or down-regulatory 
+relationships between TFs. There are **67,650** upregulated edges and **63,531** downregulated edges in the GRN. The network is constructed by inputting **171,441** human gene 
 sets from [RummaGEO](https://rummageo.com) into ChEA3 for enrichment analysis. For each gene set, edges are identified between each enriched TF, which 
 serves as the source node, and the TFs in the gene set, which become the targets. The final ChEA-KG network is filtered by edge significance using a z-test and a p-value threshold of (p < 0.01).    
 
@@ -391,3 +393,8 @@ else:
     ]
 }
 ```   
+   
+<br></br>
+## **Citing ChEA-KG** <a name="citation"></a>
+*Please acknowledge ChEA-KG in your publications by citing the following reference:*  
+Anna I. Byrd, John Erol Evangelista, Alexander Lachmann, Ho-Young Chung, Sherry L. Jenkins, Avi Ma'ayan. **ChEA-KG: Human Transcription Factor Regulatory Network with a Knowledge Graph User Interface.** Preprint on bioRxiv (2025). <a style={{color: '#81A1C1'}} href='https://www.biorxiv.org/content/10.1101/2025.08.09.669505v1' rel='noopener noreferrer' target='_blank'>doi:10.1101/2025.08.09.669505</a>.
