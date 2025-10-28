@@ -8,7 +8,6 @@ import Chea3Enrichment from '@/components/Chea3Enrichment'
 import Download from '@/components/Download'
 import DownloadFiles from '@/components/DownloadFiles'
 import APIDoc from '@/components/APIDoc'
-import WholeNetwork from '@/components/WholeNetwork'
 import SimpleTermAndGeneSearch from '@/components/SimpleTermAndGeneSearch'
 import Credits from '@/components/Credits'
 import Tutorial from '@/components/Tutorial.mdx'
@@ -32,7 +31,6 @@ export const AsyncComponent = async ({component, searchParams, props, endpoint,}
 	else if (component === "Download") return await Download({...props})
 	else if (component === "APIDoc") return await APIDoc({...props})
 	else if (component === "Tutorial") return <Tutorial/>
-	else if (component === "WholeNetwork") return await WholeNetwork({props})
 	else if (component === "DownloadFiles") return await DownloadFiles({...props})
 	else if (component === "Credits") return await Credits()
 	else if (component == 'UseCaseLib') return await UseCaseLib({...props})
