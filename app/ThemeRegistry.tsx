@@ -81,7 +81,8 @@ function ThemeRegistry(props:{options:any, children:any, theme: 'cfde_theme' | s
           <ConsentCookie consentCookie={props.consentCookie} resetCookie={props.resetCookie} setConsentCookie={props.setConsentCookie}/>
           {children}
         </ThemeProvider>
-        {(props.consentCookie === "allow" || process.env.NEXT_PUBLIC_COOKIE_NAME === '') && <GoogleAnalytics trackPageViews />}
+        {/* {(props.consentCookie === "allow" || process.env.NEXT_PUBLIC_COOKIE_NAME === '') && <GoogleAnalytics trackPageViews />} */}
+        <GoogleAnalytics trackPageViews />
       </CacheProvider>
     );
   }
