@@ -106,10 +106,10 @@ const Enrichment = async ({
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
-        const cancer_types = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_cancer_gene_sets`)).json()
+        const cancer_gmt = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_cancer_gene_sets`)).json()
         
-        const default_group = props.default_options.group_name || Object.keys(cancer_types)[0]
-        const default_term = props.default_options.term || Object.keys(cancer_types[default_group])[0]
+        const default_group = props.default_options.group_name || Object.keys(cancer_gmt)[0]
+        const default_term = props.default_options.term || Object.keys(cancer_gmt[default_group])[0]
         
         const {
             term=default_term,
@@ -129,7 +129,7 @@ const Enrichment = async ({
             console.log("test", group_name, term)
 
             // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
-            const genes = cancer_types[group_name][term]
+            const genes = cancer_gmt[group_name][term]
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
             formData.append('description', `${group_name}: ${term}`)
@@ -196,10 +196,10 @@ const Enrichment = async ({
 
                 <Grid item xs={12} md={3}>
                     <QueryForm 
-                        genes={cancer_types[group_name][term]}
+                        genes={cancer_gmt[group_name][term]}
                         parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
                         elements={elements}
-                        cancer_types={cancer_types}
+                        cancer_gmt={cancer_gmt}
                         cell_info = {celltype_info}
                     />
                 </Grid>

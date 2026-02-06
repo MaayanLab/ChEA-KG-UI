@@ -30,8 +30,8 @@ import FlexSearch from 'flexsearch';
 import { useWidth } from '../Chea3Enrichment/form';
 
 const QueryForm = ({
-    moas,
-    cell_info,
+    moa_gmt,
+    moa_info,
     parsedParams,
     elements,
     description,
@@ -40,8 +40,8 @@ const QueryForm = ({
     description?: string,
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
-    cell_info: {[key:string]: {[key: string] : string}},
-	moas: {[key:string]: {[key: string] : string[]}},
+    moa_info: {[key:string]: {[key: string] : string}},
+	moa_gmt: {[key:string]: {[key: string] : string[]}},
     genes: string[]
 }) => {
     const router = useRouter()
@@ -52,11 +52,11 @@ const QueryForm = ({
     const [inputError, setInputError] = useState<boolean>(false)
     const [isFocused, setIsFocused] = useState<boolean>(false)
     const [controller, setController] = useState<AbortController>(null)
-    const [error, setError] = useState<{message: string, type: string}>(null)
+    const [error, setError] = useState<{message: string, types: string}>(null)
 	const [index, setIndex] = useState(null)
 	const [showGeneSet, setShowGeneSet] = useState(false)
 	const [fullTextQuery, setFullTextQuery] = useState('')
-	const [cellTypes, setCellTypes] = useState(moas)
+	const [moaTypes, setMoaTypes] = useState(moa_gmt)
 	const [limit, setLimit] = useState(15)
     const [v, setValue] = useState<string>('1')
     const [formVisibility, setFormVisibility] = useState(false)
@@ -95,15 +95,15 @@ const QueryForm = ({
     }
 
 	useEffect(()=>{
-        const subtype_index = new FlexSearch.Index()
-        for (const [k, v] of Object.entries(moas)) {
+        const subtypes_index = new FlexSearch.Index()
+        for (const [k, v] of Object.entries(moa_gmt)) {
             for (const key of Object.keys(v)) {
                 const id = `${k},${key}`
-                subtype_index.add(id, `${k}:${key}`)
+                subtypes_index.add(id, `${k}:${key}`)
             }
         }
-		setIndex(subtype_index)
-    },[moas])
+		setIndex(subtypes_index)
+    },[moa_gmt])
 	
 
     useEffect(()=>{
@@ -136,15 +136,15 @@ const QueryForm = ({
 
     useEffect(()=>{
 		if (index) {
-			if (fullTextQuery === '') setCellTypes(cellTypes)
+			if (fullTextQuery === '') setMoaTypes(moaTypes)
 			else {
 				const new_vals = {}
 				for (const key of index.search(`*${fullTextQuery}*`)) {
 					const [group_name, label] = key.split(",")
 					if (new_vals[group_name] === undefined) new_vals[group_name] = {}
-					new_vals[group_name][label] = moas[group_name][label]
+					new_vals[group_name][label] = moa_gmt[group_name][label]
 				}
-				setCellTypes(new_vals)
+				setMoaTypes(new_vals)
 			}
 		}
     }, [fullTextQuery])
@@ -157,7 +157,7 @@ const QueryForm = ({
 					anchorOrigin={{ vertical:"bottom", horizontal:"left" }}
 					autoHideDuration={4500}
 					onClose={()=>{
-                        if ((error || {} ).type === "fail") {
+                        if ((error || {} ).types === "fail") {
                             router_push(router, pathname, {})
                             setQuery(null)
                             setError(null)
@@ -168,7 +168,7 @@ const QueryForm = ({
 				>
                     <Alert 
                         onClose={()=>{
-                            if ((error || {} ).type === "fail") {
+                            if ((error || {} ).types === "fail") {
                                 router_push(router, pathname, {})
                                 setQuery(null)
                                 setError(null)
@@ -176,7 +176,7 @@ const QueryForm = ({
                                 setError(null)
                             }
                         }}
-                        severity={(error || {} ).type === "fail" ? "error": "warning"}
+                        severity={(error || {} ).types === "fail" ? "error": "warning"}
                         sx={{ width: '100%' }} 
                         variant="filled"
                         elevation={6}
@@ -260,7 +260,7 @@ const QueryForm = ({
                                     
                                 </Grid>
                                 {/* <Grid alignContent={'center'}>
-                                    <Link target="_blank" rel="noopener noreferrer" href={cell_info[`${group_name}:${term}`].enrichr_url}> 
+                                    <Link target="_blank" rel="noopener noreferrer" href={moa_info[`${group_name}:${term}`].enrichr_url}> 
                                         <Button
                                         size="small"
                                         variant="contained"
@@ -304,7 +304,7 @@ const QueryForm = ({
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
                     <Typography align={'center'}> <b>Select a mechanism of action, then a direction of regulation:</b> </Typography>
-					<MOASelector elements={elements} moas={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
+					<MOASelector elements={elements} moa_gmt={moaTypes} group_name={group_name} term={combined_query.term}/>
                     
             </Stack>
             </Grid>}

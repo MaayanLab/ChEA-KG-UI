@@ -123,7 +123,7 @@ export async function GET() {
 
         const res = await readFile(filePath, "utf8")
         console.log("result:", res)
-    // if (!res.ok) throw new Error("Couldn't get moa atlas data")
+    // if (!res.ok) throw new Error("Couldn't get direction atlas data")
     if (!res) throw new Error("Couldn't get moa atlas data")
     else {
         // const moa_atlas = await res.text()
@@ -131,13 +131,12 @@ export async function GET() {
         const moas = {}
         for (const i of moa_atlas.split("\n").sort()) {
             const [name, _, ...gene_sets] = i.split("\t")
-            const [direction, moa] = name.split(":")
-            if (direction !== "" && direction !== 'Undefined') {
-                if (moas[direction] === undefined) moas[direction] = {}
-                moas[direction][moa] = gene_sets
+            const [moa, direction] = name.split(":")
+            if (moa !== "" && moa !== 'Undefined') {
+                if (moas[moa] === undefined) moas[moa] = {}
+                moas[moa][direction] = gene_sets
             }
         }
-        console.log("moas", moas)
         cache.put("moa_atlas_gmt", moas, 10000);
         return NextResponse.json(moas, {status: 200})
         }   

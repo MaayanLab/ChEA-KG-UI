@@ -30,7 +30,7 @@ import FlexSearch from 'flexsearch';
 import { useWidth } from '../Chea3Enrichment/form';
 
 const QueryForm = ({
-    cancer_types,
+    cancer_gmt,
     cell_info,
     parsedParams,
     elements,
@@ -41,7 +41,7 @@ const QueryForm = ({
     elements: NetworkSchema,
     parsedParams: EnrichmentParams,
     cell_info: {[key:string]: {[key: string] : string}},
-	cancer_types: {[key:string]: {[key: string] : string[]}},
+	cancer_gmt: {[key:string]: {[key: string] : string[]}},
     genes: string[]
 }) => {
     const router = useRouter()
@@ -56,7 +56,7 @@ const QueryForm = ({
 	const [index, setIndex] = useState(null)
 	const [showGeneSet, setShowGeneSet] = useState(false)
 	const [fullTextQuery, setFullTextQuery] = useState('')
-	const [cellTypes, setCellTypes] = useState(cancer_types)
+	const [cellTypes, setCellTypes] = useState(cancer_gmt)
 	const [limit, setLimit] = useState(15)
     const [v, setValue] = useState<string>('1')
     const [formVisibility, setFormVisibility] = useState(false)
@@ -96,14 +96,14 @@ const QueryForm = ({
 
 	useEffect(()=>{
         const subtype_index = new FlexSearch.Index()
-        for (const [k, v] of Object.entries(cancer_types)) {
+        for (const [k, v] of Object.entries(cancer_gmt)) {
             for (const key of Object.keys(v)) {
                 const id = `${k},${key}`
                 subtype_index.add(id, `${k}:${key}`)
             }
         }
 		setIndex(subtype_index)
-    },[cancer_types])
+    },[cancer_gmt])
 	
 
     useEffect(()=>{
@@ -142,7 +142,7 @@ const QueryForm = ({
 				for (const key of index.search(`*${fullTextQuery}*`)) {
 					const [group_name, label] = key.split(",")
 					if (new_vals[group_name] === undefined) new_vals[group_name] = {}
-					new_vals[group_name][label] = cancer_types[group_name][label]
+					new_vals[group_name][label] = cancer_gmt[group_name][label]
 				}
 				setCellTypes(new_vals)
 			}
@@ -304,7 +304,7 @@ const QueryForm = ({
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
                     <Typography align={'center'}> <b>Select a cancer type to view the available subtypes:</b> </Typography>
-					<CancerTypeSelector elements={elements} cancer_types={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
+					<CancerTypeSelector elements={elements} cancer_gmt={cellTypes} group_name={group_name} info={cell_info} term={combined_query.term}/>
                     
             </Stack>
             </Grid>}

@@ -103,15 +103,19 @@ const Enrichment = async ({
     
     try {
         console.log("fetching gmt file...")
-        const moas = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_moa_gene_sets`)).json()
+        const moa_gmt = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_moa_gene_sets`)).json()
         
-        const default_group = props.default_options.group_name || Object.keys(moas)[0]
-        const default_term = props.default_options.term || Object.keys(moas[default_group])[0]
+        const default_group = props.default_options.group_name || Object.keys(moa_gmt)[0]
+        const default_term = props.default_options.term || Object.keys(moa_gmt[default_group])[0]
         
+        console.log(default_group, default_term)
+
         const {
             term=default_term,
             group_name=default_group,
         } = parsedParams
+
+        console.log(term, group_name)
 
         let elements:NetworkSchema = null
         let shortId = ""
@@ -125,8 +129,7 @@ const Enrichment = async ({
             const formData = new FormData();
             console.log("test", group_name, term)
 
-            // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
-            const genes = moas[group_name][term]
+            const genes = moa_gmt[group_name][term]
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
             formData.append('description', `${group_name}: ${term}`)
@@ -193,11 +196,11 @@ const Enrichment = async ({
 
                 <Grid item xs={12} md={3}>
                     <QueryForm 
-                        genes={moas[group_name][term]}
+                        genes={moa_gmt[group_name][term]}
                         parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
                         elements={elements}
-                        moas={moas}
-                        cell_info = {celltype_info}
+                        moa_gmt={moa_gmt}
+                        moa_info = {celltype_info}
                     />
                 </Grid>
                 <Grid item xs={12} md={9}>

@@ -25,30 +25,27 @@ const styles = {
 	enabled: {
 		opacity: 1,
     	borderRadius: "5px",
-		width: '95%',
 		"&:hover": {
 			border: 1,
 			borderRadius: "5px",
 		},
-		position: 'relative',
-		color: 'black'
+		position: 'relative'
 	},
 	active: {
 		opacity: 1,
 		border: 1,
-		width: '95%',
 		borderRadius: "5px",
 		boxShadow: "1",
-		position: 'relative',
-		color: 'black'
+		position: 'relative'
 	}
   }
 
 
 
-export const MOASelector = ({moa_gmt, group_name,  term, elements}: 
-	{moa_gmt: {[key:string]: {[key: string] : string[]}}, 
+export const MOASelector = ({moas, group_name,  info, term, elements}: 
+	{moas: {[key:string]: {[key: string] : string[]}}, 
 	group_name:string,
+	info: {[key:string]: {[key: string] : string}},
 	term: string,
 	elements: NetworkSchema
 }) => 
@@ -61,24 +58,34 @@ export const MOASelector = ({moa_gmt, group_name,  term, elements}:
 	let icon_buttons = []
 	const buttonStyle = styles.enabled
 	const activeStyle = styles.active
-	const currentMOA = group_name
-
-	// organizing by moa and then direction for dispay
+	const currentDirection = group_name
+	const currentTerm = term
 	
+	// organizing by moa and then direction for dispay
+	const moas_reorganized = Object.entries(moas).reduce(
+		(new_dict, [direction, terms]) => {
+			Object.entries(terms).forEach(([term, list]) => {
+			new_dict[term] ??= {}
+			new_dict[term][direction] = list
+			})
+			return new_dict
+		},
+		{} as Record<string, Record<string, any[]>>
+		)
 	useEffect(()=>{
 			if (timer.current) clearTimeout(timer.current)
 			setLoading(false)
 		}, [elements])
-	for (const moa_name of ((Object.keys(moa_gmt)))) {
-		let active = moa_name === currentMOA ? true: false
+	for (const moa_name of ((Object.keys(moas_reorganized)))) {
+		let active = moa_name === currentTerm ? true : false
 		icon_buttons.push(
-			<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": moa_name, "term": Object.keys(moa_gmt[moa_name])[0], "zscore": 5, "search":true, "limit": 50})}`}>
+			<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "direction": Object.keys(moas_reorganized[moa_name])[0], "term": moa_name, "zscore": 5, "search":true, "limit": 50})}`}>
 			<Button key={moa_name} sx={active ? activeStyle : buttonStyle} onClick={()=>{
 				setLoading(true)
-				setClicked(moa_name) 
+				setClicked(moa_name)
 				timer.current = setTimeout(()=>{
 					const query = {
-						q: JSON.stringify({"min_lib":3, "group_name":moa_name, "term": Object.keys(moa_gmt[moa_name])[0], "zscore": 5, "search":true, "limit": 50})
+						q: JSON.stringify({"min_lib":3, "direction": Object.keys(moas_reorganized[moa_name])[0], "term": moa_name, "zscore": 5, "search":true, "limit": 50})
 					}
 					console.log("refreshing", query)
 					router_push(router, pathname, query)
@@ -101,27 +108,28 @@ export const MOASelector = ({moa_gmt, group_name,  term, elements}:
 			<Stack direction='column' spacing={3} sx={{justifyContent: 'center', alignContent:'center'}}>
 			<FormControl fullWidth>
 
-				<InputLabel id="labelID">Direction of regulation, <b>{currentMOA}</b></InputLabel>
-				<Select fullWidth value={term} labelId="labelID" id="label" label="Choose a direction" renderValue={(value)=>
+				<InputLabel id="labelID">Direction of regulation, <b>{currentTerm}</b></InputLabel>
+				<Select fullWidth value={currentDirection} labelId="labelID" id="label" label="Choose a direction" renderValue={(value)=>
 					<div className="flex">
 					<div className="flex-grow"><Typography variant="caption">{value}</Typography></div>
 					{(loading) && <CircularProgress size={20}/> }
 					</div>
 				}>
-					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
+					{Object.keys(moas_reorganized[currentTerm]).map((direction) => (
 						<MenuItem key={direction} sx={{backgroundColor:'transparent'}}>
-							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
+							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "direction": direction, "term": currentTerm, "zscore": 5, "search":true, "limit": 50})}`}>
 							<Button sx={{color: "black"}} onClick={(e)=>{
-								setLoading(true)
+								// e.preventDefault()
+								setLoading(true)	
 								timer.current = setTimeout(()=>{
 									const query = {
-										q: JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})
+										q: JSON.stringify({"min_lib":3, "direction": direction, "term": currentTerm, "zscore": 5, "search":true, "limit": 50})
 									}
 									console.log("refreshing", query)
 									router_push(router, pathname, query)
-								}, 12000)						
+								}, 12000)							
 							}}>
-								{direction}, {moa_gmt[currentMOA][direction].length} genes
+								{direction}, {moas[direction][currentTerm].length} genes
 							</Button> 
 							</Link>
 						</MenuItem>

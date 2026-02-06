@@ -321,8 +321,8 @@
           "disableHeader": true,
           "disableLibraryLimit": true,
           "default_options": {
-            "group_name": "up",
-            "term": "potassium channel activator",
+            "group_name": "potassium channel activator",
+            "term": "up",
             "limit": 50
           },
           "example": {
