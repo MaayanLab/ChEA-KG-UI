@@ -209,7 +209,7 @@ const QueryForm = ({
                             />
                             <Tab 
                             value='2'
-                            label="View marker genes" 
+                            label="View gene set" 
                             title="View the consensus moa gene set"
                             // sx={{color: 'black', variant:'normal', fontSize:14}}
                             wrapped
@@ -303,7 +303,7 @@ const QueryForm = ({
 
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
-					<MOASelector elements={elements} moa_gmt={moaTypes} group_name={group_name} term={combined_query.term}/>
+					<MOASelector elements={elements} moa_gmt={moaTypes} group_name={group_name} term={combined_query.term} moa_info={moa_info}/>
                     
             </Stack>
             </Grid>}

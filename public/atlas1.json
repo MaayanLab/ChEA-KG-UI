@@ -1400,302 +1400,942 @@
     {
       "direction": "up",
       "moa": "dopamine receptor antagonists",
-      "term": "dopamine receptor antagonists:up"
+      "term": "dopamine receptor antagonists:up",
+      "num_sigs": 345,
+      "drug_list": [
+        "BRD-K59597909",
+        "BRD-K89732114",
+        "BRD-K67783091",
+        "BRD-A84481105",
+        "BRD-K04111260",
+        "BRD-K51671335",
+        "BRD-A71262238",
+        "BRD-K63675182",
+        "BRD-K53857191",
+        "BRD-K68867920",
+        "BRD-A14395271",
+        "BRD-K10995081",
+        "BRD-K55070890",
+        "BRD-K37289225",
+        "BRD-A60197193",
+        "BRD-K55127134"
+      ]
     },
     {
       "direction": "up",
       "moa": "glucocorticoid receptor agonists",
-      "term": "glucocorticoid receptor agonists:up"
+      "term": "glucocorticoid receptor agonists:up",
+      "num_sigs": 136,
+      "drug_list": [
+        "BRD-A35108200",
+        "BRD-K97810537",
+        "BRD-A69951442",
+        "BRD-A16478930",
+        "BRD-K73978287",
+        "BRD-K39983086",
+        "BRD-K30697463",
+        "BRD-A34299591",
+        "BRD-K43736954",
+        "BRD-K38775274",
+        "BRD-K93568044",
+        "BRD-K86161929",
+        "BRD-K35240538",
+        "BRD-A17448384",
+        "BRD-K53790871"
+      ]
     },
     {
       "direction": "up",
       "moa": "adrenergic receptor antagonists",
-      "term": "adrenergic receptor antagonists:up"
+      "term": "adrenergic receptor antagonists:up",
+      "num_sigs": 77,
+      "drug_list": [
+        "BRD-A07395371",
+        "BRD-A13188892",
+        "BRD-K73196317",
+        "BRD-A07440155",
+        "BRD-K49111258",
+        "BRD-A87606379",
+        "BRD-A09056319",
+        "BRD-K83153774",
+        "BRD-K70778732",
+        "BRD-A64977602",
+        "BRD-A03359064",
+        "BRD-A01787639",
+        "BRD-A24191444",
+        "BRD-A10977446",
+        "BRD-A22256192",
+        "BRD-A29260609"
+      ]
     },
     {
       "direction": "up",
       "moa": "cyclooxygenase inhibitors",
-      "term": "blockerscyclooxygenase inhibitors:up"
+      "term": "cyclooxygenase inhibitors:up",
+      "num_sigs": 124,
+      "drug_list": [
+        "BRD-K57222227",
+        "BRD-A84174393",
+        "BRD-K59197931",
+        "BRD-A16998493",
+        "BRD-K74148702",
+        "BRD-A57382968",
+        "BRD-K92870997",
+        "BRD-K29359156",
+        "BRD-A17655518",
+        "BRD-A13946108",
+        "BRD-A39172021",
+        "BRD-K12994359",
+        "BRD-K02637541",
+        "BRD-A43082555",
+        "BRD-K25394294",
+        "BRD-K41410256"
+      ]
     },
     {
       "direction": "up",
       "moa": "histamine receptor antagonists",
-      "term": "blockershistamine receptor antagonists:up"
+      "term": "histamine receptor antagonists:up",
+      "num_sigs": 54,
+      "drug_list": [
+        "BRD-K54462405",
+        "BRD-K37694030",
+        "BRD-K00673382",
+        "BRD-K22947005",
+        "BRD-K71430621",
+        "BRD-K82795137",
+        "BRD-K57033106",
+        "BRD-A42571354",
+        "BRD-A44008656",
+        "BRD-K27184429",
+        "BRD-A29426959"
+      ]
     },
     {
       "direction": "up",
       "moa": "calcium channel blockers",
-      "term": "blockerscalcium channel blockers:up"
+      "term": "calcium channel blockers:up",
+      "num_sigs": 62,
+      "drug_list": [
+        "BRD-A96107863",
+        "BRD-A58048407",
+        "BRD-A24891640",
+        "BRD-K15409150",
+        "BRD-K05434375",
+        "BRD-A52282606",
+        "BRD-A30977374",
+        "BRD-A12560204",
+        "BRD-K49404994",
+        "BRD-K81272440",
+        "BRD-A69927616"
+      ]
     },
     {
       "direction": "up",
       "moa": "tubulin polymerization inhibitors",
-      "term": "blockerstubulin polymerization inhibitors:up"
+      "term": "tubulin polymerization inhibitors:up",
+      "num_sigs": 193,
+      "drug_list": [
+        "BRD-K86003836",
+        "BRD-K08273968",
+        "BRD-K82109576",
+        "BRD-K63265447",
+        "BRD-A23723433",
+        "BRD-K97514127",
+        "BRD-K91623615",
+        "BRD-K79131256",
+        "BRD-K59753975",
+        "BRD-K77987382"
+      ]
     },
     {
       "direction": "up",
       "moa": "phosphodiesterase inhibitors",
-      "term": "blockersphosphodiesterase inhibitors:up"
+      "term": "phosphodiesterase inhibitors:up",
+      "num_sigs": 65,
+      "drug_list": [
+        "BRD-K57569181",
+        "BRD-K86301799",
+        "BRD-K50128260",
+        "BRD-K90524085",
+        "BRD-K13926615",
+        "BRD-A34255068",
+        "BRD-K67080878",
+        "BRD-A62071884",
+        "BRD-K53878242",
+        "BRD-K93645900"
+      ]
     },
     {
       "direction": "up",
       "moa": "bacterial cell wall synthesis inhibitors",
-      "term": "blockersbacterial cell wall synthesis inhibitors:up"
+      "term": "bacterial cell wall synthesis inhibitors:up",
+      "num_sigs": 25,
+      "drug_list": [
+        "BRD-K52735702",
+        "BRD-K05673000",
+        "BRD-K70976396",
+        "BRD-A16754160",
+        "BRD-K20338176",
+        "BRD-A67981824",
+        "BRD-K04993501",
+        "BRD-K86873305",
+        "BRD-K23369905"
+      ]
     },
     {
       "direction": "up",
       "moa": "adrenergic receptor agonists",
-      "term": "blockersadrenergic receptor agonists:up"
+      "term": "adrenergic receptor agonists:up",
+      "num_sigs": 39,
+      "drug_list": [
+        "BRD-A01320529",
+        "BRD-A04327189",
+        "BRD-K68264559",
+        "BRD-K06335600",
+        "BRD-A50157456",
+        "BRD-A07780951",
+        "BRD-K54006094"
+      ]
     },
     {
       "direction": "up",
       "moa": "acetylcholine receptor antagonists",
-      "term": "blockersacetylcholine receptor antagonists:up"
+      "term": "acetylcholine receptor antagonists:up",
+      "num_sigs": 23,
+      "drug_list": [
+        "BRD-A65013509",
+        "BRD-A75935363",
+        "BRD-K20168442",
+        "BRD-A05352148",
+        "BRD-A81233518",
+        "BRD-A79672927"
+      ]
     },
     {
       "direction": "up",
       "moa": "PARP inhibitors",
-      "term": "blockersPARP inhibitors:up"
+      "term": "PARP inhibitors:up",
+      "num_sigs": 107,
+      "drug_list": [
+        "BRD-K02113016",
+        "BRD-K48692744",
+        "BRD-K87142802",
+        "BRD-K61314889",
+        "BRD-K11853856",
+        "BRD-K94920105"
+      ]
     },
     {
       "direction": "up",
-      "moa": "selective serotonin reuptake inhibitors (SSRI)",
-      "term": "blockersselective serotonin reuptake inhibitors (SSRI)"
+      "moa": "selective serotonin reuptake inhibitors (SSRIs)",
+      "term": "selective serotonin reuptake inhibitors (SSRIs):up",
+      "num_sigs": 69,
+      "drug_list": [
+        "BRD-K70301876",
+        "BRD-A62326914",
+        "BRD-A47598013",
+        "BRD-K82036761",
+        "BRD-K37991163",
+        "BRD-K19277754"
+      ]
     },
     {
       "direction": "up",
       "moa": "PI3K inhibitors",
-      "term": "blockersPI3K inhibitors:up"
+      "term": "PI3K inhibitors:up",
+      "num_sigs": 727,
+      "drug_list": [
+        "BRD-K52911425",
+        "BRD-A75409952",
+        "BRD-K81647657",
+        "BRD-K87343924",
+        "BRD-K02708799"
+      ]
     },
     {
       "direction": "up",
       "moa": "HIV protease inhibitors",
-      "term": "blockersHIV protease inhibitors:up"
+      "term": "HIV protease inhibitors:up",
+      "num_sigs": 23,
+      "drug_list": [
+        "BRD-K09963420",
+        "BRD-K40758068",
+        "BRD-K51485625",
+        "BRD-K33226500",
+        "BRD-K74117820"
+      ]
     },
     {
       "direction": "up",
       "moa": "adenosine receptor agonists",
-      "term": "blockersadenosine receptor agonists:up"
+      "term": "adenosine receptor agonists:up",
+      "num_sigs": 21,
+      "drug_list": [
+        "BRD-A20527803",
+        "BRD-K79511609",
+        "BRD-A48809242",
+        "BRD-A35338386",
+        "BRD-A00267231"
+      ]
     },
     {
       "direction": "up",
       "moa": "serotonin receptor antagonists",
-      "term": "blockersserotonin receptor antagonists:up"
+      "term": "serotonin receptor antagonists:up",
+      "num_sigs": 45,
+      "drug_list": [
+        "BRD-K90789829",
+        "BRD-K93460210",
+        "BRD-A44133049",
+        "BRD-K25224017",
+        "BRD-K28029915",
+        "BRD-A19736161",
+        "BRD-K70358946",
+        "BRD-K00610438",
+        "BRD-A23683907"
+      ]
     },
     {
       "direction": "up",
       "moa": "sodium channel blockers",
-      "term": "blockerssodium channel blockers:up"
+      "term": "sodium channel blockers:up",
+      "num_sigs": 47,
+      "drug_list": [
+        "BRD-A09472452",
+        "BRD-K92049597",
+        "BRD-K79116891",
+        "BRD-A92670106",
+        "BRD-A97674275"
+      ]
     },
     {
       "direction": "up",
       "moa": "mTOR inhibitors",
-      "term": "blockersmTOR inhibitors:up"
+      "term": "mTOR inhibitors:up",
+      "num_sigs": 703,
+      "drug_list": [
+        "BRD-K42918627",
+        "BRD-K67566344",
+        "BRD-K12184916",
+        "BRD-A79768653",
+        "BRD-A45498368",
+        "BRD-K67868012",
+        "BRD-K69932463",
+        "BRD-K94294671",
+        "BRD-K27305650"
+      ]
     },
     {
       "direction": "up",
       "moa": "HDAC inhibitors",
-      "term": "blockersHDAC inhibitors:up"
+      "term": "HDAC inhibitors:up",
+      "num_sigs": 1757,
+      "drug_list": [
+        "BRD-K68202742",
+        "BRD-K22503835",
+        "BRD-K81418486",
+        "BRD-K41260949",
+        "BRD-A19037878",
+        "BRD-K13169950"
+      ]
     },
     {
       "direction": "up",
       "moa": "HMGCR inhibitors",
-      "term": "blockersHMGCR inhibitors:up"
+      "term": "HMGCR inhibitors:up",
+      "num_sigs": 84,
+      "drug_list": [
+        "BRD-K09416995",
+        "BRD-K94441233",
+        "BRD-U88459701",
+        "BRD-K22134346",
+        "BRD-K60511616"
+      ]
     },
     {
       "direction": "up",
       "moa": "bacterial DNA gyrase inhibitors",
-      "term": "blockersbacterial DNA gyrase inhibitors:up"
+      "term": "bacterial DNA gyrase inhibitors:up",
+      "num_sigs": 28,
+      "drug_list": [
+        "BRD-A24228527",
+        "BRD-K09471561",
+        "BRD-K76534306",
+        "BRD-A74980173",
+        "BRD-A41450521"
+      ]
     },
     {
       "direction": "up",
       "moa": "AKT inhibitors",
-      "term": "blockersAKT inhibitors:up"
+      "term": "AKT inhibitors:up",
+      "num_sigs": 78,
+      "drug_list": [
+        "BRD-K98493452",
+        "BRD-K68065987",
+        "BRD-A87137733",
+        "BRD-K12040459"
+      ]
     },
     {
       "direction": "up",
       "moa": "ATPase inhibitors",
-      "term": "blockersATPase inhibitors:up"
+      "term": "ATPase inhibitors:up",
+      "num_sigs": 27,
+      "drug_list": [
+        "BRD-A22380646",
+        "BRD-A49172652",
+        "BRD-A39390670",
+        "BRD-A55962179",
+        "BRD-A75144621"
+      ]
     },
     {
       "direction": "up",
       "moa": "DNA synthesis inhibitors",
-      "term": "blockersDNA synthesis inhibitors:up"
+      "term": "DNA synthesis inhibitors:up",
+      "num_sigs": 38,
+      "drug_list": [
+        "BRD-A47829399",
+        "BRD-K63430059",
+        "BRD-K79759031",
+        "BRD-A80638690"
+      ]
     },
     {
       "direction": "up",
       "moa": "estrogen receptor agonists",
-      "term": "blockersestrogen receptor agonists:up"
+      "term": "estrogen receptor agonists:up",
+      "num_sigs": 131,
+      "drug_list": [
+        "BRD-K18910433",
+        "BRD-K31920458",
+        "BRD-K10467831",
+        "BRD-K35189033",
+        "BRD-A24381660",
+        "BRD-K45330754",
+        "BRD-K26674531"
+      ]
     },
     {
       "direction": "up",
       "moa": "potassium channel blockers",
-      "term": "blockerspotassium channel blockers:up"
+      "term": "potassium channel blockers:up",
+      "num_sigs": 41,
+      "drug_list": [
+        "BRD-K86887724",
+        "BRD-A03216249",
+        "BRD-K99922388",
+        "BRD-K17561142",
+        "BRD-A46179541"
+      ]
     },
     {
       "direction": "up",
       "moa": "Aurora kinase inhibitors",
-      "term": "blockersAurora kinase inhibitors:up"
+      "term": "Aurora kinase inhibitors:up",
+      "num_sigs": 232,
+      "drug_list": [
+        "BRD-K36740062",
+        "BRD-K83963101",
+        "BRD-K72703948",
+        "BRD-K63923597"
+      ]
     },
     {
       "direction": "up",
       "moa": "bacterial 50S ribosomal subunit inhibitors",
-      "term": "blockersbacterial 50S ribosomal subunit inhibitors:up"
+      "term": "bacterial 50S ribosomal subunit inhibitors:up",
+      "num_sigs": 22,
+      "drug_list": [
+        "BRD-K49668410",
+        "BRD-A51182606",
+        "BRD-K74501079",
+        "BRD-K66876909"
+      ]
     },
     {
       "direction": "up",
       "moa": "potassium channel activators",
-      "term": "blockerspotassium channel activators:up"
+      "term": "potassium channel activators:up",
+      "num_sigs": 15,
+      "drug_list": [
+        "BRD-K45117373",
+        "BRD-K52721684",
+        "BRD-K73109821",
+        "BRD-K42679050"
+      ]
     },
     {
       "direction": "down",
       "moa": "dopamine receptor antagonists",
-      "term": "blockersdopamine receptor antagonists:down"
+      "term": "dopamine receptor antagonists:down",
+      "num_sigs": 345,
+      "drug_list": [
+        "BRD-K59597909",
+        "BRD-K89732114",
+        "BRD-K67783091",
+        "BRD-A84481105",
+        "BRD-K04111260",
+        "BRD-K51671335",
+        "BRD-A71262238",
+        "BRD-K63675182",
+        "BRD-K53857191",
+        "BRD-K68867920",
+        "BRD-A14395271",
+        "BRD-K10995081",
+        "BRD-K55070890",
+        "BRD-K37289225",
+        "BRD-A60197193",
+        "BRD-K55127134"
+      ]
     },
     {
       "direction": "down",
       "moa": "glucocorticoid receptor agonists",
-      "term": "blockersglucocorticoid receptor agonists:down"
+      "term": "glucocorticoid receptor agonists:down",
+      "num_sigs": 136,
+      "drug_list": [
+        "BRD-A35108200",
+        "BRD-K97810537",
+        "BRD-A69951442",
+        "BRD-A16478930",
+        "BRD-K73978287",
+        "BRD-K39983086",
+        "BRD-K30697463",
+        "BRD-A34299591",
+        "BRD-K43736954",
+        "BRD-K38775274",
+        "BRD-K93568044",
+        "BRD-K86161929",
+        "BRD-K35240538",
+        "BRD-A17448384",
+        "BRD-K53790871"
+      ]
     },
     {
       "direction": "down",
       "moa": "adrenergic receptor antagonists",
-      "term": "blockersadrenergic receptor antagonists:down"
+      "term": "adrenergic receptor antagonists:down",
+      "num_sigs": 77,
+      "drug_list": [
+        "BRD-A07395371",
+        "BRD-A13188892",
+        "BRD-K73196317",
+        "BRD-A07440155",
+        "BRD-K49111258",
+        "BRD-A87606379",
+        "BRD-A09056319",
+        "BRD-K83153774",
+        "BRD-K70778732",
+        "BRD-A64977602",
+        "BRD-A03359064",
+        "BRD-A01787639",
+        "BRD-A24191444",
+        "BRD-A10977446",
+        "BRD-A22256192",
+        "BRD-A29260609"
+      ]
     },
     {
       "direction": "down",
       "moa": "cyclooxygenase inhibitors",
-      "term": "blockerscyclooxygenase inhibitors:down"
+      "term": "cyclooxygenase inhibitors:down",
+      "num_sigs": 124,
+      "drug_list": [
+        "BRD-K57222227",
+        "BRD-A84174393",
+        "BRD-K59197931",
+        "BRD-A16998493",
+        "BRD-K74148702",
+        "BRD-A57382968",
+        "BRD-K92870997",
+        "BRD-K29359156",
+        "BRD-A17655518",
+        "BRD-A13946108",
+        "BRD-A39172021",
+        "BRD-K12994359",
+        "BRD-K02637541",
+        "BRD-A43082555",
+        "BRD-K25394294",
+        "BRD-K41410256"
+      ]
     },
     {
       "direction": "down",
       "moa": "histamine receptor antagonists",
-      "term": "blockershistamine receptor antagonists:down"
+      "term": "histamine receptor antagonists:down",
+      "num_sigs": 54,
+      "drug_list": [
+        "BRD-K54462405",
+        "BRD-K37694030",
+        "BRD-K00673382",
+        "BRD-K22947005",
+        "BRD-K71430621",
+        "BRD-K82795137",
+        "BRD-K57033106",
+        "BRD-A42571354",
+        "BRD-A44008656",
+        "BRD-K27184429",
+        "BRD-A29426959"
+      ]
     },
     {
       "direction": "down",
       "moa": "calcium channel blockers",
-      "term": "blockerscalcium channel blockers:down"
+      "term": "calcium channel blockers:down",
+      "num_sigs": 62,
+      "drug_list": [
+        "BRD-A96107863",
+        "BRD-A58048407",
+        "BRD-A24891640",
+        "BRD-K15409150",
+        "BRD-K05434375",
+        "BRD-A52282606",
+        "BRD-A30977374",
+        "BRD-A12560204",
+        "BRD-K49404994",
+        "BRD-K81272440",
+        "BRD-A69927616"
+      ]
     },
     {
       "direction": "down",
       "moa": "tubulin polymerization inhibitors",
-      "term": "blockerstubulin polymerization inhibitors:down"
+      "term": "tubulin polymerization inhibitors:down",
+      "num_sigs": 193,
+      "drug_list": [
+        "BRD-K86003836",
+        "BRD-K08273968",
+        "BRD-K82109576",
+        "BRD-K63265447",
+        "BRD-A23723433",
+        "BRD-K97514127",
+        "BRD-K91623615",
+        "BRD-K79131256",
+        "BRD-K59753975",
+        "BRD-K77987382"
+      ]
     },
     {
       "direction": "down",
       "moa": "phosphodiesterase inhibitors",
-      "term": "blockersphosphodiesterase inhibitors:down"
+      "term": "phosphodiesterase inhibitors:down",
+      "num_sigs": 65,
+      "drug_list": [
+        "BRD-K57569181",
+        "BRD-K86301799",
+        "BRD-K50128260",
+        "BRD-K90524085",
+        "BRD-K13926615",
+        "BRD-A34255068",
+        "BRD-K67080878",
+        "BRD-A62071884",
+        "BRD-K53878242",
+        "BRD-K93645900"
+      ]
     },
     {
       "direction": "down",
       "moa": "bacterial cell wall synthesis inhibitors",
-      "term": "blockersbacterial cell wall synthesis inhibitors:down"
+      "term": "bacterial cell wall synthesis inhibitors:down",
+      "num_sigs": 25,
+      "drug_list": [
+        "BRD-K52735702",
+        "BRD-K05673000",
+        "BRD-K70976396",
+        "BRD-A16754160",
+        "BRD-K20338176",
+        "BRD-A67981824",
+        "BRD-K04993501",
+        "BRD-K86873305",
+        "BRD-K23369905"
+      ]
     },
     {
       "direction": "down",
       "moa": "adrenergic receptor agonists",
-      "term": "blockersadrenergic receptor agonists:down"
+      "term": "adrenergic receptor agonists:down",
+      "num_sigs": 39,
+      "drug_list": [
+        "BRD-A01320529",
+        "BRD-A04327189",
+        "BRD-K68264559",
+        "BRD-K06335600",
+        "BRD-A50157456",
+        "BRD-A07780951",
+        "BRD-K54006094"
+      ]
     },
     {
       "direction": "down",
       "moa": "acetylcholine receptor antagonists",
-      "term": "blockersacetylcholine receptor antagonists:down"
+      "term": "acetylcholine receptor antagonists:down",
+      "num_sigs": 23,
+      "drug_list": [
+        "BRD-A65013509",
+        "BRD-A75935363",
+        "BRD-K20168442",
+        "BRD-A05352148",
+        "BRD-A81233518",
+        "BRD-A79672927"
+      ]
     },
     {
       "direction": "down",
       "moa": "PARP inhibitors",
-      "term": "blockersPARP inhibitors:down"
+      "term": "PARP inhibitors:down",
+      "num_sigs": 107,
+      "drug_list": [
+        "BRD-K02113016",
+        "BRD-K48692744",
+        "BRD-K87142802",
+        "BRD-K61314889",
+        "BRD-K11853856",
+        "BRD-K94920105"
+      ]
     },
     {
       "direction": "down",
       "moa": "selective serotonin reuptake inhibitors (SSRIs)",
-      "term": "blockersselective serotonin reuptake inhibitors (SSRIs)"
+      "term": "selective serotonin reuptake inhibitors (SSRIs):down",
+      "num_sigs": 69,
+      "drug_list": [
+        "BRD-K70301876",
+        "BRD-A62326914",
+        "BRD-A47598013",
+        "BRD-K82036761",
+        "BRD-K37991163",
+        "BRD-K19277754"
+      ]
     },
     {
       "direction": "down",
       "moa": "PI3K inhibitors",
-      "term": "blockersPI3K inhibitors:down"
+      "term": "PI3K inhibitors:down",
+      "num_sigs": 727,
+      "drug_list": [
+        "BRD-K52911425",
+        "BRD-A75409952",
+        "BRD-K81647657",
+        "BRD-K87343924",
+        "BRD-K02708799"
+      ]
     },
     {
       "direction": "down",
       "moa": "HIV protease inhibitors",
-      "term": "blockersHIV protease inhibitors:down"
+      "term": "HIV protease inhibitors:down",
+      "num_sigs": 23,
+      "drug_list": [
+        "BRD-K09963420",
+        "BRD-K40758068",
+        "BRD-K51485625",
+        "BRD-K33226500",
+        "BRD-K74117820"
+      ]
     },
     {
       "direction": "down",
       "moa": "adenosine receptor agonists",
-      "term": "blockersadenosine receptor agonists:down"
+      "term": "adenosine receptor agonists:down",
+      "num_sigs": 21,
+      "drug_list": [
+        "BRD-A20527803",
+        "BRD-K79511609",
+        "BRD-A48809242",
+        "BRD-A35338386",
+        "BRD-A00267231"
+      ]
     },
     {
       "direction": "down",
       "moa": "serotonin receptor antagonists",
-      "term": "blockersserotonin receptor antagonists:down"
+      "term": "serotonin receptor antagonists:down",
+      "num_sigs": 45,
+      "drug_list": [
+        "BRD-K90789829",
+        "BRD-K93460210",
+        "BRD-A44133049",
+        "BRD-K25224017",
+        "BRD-K28029915",
+        "BRD-A19736161",
+        "BRD-K70358946",
+        "BRD-K00610438",
+        "BRD-A23683907"
+      ]
     },
     {
       "direction": "down",
       "moa": "sodium channel blockers",
-      "term": "blockerssodium channel blockers:down"
+      "term": "sodium channel blockers:down",
+      "num_sigs": 47,
+      "drug_list": [
+        "BRD-A09472452",
+        "BRD-K92049597",
+        "BRD-K79116891",
+        "BRD-A92670106",
+        "BRD-A97674275"
+      ]
     },
     {
       "direction": "down",
       "moa": "mTOR inhibitors",
-      "term": "blockersmTOR inhibitors:down"
+      "term": "mTOR inhibitors:down",
+      "num_sigs": 703,
+      "drug_list": [
+        "BRD-K42918627",
+        "BRD-K67566344",
+        "BRD-K12184916",
+        "BRD-A79768653",
+        "BRD-A45498368",
+        "BRD-K67868012",
+        "BRD-K69932463",
+        "BRD-K94294671",
+        "BRD-K27305650"
+      ]
     },
     {
       "direction": "down",
       "moa": "HDAC inhibitors",
-      "term": "blockersHDAC inhibitors:down"
+      "term": "HDAC inhibitors:down",
+      "num_sigs": 1757,
+      "drug_list": [
+        "BRD-K68202742",
+        "BRD-K22503835",
+        "BRD-K81418486",
+        "BRD-K41260949",
+        "BRD-A19037878",
+        "BRD-K13169950"
+      ]
     },
     {
       "direction": "down",
       "moa": "HMGCR inhibitors",
-      "term": "blockersHMGCR inhibitors:down"
+      "term": "HMGCR inhibitors:down",
+      "num_sigs": 84,
+      "drug_list": [
+        "BRD-K09416995",
+        "BRD-K94441233",
+        "BRD-U88459701",
+        "BRD-K22134346",
+        "BRD-K60511616"
+      ]
     },
     {
       "direction": "down",
       "moa": "bacterial DNA gyrase inhibitors",
-      "term": "blockersbacterial DNA gyrase inhibitors:down"
+      "term": "bacterial DNA gyrase inhibitors:down",
+      "num_sigs": 28,
+      "drug_list": [
+        "BRD-A24228527",
+        "BRD-K09471561",
+        "BRD-K76534306",
+        "BRD-A74980173",
+        "BRD-A41450521"
+      ]
     },
     {
       "direction": "down",
       "moa": "AKT inhibitors",
-      "term": "blockersAKT inhibitors:down"
+      "term": "AKT inhibitors:down",
+      "num_sigs": 78,
+      "drug_list": [
+        "BRD-K98493452",
+        "BRD-K68065987",
+        "BRD-A87137733",
+        "BRD-K12040459"
+      ]
     },
     {
       "direction": "down",
       "moa": "ATPase inhibitors",
-      "term": "blockersATPase inhibitors:down"
+      "term": "ATPase inhibitors:down",
+      "num_sigs": 27,
+      "drug_list": [
+        "BRD-A22380646",
+        "BRD-A49172652",
+        "BRD-A39390670",
+        "BRD-A55962179",
+        "BRD-A75144621"
+      ]
     },
     {
       "direction": "down",
       "moa": "DNA synthesis inhibitors",
-      "term": "blockersDNA synthesis inhibitors:down"
+      "term": "DNA synthesis inhibitors:down",
+      "num_sigs": 38,
+      "drug_list": [
+        "BRD-A47829399",
+        "BRD-K63430059",
+        "BRD-K79759031",
+        "BRD-A80638690"
+      ]
     },
     {
       "direction": "down",
       "moa": "estrogen receptor agonists",
-      "term": "blockersestrogen receptor agonists:down"
+      "term": "estrogen receptor agonists:down",
+      "num_sigs": 131,
+      "drug_list": [
+        "BRD-K18910433",
+        "BRD-K31920458",
+        "BRD-K10467831",
+        "BRD-K35189033",
+        "BRD-A24381660",
+        "BRD-K45330754",
+        "BRD-K26674531"
+      ]
     },
     {
       "direction": "down",
       "moa": "potassium channel blockers",
-      "term": "blockerspotassium channel blockers:down"
+      "term": "potassium channel blockers:down",
+      "num_sigs": 41,
+      "drug_list": [
+        "BRD-K86887724",
+        "BRD-A03216249",
+        "BRD-K99922388",
+        "BRD-K17561142",
+        "BRD-A46179541"
+      ]
     },
     {
       "direction": "down",
       "moa": "Aurora kinase inhibitors",
-      "term": "blockersAurora kinase inhibitors:down"
+      "term": "Aurora kinase inhibitors:down",
+      "num_sigs": 232,
+      "drug_list": [
+        "BRD-K36740062",
+        "BRD-K83963101",
+        "BRD-K72703948",
+        "BRD-K63923597"
+      ]
     },
     {
       "direction": "down",
       "moa": "bacterial 50S ribosomal subunit inhibitors",
-      "term": "blockersbacterial 50S ribosomal subunit inhibitors:down"
+      "term": "bacterial 50S ribosomal subunit inhibitors:down",
+      "num_sigs": 22,
+      "drug_list": [
+        "BRD-K49668410",
+        "BRD-A51182606",
+        "BRD-K74501079",
+        "BRD-K66876909"
+      ]
     },
     {
       "direction": "down",
       "moa": "potassium channel activators",
-      "term": "blockerspotassium channel activators:down"
+      "term": "potassium channel activators:down",
+      "num_sigs": 15,
+      "drug_list": [
+        "BRD-K45117373",
+        "BRD-K52721684",
+        "BRD-K73109821",
+        "BRD-K42679050"
+      ]
     }
   ]
 }
