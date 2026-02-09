@@ -1400,302 +1400,302 @@
     {
       "direction": "up",
       "moa": "dopamine receptor antagonists",
-      "term": "down:dopamine receptor antagonists"
+      "term": "dopamine receptor antagonists:up"
     },
     {
       "direction": "up",
       "moa": "glucocorticoid receptor agonists",
-      "term": "down:glucocorticoid receptor agonists"
+      "term": "glucocorticoid receptor agonists:up"
     },
     {
       "direction": "up",
       "moa": "adrenergic receptor antagonists",
-      "term": "down:adrenergic receptor antagonists"
+      "term": "adrenergic receptor antagonists:up"
     },
     {
       "direction": "up",
       "moa": "cyclooxygenase inhibitors",
-      "term": "down:cyclooxygenase inhibitors"
+      "term": "blockerscyclooxygenase inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "histamine receptor antagonists",
-      "term": "down:histamine receptor antagonists"
+      "term": "blockershistamine receptor antagonists:up"
     },
     {
       "direction": "up",
       "moa": "calcium channel blockers",
-      "term": "down:calcium channel blockers"
+      "term": "blockerscalcium channel blockers:up"
     },
     {
       "direction": "up",
       "moa": "tubulin polymerization inhibitors",
-      "term": "down:tubulin polymerization inhibitors"
+      "term": "blockerstubulin polymerization inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "phosphodiesterase inhibitors",
-      "term": "down:phosphodiesterase inhibitors"
+      "term": "blockersphosphodiesterase inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "bacterial cell wall synthesis inhibitors",
-      "term": "down:bacterial cell wall synthesis inhibitors"
+      "term": "blockersbacterial cell wall synthesis inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "adrenergic receptor agonists",
-      "term": "down:adrenergic receptor agonists"
+      "term": "blockersadrenergic receptor agonists:up"
     },
     {
       "direction": "up",
       "moa": "acetylcholine receptor antagonists",
-      "term": "down:acetylcholine receptor antagonists"
+      "term": "blockersacetylcholine receptor antagonists:up"
     },
     {
       "direction": "up",
       "moa": "PARP inhibitors",
-      "term": "down:PARP inhibitors"
+      "term": "blockersPARP inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "selective serotonin reuptake inhibitors (SSRI)",
-      "term": "down:selective serotonin reuptake inhibitors (SSRI)"
+      "term": "blockersselective serotonin reuptake inhibitors (SSRI)"
     },
     {
       "direction": "up",
       "moa": "PI3K inhibitors",
-      "term": "down:PI3K inhibitors"
+      "term": "blockersPI3K inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "HIV protease inhibitors",
-      "term": "down:HIV protease inhibitors"
+      "term": "blockersHIV protease inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "adenosine receptor agonists",
-      "term": "down:adenosine receptor agonists"
+      "term": "blockersadenosine receptor agonists:up"
     },
     {
       "direction": "up",
       "moa": "serotonin receptor antagonists",
-      "term": "down:serotonin receptor antagonists"
+      "term": "blockersserotonin receptor antagonists:up"
     },
     {
       "direction": "up",
       "moa": "sodium channel blockers",
-      "term": "down:sodium channel blockers"
+      "term": "blockerssodium channel blockers:up"
     },
     {
       "direction": "up",
       "moa": "mTOR inhibitors",
-      "term": "down:mTOR inhibitors"
+      "term": "blockersmTOR inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "HDAC inhibitors",
-      "term": "down:HDAC inhibitors"
+      "term": "blockersHDAC inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "HMGCR inhibitors",
-      "term": "down:HMGCR inhibitors"
+      "term": "blockersHMGCR inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "bacterial DNA gyrase inhibitors",
-      "term": "down:bacterial DNA gyrase inhibitors"
+      "term": "blockersbacterial DNA gyrase inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "AKT inhibitors",
-      "term": "down:AKT inhibitors"
+      "term": "blockersAKT inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "ATPase inhibitors",
-      "term": "down:ATPase inhibitors"
+      "term": "blockersATPase inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "DNA synthesis inhibitors",
-      "term": "down:DNA synthesis inhibitors"
+      "term": "blockersDNA synthesis inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "estrogen receptor agonists",
-      "term": "down:estrogen receptor agonists"
+      "term": "blockersestrogen receptor agonists:up"
     },
     {
       "direction": "up",
       "moa": "potassium channel blockers",
-      "term": "down:potassium channel blockers"
+      "term": "blockerspotassium channel blockers:up"
     },
     {
       "direction": "up",
       "moa": "Aurora kinase inhibitors",
-      "term": "down:Aurora kinase inhibitors"
+      "term": "blockersAurora kinase inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "bacterial 50S ribosomal subunit inhibitors",
-      "term": "down:bacterial 50S ribosomal subunit inhibitors"
+      "term": "blockersbacterial 50S ribosomal subunit inhibitors:up"
     },
     {
       "direction": "up",
       "moa": "potassium channel activators",
-      "term": "down:potassium channel activators"
+      "term": "blockerspotassium channel activators:up"
     },
     {
       "direction": "down",
       "moa": "dopamine receptor antagonists",
-      "term": "down:dopamine receptor antagonists"
+      "term": "blockersdopamine receptor antagonists:down"
     },
     {
       "direction": "down",
       "moa": "glucocorticoid receptor agonists",
-      "term": "down:glucocorticoid receptor agonists"
+      "term": "blockersglucocorticoid receptor agonists:down"
     },
     {
       "direction": "down",
       "moa": "adrenergic receptor antagonists",
-      "term": "down:adrenergic receptor antagonists"
+      "term": "blockersadrenergic receptor antagonists:down"
     },
     {
       "direction": "down",
       "moa": "cyclooxygenase inhibitors",
-      "term": "down:cyclooxygenase inhibitors"
+      "term": "blockerscyclooxygenase inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "histamine receptor antagonists",
-      "term": "down:histamine receptor antagonists"
+      "term": "blockershistamine receptor antagonists:down"
     },
     {
       "direction": "down",
       "moa": "calcium channel blockers",
-      "term": "down:calcium channel blockers"
+      "term": "blockerscalcium channel blockers:down"
     },
     {
       "direction": "down",
       "moa": "tubulin polymerization inhibitors",
-      "term": "down:tubulin polymerization inhibitors"
+      "term": "blockerstubulin polymerization inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "phosphodiesterase inhibitors",
-      "term": "down:phosphodiesterase inhibitors"
+      "term": "blockersphosphodiesterase inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "bacterial cell wall synthesis inhibitors",
-      "term": "down:bacterial cell wall synthesis inhibitors"
+      "term": "blockersbacterial cell wall synthesis inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "adrenergic receptor agonists",
-      "term": "down:adrenergic receptor agonists"
+      "term": "blockersadrenergic receptor agonists:down"
     },
     {
       "direction": "down",
       "moa": "acetylcholine receptor antagonists",
-      "term": "down:acetylcholine receptor antagonists"
+      "term": "blockersacetylcholine receptor antagonists:down"
     },
     {
       "direction": "down",
       "moa": "PARP inhibitors",
-      "term": "down:PARP inhibitors"
+      "term": "blockersPARP inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "selective serotonin reuptake inhibitors (SSRIs)",
-      "term": "down:selective serotonin reuptake inhibitors (SSRIs)"
+      "term": "blockersselective serotonin reuptake inhibitors (SSRIs)"
     },
     {
       "direction": "down",
       "moa": "PI3K inhibitors",
-      "term": "down:PI3K inhibitors"
+      "term": "blockersPI3K inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "HIV protease inhibitors",
-      "term": "down:HIV protease inhibitors"
+      "term": "blockersHIV protease inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "adenosine receptor agonists",
-      "term": "down:adenosine receptor agonists"
+      "term": "blockersadenosine receptor agonists:down"
     },
     {
       "direction": "down",
       "moa": "serotonin receptor antagonists",
-      "term": "down:serotonin receptor antagonists"
+      "term": "blockersserotonin receptor antagonists:down"
     },
     {
       "direction": "down",
       "moa": "sodium channel blockers",
-      "term": "down:sodium channel blockers"
+      "term": "blockerssodium channel blockers:down"
     },
     {
       "direction": "down",
       "moa": "mTOR inhibitors",
-      "term": "down:mTOR inhibitors"
+      "term": "blockersmTOR inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "HDAC inhibitors",
-      "term": "down:HDAC inhibitors"
+      "term": "blockersHDAC inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "HMGCR inhibitors",
-      "term": "down:HMGCR inhibitors"
+      "term": "blockersHMGCR inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "bacterial DNA gyrase inhibitors",
-      "term": "down:bacterial DNA gyrase inhibitors"
+      "term": "blockersbacterial DNA gyrase inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "AKT inhibitors",
-      "term": "down:AKT inhibitors"
+      "term": "blockersAKT inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "ATPase inhibitors",
-      "term": "down:ATPase inhibitors"
+      "term": "blockersATPase inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "DNA synthesis inhibitors",
-      "term": "down:DNA synthesis inhibitors"
+      "term": "blockersDNA synthesis inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "estrogen receptor agonists",
-      "term": "down:estrogen receptor agonists"
+      "term": "blockersestrogen receptor agonists:down"
     },
     {
       "direction": "down",
       "moa": "potassium channel blockers",
-      "term": "down:potassium channel blockers"
+      "term": "blockerspotassium channel blockers:down"
     },
     {
       "direction": "down",
       "moa": "Aurora kinase inhibitors",
-      "term": "down:Aurora kinase inhibitors"
+      "term": "blockersAurora kinase inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "bacterial 50S ribosomal subunit inhibitors",
-      "term": "down:bacterial 50S ribosomal subunit inhibitors"
+      "term": "blockersbacterial 50S ribosomal subunit inhibitors:down"
     },
     {
       "direction": "down",
       "moa": "potassium channel activators",
-      "term": "down:potassium channel activators"
+      "term": "blockerspotassium channel activators:down"
     }
   ]
 }

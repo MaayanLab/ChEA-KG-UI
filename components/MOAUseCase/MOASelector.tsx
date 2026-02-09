@@ -7,7 +7,10 @@ import {
 	InputLabel,
 	FormControl,
 	Typography,
-	CircularProgress
+	CircularProgress,
+	Box,
+	Paper,
+	styled
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -29,6 +32,7 @@ const styles = {
 		"&:hover": {
 			border: 1,
 			borderRadius: "5px",
+
 		},
 		position: 'relative',
 		color: 'black'
@@ -42,6 +46,20 @@ const styles = {
 		position: 'relative',
 		color: 'black'
 	}
+  }
+
+  const updown_styles = {
+	"&:hover": {
+		border: 1,
+		backgroundColor:'#7a78deff',
+		borderRadius: "5px",
+	},
+	opacity: 1,
+	border: 1,
+	borderColor: 'black',
+	overflowWrap:'anywhere',
+	borderRadius: "5px",
+	boxShadow: "1",
   }
 
 
@@ -69,6 +87,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, elements}:
 			if (timer.current) clearTimeout(timer.current)
 			setLoading(false)
 		}, [elements])
+
 	for (const moa_name of ((Object.keys(moa_gmt)))) {
 		let active = moa_name === currentMOA ? true: false
 		icon_buttons.push(
@@ -92,26 +111,27 @@ export const MOASelector = ({moa_gmt, group_name,  term, elements}:
 		)
 
 	}
+
 	return (
 		<>
+		<Typography id="labelID" align='center'>
+			<b>1. Select a mechanism of action</b>
+		</Typography>
 		<Grid container display={'grid'} gridTemplateColumns={"repeat(1, 1fr)"} spacing={2} sx={{maxHeight: 500, overflowY: 'auto'}}>
-				{icon_buttons}
-			</Grid>
-			<Grid>
-			<Stack direction='column' spacing={3} sx={{justifyContent: 'center', alignContent:'center'}}>
-			<FormControl fullWidth>
-
-				<InputLabel id="labelID">Direction of regulation, <b>{currentMOA}</b></InputLabel>
-				<Select fullWidth value={term} labelId="labelID" id="label" label="Choose a direction" renderValue={(value)=>
-					<div className="flex">
-					<div className="flex-grow"><Typography variant="caption">{value}</Typography></div>
-					{(loading) && <CircularProgress size={20}/> }
-					</div>
-				}>
+			{icon_buttons}
+		</Grid>
+		<Stack direction='column' spacing={3} sx={{justifyContent: 'center', alignContent:'center'}}>
+			<Typography id="labelID" align='center'>
+				<b>2. Select a direction of regulation</b><br></br>
+				<p style={{fontSize: '12px', textAlign:'left'}}> For <b>{currentMOA}</b>, <u>x</u> signatures were used to construct consensus gene sets: </p>
+			</Typography>
+			<FormControl>
+				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1}} >
 					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
-						<MenuItem key={direction} sx={{backgroundColor:'transparent'}}>
+						<Paper variant='outlined' elevation={0}>
 							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
-							<Button sx={{color: "black"}} onClick={(e)=>{
+							<Button sx={updown_styles}  
+							onClick={(e)=>{
 								setLoading(true)
 								timer.current = setTimeout(()=>{
 									const query = {
@@ -121,15 +141,18 @@ export const MOASelector = ({moa_gmt, group_name,  term, elements}:
 									router_push(router, pathname, query)
 								}, 12000)						
 							}}>
-								{direction}, {moa_gmt[currentMOA][direction].length} genes
+								<div>
+									<Typography sx={{fontSize:12, color:'black'}}>View {moa_gmt[currentMOA][direction].length} {direction} regulated genes</Typography>
+									
+									{direction == 'up'? <Typography sx={{color:'#78de93'}}><b>↑</b></Typography> : <Typography sx={{color:'#c92626ff'}}><b>↓</b></Typography>}								
+								</div>
 							</Button> 
 							</Link>
-						</MenuItem>
+						</Paper>
 					))}
-				</Select>
-				</FormControl>
-                    </Stack>
-			</Grid>
+				</Grid>
+			</FormControl>
+		</Stack>
 		</>
 	)
 }

@@ -303,7 +303,6 @@ const QueryForm = ({
 
 				{(v === "1") && <Grid item xs={12} md={12}>
                <Stack direction="column" spacing={2} sx={{justifyContent:"flex-start", paddingTop:2}}>
-                    <Typography align={'center'}> <b>Select a mechanism of action, then a direction of regulation:</b> </Typography>
 					<MOASelector elements={elements} moa_gmt={moaTypes} group_name={group_name} term={combined_query.term}/>
                     
             </Stack>

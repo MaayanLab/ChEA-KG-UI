@@ -226,7 +226,7 @@ const Enrichment = async ({
                                     <Typography variant="subtitle1">Please add a gene set</Typography>:
                                     <> 
                                         {input_desc && 
-                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
+                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>Regulatory network for genes {input_desc.split(":")[1]}regulated by {input_desc.split(":")[0]}</b></Typography>
                                         }
                                         <TermViz
                                                 elements={elements}
