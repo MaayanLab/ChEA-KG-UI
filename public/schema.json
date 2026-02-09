@@ -212,17 +212,17 @@
           "usecaselib": [
             {
               "title": "ChEA-KG Appyter",
-              "description": "The ChEA-KG Appyter predicts regulatory subnetworks of transcription factors (TFs) for an input gene set. The query gene sets are compared against libaries of TF target gene sets in ChEA3 to identify the most likely regulating TFs. The TFs are then connected via edges in the ChEA-KG background gene regulatory network (GRN). This network was constructed by submitting thousands of gene expression signatures from RummaGEO to ChEA3 for transcription factor enrichment analysis. The functions of enriched TFs are predicted using the Gene Set Foundation Model.",
+              "description": "The ChEA-KG Appyter predicts regulatory subnetworks of transcription factors (TFs) for an input gene set. Regulatory networks are generated programmatically using the ChEA-KG API. The workflow then predicts the function of enriched TFs are predicted using the Gene Set Foundation Model.",
               "src": "https://appyters.maayanlab.cloud/chea_kg_appyter/",
               "image": "cheakg_appyter.png",
-              "launch": "Launch example in Appyters"
+              "launch": "Launch workflow in Appyters"
             },
             {
-              "title": "ChEA-KG-TS Appyter",
+              "title": "ChEA-KG-TS",
               "description": "The ChEA-KG Time Series Appyter visualizes the enriched transcription factor landscape from time series RNA-seq data, helping to inform hypothesis about the regulatory mechanisms governing biological processes.",
-              "src": "https://chea-kg-timeseries.k8s.dev.maayanlab.cloud/",
-              "image": "chea_kg_ts_appyter.png",
-              "launch": "Launch example in Appyters"
+              "src": "https://chea-kg-ts.maayanlab.cloud/",
+              "image": "chea_kg_ts.png",
+              "launch": "Launch ChEA-KG Time Series Tool"
             }
           ]
         }
