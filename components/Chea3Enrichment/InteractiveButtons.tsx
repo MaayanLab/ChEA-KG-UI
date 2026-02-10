@@ -180,17 +180,6 @@ const InteractiveButtons = ({
                         </IconButton>
                     </Tooltip>
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
-                    <Tooltip title={"Save subnetwork"}>
-                        <IconButton
-                            disabled={((view && view !== 'network')  || elements===null || elements === undefined)}
-                            onClick={()=>{
-                                if (elements) process_tables(elements)
-                            }}
-                            sx={{borderRadius: 5}}
-                        >
-                            <SaveIcon/>
-                        </IconButton>
-                    </Tooltip>
                     <Tooltip title={tooltip ? "Hide tooltip": "Show tooltip"}>
                         <IconButton
                             disabled={((view && view !== "network") || elements===null || elements === undefined)}
