@@ -48,18 +48,33 @@ const styles = {
 	}
   }
 
-  const updown_styles = {
+const updown_styles = {
+	enabled: {
 	"&:hover": {
-		border: 1,
-		backgroundColor:'#7a78deff',
-		borderRadius: "5px",
+		transform: "translateY(-2px)",
+		boxShadow: "0px 2px 1px 1px rgba(0, 0, 0, 0.51)",
 	},
 	opacity: 1,
-	border: 1,
-	borderColor: 'black',
-	overflowWrap:'anywhere',
+	boxShadow: "0px 1px 1px 1px rgba(0, 0, 0, 0.51)",
+	border: "1px solid black",
+	overflowWrap: "anywhere",
 	borderRadius: "5px",
-	boxShadow: "1",
+	
+	},
+
+	active:{
+		opacity: 1,
+		border: 1,
+		borderColor: 'black',
+		overflowWrap:'anywhere',
+		borderRadius: "5px",
+		"&, & *": {
+			color: "black !important",
+		},
+		backgroundColor:'primary.main',
+
+	}
+	
   }
 
 
@@ -129,9 +144,10 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 			<FormControl>
 				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1}} >
 					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
+						// {let active = moa_name === currentMOA ? true: false}
 						<Paper variant='outlined' elevation={0}>
 							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
-							<Button sx={updown_styles}  
+							<Button sx={direction == term ? updown_styles.active : updown_styles.enabled}  
 							onClick={(e)=>{
 								setLoading(true)
 								timer.current = setTimeout(()=>{
