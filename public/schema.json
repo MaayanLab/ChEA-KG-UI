@@ -310,7 +310,7 @@
       },
       {
         "endpoint": "/moa_atlas",
-        "label": "LINCS L1000 MoA Atlas",
+        "label": "MoA Atlas",
         "type": "page",
         "component": "MOAUseCase",
         "props": {
