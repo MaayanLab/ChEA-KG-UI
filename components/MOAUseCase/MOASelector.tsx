@@ -142,7 +142,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1, pointerEvents: loading ? 'none' : 'auto'}} >
 					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
 						// {let active = moa_name === currentMOA ? true: false}
-						<Paper variant='outlined' elevation={0}>
+						<Paper key={`${currentMOA}:${direction}`} variant='outlined' elevation={0}>
 							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
 							<Button sx={direction == term ? updown_styles.active : updown_styles.enabled}  
 							onClick={(e)=>{
