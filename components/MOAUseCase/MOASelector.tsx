@@ -1,22 +1,15 @@
 'use client'
 import { 
 	Grid,
-	MenuItem,
 	Stack,
-	Select,
-	InputLabel,
 	FormControl,
 	Typography,
 	CircularProgress,
-	Box,
 	Paper,
-	styled
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useQueryState } from "next-usequerystate";
 import { router_push } from "@/utils/client_side";
 import { useEffect, useRef, useState } from "react";
 import { NetworkSchema } from "@/app/api/knowledge_graph/route";
@@ -73,7 +66,7 @@ const updown_styles = {
 		backgroundColor:'primary.main',
 		pointerEvents: 'none',
 		"&:hover": {
-			border: "none",          // or same as normal
+			border: "none",
 			boxShadow: "none",
 			backgroundColor: "inherit",
 		},
@@ -126,7 +119,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 				
 			}}>
 				{moa_name}
-				{(loading && moa_name === clicked) && <CircularProgress sx={{position: "absolute", objectFit: "contain"}}/> }
+				<CircularProgress sx={{position: "absolute", objectFit: "contain", visibility: (loading && moa_name === clicked) ? 'visible' : 'hidden', pointerEvents: "none"}}/> 
 			</Button>
 			</Link>
 		)
@@ -146,7 +139,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 				<b>2. Select a direction of regulation</b><br></br>
 			</Typography>
 			<FormControl>
-				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1}} >
+				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1, pointerEvents: loading ? 'none' : 'auto'}} >
 					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
 						// {let active = moa_name === currentMOA ? true: false}
 						<Paper variant='outlined' elevation={0}>
@@ -162,7 +155,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 									router_push(router, pathname, query)
 								}, 12000)						
 							}}>
-								<div>
+								<div style={{ pointerEvents: "none" }}>
 									<Typography sx={{fontSize:12, color:'black'}}>View {moa_gmt[currentMOA][direction].length} {direction} regulated genes</Typography>
 									
 									{direction == 'up'? <Typography sx={{color:'#78de93'}}><b>↑</b></Typography> : <Typography sx={{color:'#c92626ff'}}><b>↓</b></Typography>}								
