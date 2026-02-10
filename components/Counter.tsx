@@ -8,7 +8,7 @@ export const Counter = ({ui_theme}: {ui_theme?: string}) => {
 
     return (
         <Stack direction={"row"} spacing={1}>
-            <Typography variant="nav">Queries Submitted: </Typography> 
+            <Typography variant="nav">Queries: </Typography> 
             {ui_theme === undefined || ui_theme === 'cfde_theme' ?
             <Typography><b>{(data || {}).count}</b></Typography>:
             <Typography variant={'nav'}><b>{(data || {}).count}</b></Typography>

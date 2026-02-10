@@ -15,6 +15,8 @@ import { Suspense } from 'react'
 import EnrichmentUseCase from '@/components/EnrichmentUseCase'
 import CancerUseCase from '@/components/CancerUseCase'
 import UseCaseLib from '@/components/UseCaseLib'
+import MOAUseCase from '@/components/MOAUseCase'
+
 export const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
 	{component: string, endpoint: string, searchParams: {[key:string]: any}, 
 	props: {[key:string]: any}}) => {
@@ -34,6 +36,7 @@ export const AsyncComponent = async ({component, searchParams, props, endpoint,}
 	else if (component === "DownloadFiles") return await DownloadFiles({...props})
 	else if (component === "Credits") return await Credits()
 	else if (component == 'UseCaseLib') return await UseCaseLib({...props})
+	else if (component == "MOAUseCase") return await MOAUseCase({endpoint, searchParams, ...props})
 	else return null
 }
 

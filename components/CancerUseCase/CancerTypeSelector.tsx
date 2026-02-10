@@ -42,8 +42,8 @@ const styles = {
 
 
 
-export const CancerTypeSelector = ({cancer_types, group_name,  info, term, elements}: 
-	{cancer_types: {[key:string]: {[key: string] : string[]}}, 
+export const CancerTypeSelector = ({cancer_gmt, group_name,  info, term, elements}: 
+	{cancer_gmt: {[key:string]: {[key: string] : string[]}}, 
 	group_name:string,
 	info: {[key:string]: {[key: string] : string}},
 	term: string,
@@ -64,22 +64,16 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 			if (timer.current) clearTimeout(timer.current)
 			setLoading(false)
 		}, [elements])
-	for (const i of ((Object.keys(cancer_types)))) {
-		let active = i === currentType ? true : false
+	for (const major_type of ((Object.keys(cancer_gmt)))) {
+		let active = major_type === currentType ? true : false
 		icon_buttons.push(
-			// <Grid item key={i} sx={{mx:1}} xs={4} sm={3} md={2}>
-			// <Link key={i} href={`/cancer_atlas?q={"min_lib":3, "group_name": "${i}", "term": "${Object.keys(cancer_types[currentType])[0]}", "zscore": 5, "search":true, "limit": 50}`}>
-			<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})}`}>
-			<Button key={i} sx={active ? activeStyle : buttonStyle} onClick={()=>{
+			<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": major_type, "term": Object.keys(cancer_gmt[currentType])[0], "zscore": 5, "search":true, "limit": 50})}`}>
+			<Button key={major_type} sx={active ? activeStyle : buttonStyle} onClick={()=>{
 				setLoading(true)
-				setClicked(i)
-				// const query = {
-				// 	q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
-				// }
-				// router_push(router, pathname, query)
+				setClicked(major_type)
 				timer.current = setTimeout(()=>{
 					const query = {
-						q: JSON.stringify({"min_lib":3, "group_name": i, "term": Object.keys(cancer_types[currentType])[0], "zscore": 5, "search":true, "limit": 50})
+						q: JSON.stringify({"min_lib":3, "group_name": major_type, "term": Object.keys(cancer_gmt[currentType])[0], "zscore": 5, "search":true, "limit": 50})
 					}
 					console.log("refreshing", query)
 					router_push(router, pathname, query)
@@ -87,20 +81,17 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 				
 			}}>
 				<Image
-					src = {`/cancers/${i}.png`}
-					//layout="responsive"
+					src = {`/cancers/${major_type}.png`}
 					style={{objectFit: "contain"}}
-					alt = {`${i}`}
+					alt = {`${major_type}`}
 					width={100}
 					height={100}
-					aria-label={`${i}`}
+					aria-label={`${major_type}`}
 
 				/>
-				{(loading && i === clicked) && <CircularProgress sx={{position: "absolute", objectFit: "contain"}}/> }
+				{(loading && major_type === clicked) && <CircularProgress sx={{position: "absolute", objectFit: "contain"}}/> }
 			</Button>
 			</Link>
-			// </Link>
-			// </Grid>
 		)
 
 	}
@@ -120,11 +111,10 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 					{(loading) && <CircularProgress size={20}/> }
 					</div>
 				}>
-					{Object.keys(cancer_types[currentType]).map((type) => (
+					{Object.keys(cancer_gmt[currentType]).map((type) => (
 						<MenuItem key={type} sx={{backgroundColor:'transparent'}}>
 							<Link href={`/cancer_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentType, "term": type, "zscore": 5, "search":true, "limit": 50})}`}>
 							<Button sx={{color: "black"}} onClick={(e)=>{
-								// e.preventDefault()
 								setLoading(true)	
 								timer.current = setTimeout(()=>{
 									const query = {
@@ -134,7 +124,7 @@ export const CancerTypeSelector = ({cancer_types, group_name,  info, term, eleme
 									router_push(router, pathname, query)
 								}, 12000)							
 							}}>
-								{type}, {cancer_types[currentType][type].length} genes
+								{type}, {cancer_gmt[currentType][type].length} genes
 							</Button> 
 							</Link>
 						</MenuItem>

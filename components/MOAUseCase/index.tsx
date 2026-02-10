@@ -75,13 +75,11 @@ const Enrichment = async ({
     console.log("Getting atlas schema...")
     const atlasschema = await fetch_atlas_schema()
     console.log("Atlas schema fetched")
-        const celltype_info = {}
-        for (const i of atlasschema.cancertype){
-        celltype_info[i.term] = {
-            type: i.type,
-            tissue: i.tissue,
-            enrichr_url: i.enrichr_url,
-            m2t_url: i.m2t_url
+        const moa_info = {}
+        for (const i of atlasschema.moas){
+        moa_info[i.term] = {
+            drug_list: i.drug_list,
+            num_sigs: i.num_sigs
         }
     } 
 
@@ -106,15 +104,20 @@ const Enrichment = async ({
     //console.log("to remove1", typeof parsedParams.remove[0])
     
     try {
-        const cancer_gmt = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_cancer_gene_sets`)).json()
+        console.log("fetching gmt file...")
+        const moa_gmt = await (await fetch(`${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: ""}/api/enrichment/get_moa_gene_sets`)).json()
         
-        const default_group = props.default_options.group_name || Object.keys(cancer_gmt)[0]
-        const default_term = props.default_options.term || Object.keys(cancer_gmt[default_group])[0]
+        const default_group = props.default_options.group_name || Object.keys(moa_gmt)[0]
+        const default_term = props.default_options.term || Object.keys(moa_gmt[default_group])[0]
         
+        console.log(default_group, default_term)
+
         const {
             term=default_term,
             group_name=default_group,
         } = parsedParams
+
+        console.log(term, group_name)
 
         let elements:NetworkSchema = null
         let shortId = ""
@@ -128,8 +131,7 @@ const Enrichment = async ({
             const formData = new FormData();
             console.log("test", group_name, term)
 
-            // const gene_list = geneStr.trim().split(/[\t\r\n;]+/).join("\n")
-            const genes = cancer_gmt[group_name][term]
+            const genes = moa_gmt[group_name][term]
             const gene_list = genes.join('\n')
             formData.append('list', gene_list)
             formData.append('description', `${group_name}: ${term}`)
@@ -168,11 +170,11 @@ const Enrichment = async ({
                     </Grid>
                 {props.description && <Grid item xs={12}>
                     <Typography variant={"subtitle1"}> 
-                    Explore TF subnetworks that are enriched for regulating marker gene sets idendified via transcriptomic analysis of 10 tumor types from the the Clinical Protemoics Tumor Atlas Consortium (CPTAC). Each tumor type is divided into subtypes based on clustering of patients 
-                    in each cohort, for a total of 69 subtypes. Marker genes for each subtype are identified via differential gene expression analysis. Subtype identification and differential gene expression analysis for each tumor type was originally performed in  
-                    <Link href='https://multiomics2targets.maayanlab.cloud/' 
-                    target="_blank" 
-                    rel="noopener noreferrer"><b> Multiomics2Targets</b></Link>.
+                    Explore upstream transcription factor regulatory subnetworks for the top 30 most common MoAs. 
+                    These regulatory subnetwork are created by submitting gene expression signatures from the LINCS L1000 chemical perturbations dataset to ChEA-KG. 
+                    The drug-induced gene expression signatures were obtained from L1000FWD 
+                    (<Link href={"https://maayanlab.cloud/l1000fwd/"} target="_blank" rel="noopener noreferrer" style={{color: "black", textDecoration: "underline"}}>https://maayanlab.cloud/l1000fwd/</Link>)
+                    Consensus gene sets were generated for each MoA by retaining genes that appeared in at least 17% of all up or down differentially expressed genes.
                     </Typography>
                 </Grid>}
                     {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
@@ -196,11 +198,11 @@ const Enrichment = async ({
 
                 <Grid item xs={12} md={3}>
                     <QueryForm 
-                        genes={cancer_gmt[group_name][term]}
+                        genes={moa_gmt[group_name][term]}
                         parsedParams={{term: default_term, group_name: default_group, ...parsedParams}}
                         elements={elements}
-                        cancer_gmt={cancer_gmt}
-                        cell_info = {celltype_info}
+                        moa_gmt={moa_gmt}
+                        moa_info = {moa_info}
                     />
                 </Grid>
                 <Grid item xs={12} md={9}>
@@ -225,9 +227,16 @@ const Enrichment = async ({
                                 {(userListId === undefined || (term === undefined && group_name === undefined)) ?
                                     <Typography variant="subtitle1">Please add a gene set</Typography>:
                                     <> 
-                                        {input_desc && 
-                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>{input_desc}</b></Typography>
-                                        }
+                                        {input_desc && (() => {
+                                            const [moa, dir] = input_desc.split(":")
+                                            return (
+                                                <Typography variant="h5" sx={{ textAlign: "center" }}>
+                                                Regulatory network for genes 
+                                                    <Typography variant='h5' sx={{display: "inline", color: dir.trim() == 'up' ? 'green' : 'red'}}> {dir}-regulated </Typography>
+                                                by <b>{moa}</b>
+                                                </Typography>
+                                            )
+                                        })()}
                                         <TermViz
                                                 elements={elements}
                                                 view={searchParams.view}

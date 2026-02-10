@@ -18,6 +18,13 @@ export interface AtlasSchema{
         enrichr_url: string,
         m2t_url: string
     
+    }>,
+    moas: Array<{
+        direction:string,
+        moa:string,
+        term:string,
+        drug_list:Array<string>,
+        num_sigs:string
 }>
 }
 

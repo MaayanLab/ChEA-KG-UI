@@ -143,11 +143,10 @@ const Enrichment = async ({
         }
         const payload = {
             "url": `${process.env.NEXT_PUBLIC_HOST}${process.env.NEXT_PUBLIC_PREFIX ? process.env.NEXT_PUBLIC_PREFIX: "/"}${endpoint}${searchParams.q ? '?q=' + searchParams.q: ''}`,
-            "apikey": process.env.TURL  
+            "apikey": process.env.NEXT_PUBLIC_TURL  
         }
-        console.log(payload)
         console.log("Getting short url")
-        const request = await fetch(process.env.TURL_URL, {
+        const request = await fetch(process.env.NEXT_PUBLIC_TURL_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
