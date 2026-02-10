@@ -78,7 +78,7 @@ export const default_layouts = {
       randomize: false,
       animate: true,
 	//   componentSpacing: 5000,
-      idealEdgeLength: edge => 200,
+      idealEdgeLength: edge => 20,
       icon: ()=><HubIcon/>
     },
     "Hierarchical Layout": {
