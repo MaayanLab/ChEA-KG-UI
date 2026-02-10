@@ -1,71 +1,79 @@
-{"network":[
+{
+  "network": [
     {
-        "name":"Node-draw filtered GRN",
-        "nodes": "1,559",
-        "edges": "131,181",
-        "zip": " http://s3.amazonaws.com/maayan-kg/chea-kg/node_draw_GRN.zip",
-        "size": "9.4 MiB"
+      "name": "Node-draw filtered GRN",
+      "nodes": "1,559",
+      "edges": "131,181",
+      "zip": " http://s3.amazonaws.com/maayan-kg/chea-kg/node_draw_GRN.zip",
+      "size": "9.4 MiB"
     },
     {
-        "name":"Target-set-swap filtered GRN",
-        "nodes": "1,560",
-        "edges": "109,813",
-        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/target_set_swap_GRN.zip",
-        "size": "8.4 MiB"
+      "name": "Target-set-swap filtered GRN",
+      "nodes": "1,560",
+      "edges": "109,813",
+      "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/target_set_swap_GRN.zip",
+      "size": "8.4 MiB"
     },
     {
-        "name":"Unfiltered GRN",
-        "nodes": "1,560",
-        "edges": "373,250",
-        "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_GRN.zip",
-        "size": "13.7 MiB"
+      "name": "Unfiltered GRN",
+      "nodes": "1,560",
+      "edges": "373,250",
+      "zip": "https://s3.amazonaws.com/maayan-kg/chea-kg/unfiltered_GRN.zip",
+      "size": "13.7 MiB"
     }
-],
-"rummageo":[
+  ],
+  "rummageo": [
     {
-        "resource":"RummaGEO Human Gene Sets",
-        "url":"https://minio.dev.maayanlab.cloud/rummageo/2.5/human-geo-auto.gmt.gz",
-        "size":"1.1 GB"
+      "resource": "RummaGEO Human Gene Sets",
+      "url": "https://minio.dev.maayanlab.cloud/rummageo/2.5/human-geo-auto.gmt.gz",
+      "size": "1.1 GB"
     },
     {
-        "resource":"Control vs. perturbation gene sets",
-        "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/single_perturbation_gses.txt",
-        "size":"126.9 KiB"
+      "resource": "Control vs. perturbation gene sets",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/single_perturbation_gses.txt",
+      "size": "126.9 KiB"
     }
-],
-"gmt":[
-        {
-            "resource":"Cell Atlas GMT File From Enrichr",
-            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt",
-            "gene_sets": 131,
-            "size":"78 KiB"
-        },
-        {
-            "resource":"Cancer Atlas GMT File from CPTAC3 tumor subtypes",
-            "url":"https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt",
-            "gene_sets":69,
-            "size":"257 KiB"
-        }
-    ],
-"notebooks":[
+  ],
+  "gmt": [
     {
-        "title":"construct_edge_list.ipynb",
-        "description":"Build the unfiltered network edge list using RummaGEO and ChEA3",
-        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/construct_edge_list.ipynb"
+      "resource": "Cell Atlas GMT File From Enrichr",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/cell_atlas_from_enrichr.gmt",
+      "gene_sets": 131,
+      "size": "78 KiB"
     },
     {
-        "title":"filter_network_assertions.ipynb",
-        "description":"Filter the network assertions on significance using three methods of expected counts: signature shuffling, node weighted, and edge weighted",
-        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/filter_network_assertions.ipynb"
+      "resource": "Cancer Atlas GMT File from CPTAC3 tumor subtypes",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/cancer_atlas_cptac.gmt",
+      "gene_sets": 69,
+      "size": "257 KiB"
     },
     {
-        "title":"benchmark_network.ipynb",
-        "description":"Benchmark the filtered networks against TF interaction libraries from ChEA3 and Enrichr",
-        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/benchmark_network.ipynb"
-    },
-    {
-        "title":"format_assertions_for_ingestion.ipynb",
-        "description":"Format the assertions for ingestion into Neo4j",
-        "github_url":"https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/format_assertions_for_ingestion.ipynb"
+      "resource": "MOA Atlas GMT File from LINCS L1000 Mechanisms of Action",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/l1000_consensus_top_30_moa.gmt",
+      "gene_sets": 60,
+      "size": "64 KiB"
     }
-]}
+  ],
+  "notebooks": [
+    {
+      "title": "construct_edge_list.ipynb",
+      "description": "Build the unfiltered network edge list using RummaGEO and ChEA3",
+      "github_url": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/construct_edge_list.ipynb"
+    },
+    {
+      "title": "filter_network_assertions.ipynb",
+      "description": "Filter the network assertions on significance using three methods of expected counts: signature shuffling, node weighted, and edge weighted",
+      "github_url": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/filter_network_assertions.ipynb"
+    },
+    {
+      "title": "benchmark_network.ipynb",
+      "description": "Benchmark the filtered networks against TF interaction libraries from ChEA3 and Enrichr",
+      "github_url": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/benchmark_network.ipynb"
+    },
+    {
+      "title": "format_assertions_for_ingestion.ipynb",
+      "description": "Format the assertions for ingestion into Neo4j",
+      "github_url": "https://github.com/MaayanLab/TranscriptionNetwork-Demo/blob/main/tf_knowledge_graph/format_assertions_for_ingestion.ipynb"
+    }
+  ]
+}

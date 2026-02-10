@@ -113,21 +113,10 @@ export async function GET() {
         return NextResponse.json(cached, {status: 200})
     } else {
         console.log("attempting to get gmt file...")
-        // const res = await fetch("file://consensus_top_30_moa.gmt")
-        
-        const filePath = path.join(
-                process.cwd(),
-                "public",
-                "consensus_top_30_moa.gmt"
-            )
-
-        const res = await readFile(filePath, "utf8")
-        console.log("result:", res)
-    // if (!res.ok) throw new Error("Couldn't get direction atlas data")
-    if (!res) throw new Error("Couldn't get moa atlas data")
+        const res = await fetch("http://s3.amazonaws.com/maayan-kg/chea-kg/l1000_consensus_top_30_moa.gmt")
+    if (!res.ok) throw new Error("Couldn't get direction atlas data")
     else {
-        // const moa_atlas = await res.text()
-        const moa_atlas = await res
+        const moa_atlas = await res.text()
         const moas = {}
         for (const i of moa_atlas.split("\n").sort()) {
             const [name, _, ...gene_sets] = i.split("\t")
