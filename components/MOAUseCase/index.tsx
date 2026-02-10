@@ -227,9 +227,16 @@ const Enrichment = async ({
                                 {(userListId === undefined || (term === undefined && group_name === undefined)) ?
                                     <Typography variant="subtitle1">Please add a gene set</Typography>:
                                     <> 
-                                        {input_desc && 
-                                            <Typography variant="h5" sx={{textAlign: "center"}}><b>Regulatory network for genes {input_desc.split(":")[1]}regulated by {input_desc.split(":")[0]}</b></Typography>
-                                        }
+                                        {input_desc && (() => {
+                                            const [moa, dir] = input_desc.split(":")
+                                            return (
+                                                <Typography variant="h5" sx={{ textAlign: "center" }}>
+                                                Regulatory network for genes 
+                                                    <Typography variant='h5' sx={{display: "inline", color: dir.trim() == 'up' ? 'green' : 'red'}}> {dir}-regulated </Typography>
+                                                by <b>{moa}</b>
+                                                </Typography>
+                                            )
+                                        })()}
                                         <TermViz
                                                 elements={elements}
                                                 view={searchParams.view}
