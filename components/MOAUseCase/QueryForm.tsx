@@ -256,6 +256,8 @@ const QueryForm = ({
                                                 }}
                                             />
                                         }
+                                    <br></br>
+                                    <p style={{fontSize: '12px', textAlign:'left'}}> The <b>{group_name}</b> consensus gene sets were constructed using <u>{moa_info[`${group_name}:up`].num_sigs}</u> signatures, representing <u>{moa_info[`${group_name}:up`].drug_list.length}</u> unique drugs.</p>
                                     </div>
                                     
                                 </Grid>

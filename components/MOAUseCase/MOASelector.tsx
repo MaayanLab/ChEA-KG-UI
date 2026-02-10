@@ -32,7 +32,6 @@ const styles = {
 		"&:hover": {
 			border: 1,
 			borderRadius: "5px",
-
 		},
 		position: 'relative',
 		color: 'black'
@@ -44,7 +43,7 @@ const styles = {
 		borderRadius: "5px",
 		boxShadow: "1",
 		position: 'relative',
-		color: 'black'
+		color: 'black',
 	}
   }
 
@@ -72,6 +71,12 @@ const updown_styles = {
 			color: "black !important",
 		},
 		backgroundColor:'primary.main',
+		pointerEvents: 'none',
+		"&:hover": {
+			border: "none",          // or same as normal
+			boxShadow: "none",
+			backgroundColor: "inherit",
+		},
 
 	}
 	
@@ -139,7 +144,6 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 		<Stack direction='column' spacing={3} sx={{justifyContent: 'center', alignContent:'center'}}>
 			<Typography id="labelID" align='center'>
 				<b>2. Select a direction of regulation</b><br></br>
-				<p style={{fontSize: '12px', textAlign:'left'}}> For <b>{currentMOA}</b>, <u>{moa_info[`${currentMOA}:up`].num_sigs}</u> signatures, representing <u>{moa_info[`${currentMOA}:up`].drug_list.length}</u> unique drugs, were used to construct consensus gene sets: </p>
 			</Typography>
 			<FormControl>
 				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1}} >
