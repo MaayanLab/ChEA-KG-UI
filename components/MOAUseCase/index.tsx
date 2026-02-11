@@ -173,7 +173,7 @@ const Enrichment = async ({
                     Explore upstream transcription factor regulatory subnetworks for the top 30 most common MoAs. 
                     These regulatory subnetwork are created by submitting gene expression signatures from the LINCS L1000 chemical perturbations dataset to ChEA-KG. 
                     The drug-induced gene expression signatures were obtained from L1000FWD 
-                    (<Link href={"https://maayanlab.cloud/l1000fwd/"} target="_blank" rel="noopener noreferrer" style={{color: "black", textDecoration: "underline"}}>https://maayanlab.cloud/l1000fwd/</Link>)
+                    (<Link href={"https://maayanlab.cloud/l1000fwd/"} target="_blank" rel="noopener noreferrer" style={{color: "black", textDecoration: "underline"}}>https://maayanlab.cloud/l1000fwd/</Link>).
                     Consensus gene sets were generated for each MoA by retaining genes that appeared in at least 17% of all up or down differentially expressed gene sets.
                     </Typography>
                 </Grid>}
