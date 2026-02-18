@@ -25,7 +25,12 @@ export interface AtlasSchema{
         term:string,
         num_sigs:number,
         drug_list:Array<string>
-}>
+    }>,
+    aging_tissues: Array<{
+        direction:string,
+        tissue:string,
+        term:string
+    }>
 }
 
 

@@ -4,7 +4,7 @@ import { toNumber } from "./math"
 import { UISchema } from "@/app/api/schema/route"
 import { AtlasSchema} from "@/app/api/atlas_schema/route"
 import default_schema from "@/public/schema.json"
-import atlas_schema from "@/public/atlas1.json"
+import atlas_schema from "@/public/atlas3.json"
 export async function get_terms(node, search) {
   try {
     const session = neo4jDriver.session({
