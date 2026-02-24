@@ -118,7 +118,7 @@
     }
   ],
   "header": {
-    "divider": true,
+    "divider": false,
     "header": "ChEA-KG",
     "title": "ChEA-KG",
     "counter": true,
@@ -143,6 +143,7 @@
         "label": "Search",
         "type": "page",
         "component": "KnowledgeGraph",
+        "position": "bottom",
         "props": {
           "init_function": "initialize_kg",
           "title": "Transcription Factor Regulatory Subnetworks",
@@ -162,6 +163,7 @@
         "endpoint": "/enrichment",
         "label": "Enrichment",
         "type": "page",
+        "position": "bottom",
         "component": "Chea3Enrichment",
         "props": {
           "init_function": "initialize_enrichment",
@@ -208,6 +210,7 @@
         "label": "Appyters",
         "type": "page",
         "component": "UseCaseLib",
+        "position": "top",
         "props": {
           "usecaselib": [
             {
@@ -233,6 +236,7 @@
         "label": "Cell Atlas",
         "type": "page",
         "component": "EnrichmentUseCase",
+        "position": "bottom",
         "props": {
           "init_function": "initialize_enrichment",
           "title": "Transcription Factor Master Regulatory Subnetworks for Major Human Cell Types",
@@ -273,6 +277,7 @@
         "label": "Cancer Atlas",
         "type": "page",
         "component": "CancerUseCase",
+        "position": "bottom",
         "props": {
           "init_function": "initialize_enrichment",
           "title": "Transcription Factor Master Regulatory Subnetworks for CPTAC Tumor Types",
@@ -313,6 +318,7 @@
         "label": "MoA Atlas",
         "type": "page",
         "component": "MOAUseCase",
+        "position": "bottom",
         "props": {
           "init_function": "initialize_enrichment",
           "title": "Transcription Factor Regulatory Subnetworks for Mechanisms of Action (MoAs) Based Drug Induced Changes in Gene Expression",
@@ -353,6 +359,7 @@
         "label": "Aging Atlas",
         "type": "page",
         "component": "AgingUseCase",
+        "position": "bottom",
         "props": {
           "init_function": "initialize_enrichment",
           "title": "Transcription Factor Regulatory Subnetworks for GTEx Aging Signatures",
@@ -361,7 +368,7 @@
           "disableHeader": true,
           "disableLibraryLimit": true,
           "default_options": {
-            "group_name": "GTEx AdiposeTissue 20-29 vs 70-79",
+            "group_name": "Adipose Tissue",
             "term": "up",
             "limit": 50
           },
@@ -393,6 +400,7 @@
         "label": "Help",
         "type": "page",
         "component": "Tutorial",
+        "position": "top",
         "props": {
           "src": "https://raw.githubusercontent.com/MaayanLab/Gene-Knowledge-Graph/refs/heads/tf/components/Tutorial.mdx"
         }
@@ -402,6 +410,7 @@
         "label": "Download",
         "type": "page",
         "component": "DownloadFiles",
+        "position": "top",
         "props": {
           "src": "https://raw.githubusercontent.com/MaayanLab/ChEA-KG-UI/refs/heads/chea-kg/public/downloads.json"
         }

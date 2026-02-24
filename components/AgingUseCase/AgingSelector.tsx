@@ -43,7 +43,7 @@ const styles = {
 const updown_styles = {
 	enabled: {
 	"&:hover": {
-		transform: "translateY(-2px)",
+		transform: "translateY(-3px)",
 		boxShadow: "0px 2px 1px 1px rgba(0, 0, 0, 0.51)",
 	},
 	opacity: 1,
@@ -63,7 +63,7 @@ const updown_styles = {
 		"&, & *": {
 			color: "black !important",
 		},
-		backgroundColor:'primary.main',
+		backgroundColor:'grey',
 		pointerEvents: 'none',
 		"&:hover": {
 			border: "none",
@@ -129,7 +129,7 @@ export const AgingSelector = ({aging_gmt, group_name,  term, aging_info, element
 	return (
 		<>
 		<Typography id="labelID" align='center'>
-			<b>1. Select a mechanism of action</b>
+			<b>1. Select an aging tissue comparison</b>
 		</Typography>
 		<Grid container display={'grid'} gridTemplateColumns={"repeat(1, 1fr)"} spacing={2} sx={{maxHeight: 500, overflowY: 'auto'}}>
 			{icon_buttons}
@@ -143,13 +143,30 @@ export const AgingSelector = ({aging_gmt, group_name,  term, aging_info, element
 					{Object.keys(aging_gmt[currentTerm]).map((direction) => (
 						// {let active = term_name === currentTerm ? true: false}
 						<Paper key={`${currentTerm}:${direction}`} variant='outlined' elevation={0}>
-							<Link href={`/aging_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentTerm, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
+							<Link href={`/aging_atlas?q=${JSON.stringify({
+											"min_lib":3, 
+											"group_name": currentTerm, 
+											"term": direction, 
+											"zscore": (currentTerm ==='Heart' && direction  === 'up' ? 0 : 5), 
+											"search":true, 
+											"limit": 50, 
+											...(currentTerm === 'Heart' && direction === 'up' && { add_nodes: 25 })
+										})}
+							`}>
 							<Button sx={direction == term ? updown_styles.active : updown_styles.enabled}  
 							onClick={(e)=>{
 								setLoading(true)
 								timer.current = setTimeout(()=>{
 									const query = {
-										q: JSON.stringify({"min_lib":3, "group_name": currentTerm, "term": direction, "zscore": 5, "search":true, "limit": 50})
+										q: JSON.stringify({
+											"min_lib":3, 
+											"group_name": currentTerm, 
+											"term": direction, 
+											"zscore": (currentTerm !='Heart' && direction  === 'up' ? 0 : 5), 
+											"search":true, 
+											"limit": 50, 
+											...(currentTerm === 'Heart' && direction === 'up' && { add_nodes: 25 })
+										})
 									}
 									console.log("refreshing", query)
 									router_push(router, pathname, query)

@@ -57,7 +57,6 @@ const Enrichment = async ({
         q?:string,
         fullscreen?: "true",
         view?: string,
-        collapse?: "true"
     },
     endpoint: string,
     additional_link_relation_tags?: Array<string>,
@@ -168,11 +167,10 @@ const Enrichment = async ({
                     </Grid>
                 {props.description && <Grid item xs={12}>
                     <Typography variant={"subtitle1"}> 
-                    Explore upstream transcription factor regulatory subnetworks for the top 30 most common MoAs. 
-                    These regulatory subnetwork are created by submitting gene expression signatures from the LINCS L1000 chemical perturbations dataset to ChEA-KG. 
-                    The drug-induced gene expression signatures were obtained from L1000FWD 
-                    (<Link href={"https://maayanlab.cloud/l1000fwd/"} target="_blank" rel="noopener noreferrer" style={{color: "black", textDecoration: "underline"}}>https://maayanlab.cloud/l1000fwd/</Link>).
-                    Consensus gene sets were generated for each MoA by retaining genes that appeared in at least 17% of all up or down differentially expressed gene sets.
+                    Explore upstream transcription factor regulatory subnetworks for tissue-specific aging signatures from the Genotype-Tissue Expression (GTEx) project (
+                        <Link href={"https://gtexportal.org/"} target="_blank" rel="noopener noreferrer" style={{color: "black", textDecoration: "underline"}}>https://gtexportal.org/</Link>
+                    ). 
+                    These regulatory subnetworks are created by submitting up and down aging signatures from the GTEx project to ChEA-KG. 
                     </Typography>
                 </Grid>}
                     {/* { props.disableHeader ? <Typography variant={"subtitle1"}>Enter a set of Entrez gene symbols below to perform transcription factor enrichment analysis using&nbsp;
@@ -231,7 +229,7 @@ const Enrichment = async ({
                                                 <Typography variant="h5" sx={{ textAlign: "center" }}>
                                                 Regulatory network for genes 
                                                     <Typography variant='h5' sx={{display: "inline", color: dir.trim() == 'up' ? 'green' : 'red'}}> {dir}-regulated </Typography>
-                                                by <b>{term}</b>
+                                                with age in the <b>{term.toLowerCase()}</b>
                                                 </Typography>
                                             )
                                         })()}
