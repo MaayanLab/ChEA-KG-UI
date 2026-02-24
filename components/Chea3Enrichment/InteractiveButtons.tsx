@@ -379,7 +379,7 @@ const InteractiveButtons = ({
                     </Tooltip>
                     {children}
                     <Divider sx={{backgroundColor: "secondary.main", height: 20, borderRightWidth: 1}} orientation="vertical"/>
-                    <Tooltip title={legend ? "Show legend": "Hide legend"}>
+                    <Tooltip title={legend ? "Hide legend": "Show legend"}>
                         <IconButton 
                             disabled={((view && view !== "network") || elements===null || elements === undefined)}
                             onClick={()=>{
@@ -388,7 +388,7 @@ const InteractiveButtons = ({
                                     setLegendSize(null)
                                 }
                                 else {
-                                    setLegend('false')
+                                    setLegend('true')
                                     setLegendSize(0)
                                 }
                                 // const {legend, legend_size, ...query} = searchParams
@@ -399,7 +399,7 @@ const InteractiveButtons = ({
                             {!legend ? <LabelIcon />: <LabelOffIcon />}
                         </IconButton>
                     </Tooltip>
-                    {legend===null &&
+                    {legend!==null &&
                         <Tooltip title="Adjust legend size">
                             <IconButton 
                                 onClick={()=>{

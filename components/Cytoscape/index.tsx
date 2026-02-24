@@ -418,7 +418,7 @@ export default function Cytoscape ({
 					}}
 				/> 
 			}
-			{ (elements && legend === null) &&
+			{ (elements && legend !== null) &&
 				<Legend search={search} elements={elements} legendSize={parseInt(legend_size || "0")}/>
 			}
 			<TooltipComponentGroup 
