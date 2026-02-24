@@ -73,6 +73,7 @@ const TermViz = ({view, elements, header_endpoint, tooltip_templates_edges, tool
 			<Box sx={{position: "relative", minHeight: 450}}>
 				<Cytoscape 
 					elements={elements}
+					search={false}
 					wide={true}
 					tooltip_templates_edges={tooltip_templates_edges}
 					tooltip_templates_nodes={tooltip_templates_nodes}
