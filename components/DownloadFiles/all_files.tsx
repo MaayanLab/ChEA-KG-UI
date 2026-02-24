@@ -63,7 +63,7 @@ const AllFiles = ({download}: {download: {
 			<Grid item xs={12}>
 				<Typography variant={"h3"}>Atlas GMTs</Typography>
 				<Typography variant={"body1"}>
-					This file contains the gene sets used in the cell, cancer, and MOA atlas pages.
+					This file contains the gene sets used in the cell, cancer, and MoA, and aging atlas pages.
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>

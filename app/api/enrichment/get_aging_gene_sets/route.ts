@@ -108,24 +108,15 @@ export interface UISchema {
 export async function GET() {
     const cached = cache.get("aging_atlas_gmt")
     
-
-
     if (cached) {
         console.log("file is cached")
         return NextResponse.json(cached, {status: 200})
     } else {
-        console.log("attempting to get gmt file...")
-        const filePath = path.join(
-                process.cwd(),
-                "public",
-                "aging_atlas_gtex.gmt"
-            )
-        const res = await readFile(filePath, "utf8")
-        console.log("result: ", res)
-        
-    if (!res) throw new Error("Couldn't get aging atlas data")
+        console.log("attempting to get aging gmt file...")
+        const res = await fetch("https://s3.amazonaws.com/maayan-kg/chea-kg/aging_atlas_gtex.gmt")
+    if (!res.ok) throw new Error("Couldn't get aging atlas data")
     else {
-        const aging_atlas = await res
+        const aging_atlas = await res.text()
         const aging_terms = {}
         for (const i of aging_atlas.split("\n").sort()) {
             const [name, _, ...gene_sets] = i.split("\t")
