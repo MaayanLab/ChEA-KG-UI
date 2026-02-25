@@ -63,7 +63,7 @@ const updown_styles = {
 		"&, & *": {
 			color: "black !important",
 		},
-		backgroundColor:'primary.main',
+		backgroundColor:'grey',
 		pointerEvents: 'none',
 		"&:hover": {
 			border: "none",
