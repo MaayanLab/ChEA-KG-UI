@@ -56,7 +56,13 @@
     {
       "resource": "Aging Atlas GMT File from the GTEx aging signatures",
       "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/aging_atlas_gtex.gmt",
-      "gene_sets": 60,
+      "gene_sets": 48,
+      "size": "85 KiB"
+    },
+    {
+      "resource": "Aging Atlas Composite Network Cytoscape JSON",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/aging_atlas_composite_cytoscape.json",
+      "gene_sets": 48,
       "size": "85 KiB"
     }
   ],
