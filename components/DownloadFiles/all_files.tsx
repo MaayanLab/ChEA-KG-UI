@@ -61,9 +61,9 @@ const AllFiles = ({download}: {download: {
 				<ClientSide download={(download.rummageo || []).map(i=>({id: i.url, ...i}))} type='rummageo'/>
 			</Grid>
 			<Grid item xs={12}>
-				<Typography variant={"h3"}>Atlas GMTs</Typography>
+				<Typography variant={"h3"}>Atlas Files</Typography>
 				<Typography variant={"body1"}>
-					This file contains the gene sets used in the cell, cancer, and MOA atlas pages.
+					This file contains the gene sets (GMT) and other files used to create and analyze the cell, cancer, and MoA, and aging atlas pages.
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>

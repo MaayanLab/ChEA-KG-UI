@@ -16,6 +16,7 @@ import EnrichmentUseCase from '@/components/EnrichmentUseCase'
 import CancerUseCase from '@/components/CancerUseCase'
 import UseCaseLib from '@/components/UseCaseLib'
 import MOAUseCase from '@/components/MOAUseCase'
+import AgingUseCase from '@/components/AgingUseCase'
 
 export const AsyncComponent = async ({component, searchParams, props, endpoint,}: 
 	{component: string, endpoint: string, searchParams: {[key:string]: any}, 
@@ -37,6 +38,7 @@ export const AsyncComponent = async ({component, searchParams, props, endpoint,}
 	else if (component === "Credits") return await Credits()
 	else if (component == 'UseCaseLib') return await UseCaseLib({...props})
 	else if (component == "MOAUseCase") return await MOAUseCase({endpoint, searchParams, ...props})
+	else if (component == 'AgingUseCase') return await AgingUseCase({endpoint, searchParams, ...props})
 	else return null
 }
 

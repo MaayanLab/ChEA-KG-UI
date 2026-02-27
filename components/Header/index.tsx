@@ -65,9 +65,9 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 					<Stack direction={"row"} alignItems={"center"} spacing={2}>
 						{tab_component.top}
 						{divider && <Divider sx={{display: {xs: "none", sm: "none", md: "flex", borderWidth: 1, borderColor: "#336699"}}} orientation='vertical' flexItem/>}
-						{(counter && tab_component.bottom.length === 0 && counterTop) && 
-							<Counter ui_theme={ui_theme}/>
-						}
+						
+						<Counter ui_theme={ui_theme}/>
+						
 					</Stack>
 					
 			</Grid>
@@ -77,7 +77,6 @@ export const Nav = ({tabs, ui_theme, divider, title, icon, counterTop, counter}:
 						<Stack direction={"row"} alignItems={"center"} spacing={2}>
 							{tab_component.bottom}		
 						</Stack>
-						<Counter ui_theme={ui_theme}/>
 					</Stack>
 					
 				</Grid>

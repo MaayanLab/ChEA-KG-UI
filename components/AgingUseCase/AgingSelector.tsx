@@ -43,7 +43,7 @@ const styles = {
 const updown_styles = {
 	enabled: {
 	"&:hover": {
-		transform: "translateY(-2px)",
+		transform: "translateY(-3px)",
 		boxShadow: "0px 2px 1px 1px rgba(0, 0, 0, 0.51)",
 	},
 	opacity: 1,
@@ -77,11 +77,11 @@ const updown_styles = {
 
 
 
-export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}: 
-	{moa_gmt: {[key:string]: {[key: string] : string[]}}, 
+export const AgingSelector = ({aging_gmt, group_name,  term, aging_info, elements}: 
+	{aging_gmt: {[key:string]: {[key: string] : string[]}}, 
 	group_name:string,
 	term: string,
-	moa_info: {[key:string]: {[key: string] : string}},
+	aging_info: {[key:string]: {[key: string] : string}},
 	elements: NetworkSchema
 }) => 
 		{
@@ -93,7 +93,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 	let icon_buttons = []
 	const buttonStyle = styles.enabled
 	const activeStyle = styles.active
-	const currentMOA = group_name
+	const currentTerm = group_name
 
 	// organizing by moa and then direction for dispay
 	
@@ -102,24 +102,24 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 			setLoading(false)
 		}, [elements])
 
-	for (const moa_name of ((Object.keys(moa_gmt)))) {
-		let active = moa_name === currentMOA ? true: false
+	for (const term_name of ((Object.keys(aging_gmt)))) {
+		let active = term_name === currentTerm ? true: false
 		icon_buttons.push(
-			<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": moa_name, "term": Object.keys(moa_gmt[moa_name])[0], "zscore": 5, "search":true, "limit": 50})}`}>
-			<Button key={moa_name} sx={active ? activeStyle : buttonStyle} onClick={()=>{
+			<Link href={`/aging_atlas?q=${JSON.stringify({"min_lib":3, "group_name": term_name, "term": Object.keys(aging_gmt[term_name])[0], "zscore": 5, "search":true, "limit": 50})}`}>
+			<Button key={term_name} sx={active ? activeStyle : buttonStyle} onClick={()=>{
 				setLoading(true)
-				setClicked(moa_name) 
+				setClicked(term_name) 
 				timer.current = setTimeout(()=>{
 					const query = {
-						q: JSON.stringify({"min_lib":3, "group_name":moa_name, "term": Object.keys(moa_gmt[moa_name])[0], "zscore": 5, "search":true, "limit": 50})
+						q: JSON.stringify({"min_lib":3, "group_name":term_name, "term": Object.keys(aging_gmt[term_name])[0], "zscore": 5, "search":true, "limit": 50})
 					}
 					console.log("refreshing", query)
 					router_push(router, pathname, query)
 				}, 12000)
 				
 			}}>
-				{moa_name}
-				<CircularProgress sx={{position: "absolute", objectFit: "contain", visibility: (loading && moa_name === clicked) ? 'visible' : 'hidden', pointerEvents: "none"}}/> 
+				{term_name}
+				<CircularProgress sx={{position: "absolute", objectFit: "contain", visibility: (loading && term_name === clicked) ? 'visible' : 'hidden', pointerEvents: "none"}}/> 
 			</Button>
 			</Link>
 		)
@@ -129,7 +129,7 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 	return (
 		<>
 		<Typography id="labelID" align='center'>
-			<b>1. Select a mechanism of action</b>
+			<b>1. Select an aging tissue comparison</b>
 		</Typography>
 		<Grid container display={'grid'} gridTemplateColumns={"repeat(1, 1fr)"} spacing={2} sx={{maxHeight: 500, overflowY: 'auto'}}>
 			{icon_buttons}
@@ -140,23 +140,40 @@ export const MOASelector = ({moa_gmt, group_name,  term, moa_info, elements}:
 			</Typography>
 			<FormControl>
 				<Grid container sx={{display:'grid', gridTemplateColumns:"repeat(2, 1fr)", gap:1, pointerEvents: loading ? 'none' : 'auto'}} >
-					{Object.keys(moa_gmt[currentMOA]).map((direction) => (
-						// {let active = moa_name === currentMOA ? true: false}
-						<Paper key={`${currentMOA}:${direction}`} variant='outlined' elevation={0}>
-							<Link href={`/moa_atlas?q=${JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})}`}>
+					{Object.keys(aging_gmt[currentTerm]).map((direction) => (
+						// {let active = term_name === currentTerm ? true: false}
+						<Paper key={`${currentTerm}:${direction}`} variant='outlined' elevation={0}>
+							<Link href={`/aging_atlas?q=${JSON.stringify({
+											"min_lib":3, 
+											"group_name": currentTerm, 
+											"term": direction, 
+											"zscore": (currentTerm ==='Heart' && direction  === 'up' ? 0 : 5), 
+											"search":true, 
+											"limit": 50, 
+											...(currentTerm === 'Heart' && direction === 'up' && { add_nodes: 25 })
+										})}
+							`}>
 							<Button sx={direction == term ? updown_styles.active : updown_styles.enabled}  
 							onClick={(e)=>{
 								setLoading(true)
 								timer.current = setTimeout(()=>{
 									const query = {
-										q: JSON.stringify({"min_lib":3, "group_name": currentMOA, "term": direction, "zscore": 5, "search":true, "limit": 50})
+										q: JSON.stringify({
+											"min_lib":3, 
+											"group_name": currentTerm, 
+											"term": direction, 
+											"zscore": (currentTerm !='Heart' && direction  === 'up' ? 0 : 5), 
+											"search":true, 
+											"limit": 50, 
+											...(currentTerm === 'Heart' && direction === 'up' && { add_nodes: 25 })
+										})
 									}
 									console.log("refreshing", query)
 									router_push(router, pathname, query)
 								}, 12000)						
 							}}>
 								<div style={{ pointerEvents: "none" }}>
-									<Typography sx={{fontSize:12, color:'black'}}>View {moa_gmt[currentMOA][direction].length} {direction} regulated genes</Typography>
+									<Typography sx={{fontSize:12, color:'black'}}>View {aging_gmt[currentTerm][direction].length} {direction} regulated genes</Typography>
 									
 									{direction == 'up'? <Typography sx={{color:'#78de93'}}><b>↑</b></Typography> : <Typography sx={{color:'#c92626ff'}}><b>↓</b></Typography>}								
 								</div>

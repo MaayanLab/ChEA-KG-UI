@@ -48,10 +48,22 @@
       "size": "257 KiB"
     },
     {
-      "resource": "MOA Atlas GMT File from LINCS L1000 Mechanisms of Action",
+      "resource": "MoA Atlas GMT File from LINCS L1000 Mechanisms of Action",
       "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/l1000_consensus_top_30_moa.gmt",
       "gene_sets": 60,
       "size": "64 KiB"
+    },
+    {
+      "resource": "Aging Atlas GMT File from the GTEx aging signatures",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/aging_atlas_gtex.gmt",
+      "gene_sets": 48,
+      "size": "85 KiB"
+    },
+    {
+      "resource": "Aging Atlas Composite Network Cytoscape JSON",
+      "url": "https://s3.amazonaws.com/maayan-kg/chea-kg/aging_atlas_composite_cytoscape.json",
+      "gene_sets": 48,
+      "size": "85 KiB"
     }
   ],
   "notebooks": [
