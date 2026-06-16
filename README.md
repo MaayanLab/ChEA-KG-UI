@@ -47,7 +47,7 @@ helm template chea4-dev maayanlab/docker-compose -f <(docker-compose config) -n 
 ```
 docker-compose -f docker-compose-legacy.yml build
 ```
-helm rollback -n chea4-dev chea4-dev 78
+helm rollback -n chea4-dev chea4-dev 84
 
 
 79
